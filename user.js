@@ -46,7 +46,7 @@ user_pref("ghacks_user.js.parrot", "Oh yes, the Norwegian Blue... what's wrong w
  * used as a one off window (File>New Private Window) to provide a temporary self-contained
  * new instance. Closing all Private Windows clears all traces. Repeat as required.
  * [1] https://wiki.mozilla.org/Private_Browsing ***/
-user_pref("browser.privatebrowsing.autostart", true);
+user_pref("browser.privatebrowsing.autostart", false);
 
 /*** 0100: STARTUP ***/
 user_pref("ghacks_user.js.parrot", "0100 syntax error: the parrot's dead!");
@@ -66,7 +66,6 @@ user_pref("browser.shell.checkDefaultBrowser", false);
  * home = browser.startup.homepage preference.
  * [SETTING] Options>General>Startup>When Firefox starts ***/
 user_pref("browser.startup.page", 1);
-user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?prf=310dc9be8b4e353fb03dbc16880b19be");
 
 /*** 0200: GEOLOCATION ***/
 user_pref("ghacks_user.js.parrot", "0200 syntax error: the parrot's definitely deceased!");
@@ -500,7 +499,7 @@ user_pref("browser.cache.disk.smart_size.first_run", false);
 user_pref("browser.cache.disk_cache_ssl", false);
 /* 1003: disable memory cache
  * [NOTE] Not recommended due to performance issues ***/
-user_pref("browser.cache.memory.enable", false);
+user_pref("browser.cache.memory.enable", true);
 /* 1004: disable offline cache ***/
 user_pref("browser.cache.offline.enable", false);
 /* 1005: disable fastback cache
@@ -1521,7 +1520,7 @@ user_pref("privacy.sanitize.sanitizeOnShutdown", true);
  * However, this may not always be the case. The interface combines and syncs these
  * prefs when set from there, and the sanitize code may change at any time ***/
 user_pref("privacy.clearOnShutdown.cache", true);
-user_pref("privacy.clearOnShutdown.cookies", false);
+user_pref("privacy.clearOnShutdown.cookies", true);
 user_pref("privacy.clearOnShutdown.downloads", true); // see note above
 user_pref("privacy.clearOnShutdown.formdata", true); // Form & Search History
 user_pref("privacy.clearOnShutdown.history", true); // Browsing & Download History
@@ -1533,12 +1532,12 @@ user_pref("privacy.clearOnShutdown.siteSettings", false); // Site Preferences
  * [NOTE] Regardless of what you set privacy.cpd.downloads to, as soon as the dialog
  * for "Clear Recent History" is opened, it is synced to the same as 'history' ***/
 user_pref("privacy.cpd.cache", true);
-user_pref("privacy.cpd.cookies", false);
-   // user_pref("privacy.cpd.downloads", true); // not used, see note above
+user_pref("privacy.cpd.cookies", true);
+user_pref("privacy.cpd.downloads", true); // not used, see note above
 user_pref("privacy.cpd.formdata", true); // Form & Search History
 user_pref("privacy.cpd.history", true); // Browsing & Download History
 user_pref("privacy.cpd.offlineApps", true); // Offline Website Data
-user_pref("privacy.cpd.passwords", false); // this is not listed
+user_pref("privacy.cpd.passwords", true); // this is not listed
 user_pref("privacy.cpd.sessions", true); // Active Logins
 user_pref("privacy.cpd.siteSettings", false); // Site Preferences
 /* 2805: privacy.*.openWindows (clear session restore data) (FF34+)
@@ -1896,6 +1895,8 @@ user_pref("media.eme.apiVisible", false);
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1342361
 user_pref("dom.archivereader.enabled", false);
 // ***/
+
+user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?prf=310dc9be8b4e353fb03dbc16880b19be");
 user_pref("ui.osk.enabled", false);
 user_pref("accessibility.blockautorefresh", true);
 user_pref("dom.disable_open_during_load", true);
