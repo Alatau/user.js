@@ -1303,8 +1303,8 @@ user_pref("general.useragent.compatMode.firefox", false);
 /* 2628: disable UITour backend so there is no chance that a remote page can use it ***/
 user_pref("browser.uitour.enabled", false);
 user_pref("browser.uitour.url", "");
-/* 2629: disable remote JAR files being opened, regardless of content type
- * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1215235 ***/
+/* 2629: disable remote JAR files being opened, regardless of content type (FF42+)
+ * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1173171 ***/
 user_pref("network.jar.block-remote-files", true);
 /* 2662: disable "open with" in download dialog (FF50+)
  * This is very useful to enable when the browser is sandboxed (e.g. via AppArmor)
@@ -1416,6 +1416,8 @@ user_pref("security.csp.experimentalEnabled", true);
    [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1337893
  ** isolate blob: URI (FF55+)
    [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1344170
+ ** isolate data://, about: URLs (FF55+)
+   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1300671
 ***/
 /* 2698a: enable First Party Isolation (FF51+)
  * [WARNING] May break cross-domain logins and site functionality until perfected
@@ -1452,6 +1454,9 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
    [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1217238
  ** spoof/disable performance API (see 2410-deprecated, 2411, 2412) (FF56+)
    [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1369303
+ ** spoof Navigator API (see section 2697) (FF56+)
+   The version number will be rounded to the "nearest" multiple of 10
+   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1333651
 ***/
 /* 2699a: enable privacy.resistFingerprinting (FF41+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=418986 ***/
