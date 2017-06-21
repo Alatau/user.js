@@ -1902,3 +1902,4 @@ user_pref("accessibility.blockautorefresh", true);
 user_pref("dom.disable_open_during_load", true);
 user_pref("security.ssl.enable_ocsp_must_staple", true);
 user_pref("layout.css.mix-blend-mode.enabled", false);
+user_pref("extensions.e10sMultiBlockedByAddons", false);
