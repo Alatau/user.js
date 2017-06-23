@@ -46,7 +46,7 @@ user_pref("ghacks_user.js.parrot", "Oh yes, the Norwegian Blue... what's wrong w
  * used as a one off window (File>New Private Window) to provide a temporary self-contained
  * new instance. Closing all Private Windows clears all traces. Repeat as required.
  * [1] https://wiki.mozilla.org/Private_Browsing ***/
-user_pref("browser.privatebrowsing.autostart", false);
+user_pref("browser.privatebrowsing.autostart", true);
 
 /*** 0100: STARTUP ***/
 user_pref("ghacks_user.js.parrot", "0100 syntax error: the parrot's dead!");
@@ -1531,7 +1531,7 @@ user_pref("privacy.clearOnShutdown.formdata", true); // Form & Search History
 user_pref("privacy.clearOnShutdown.history", true); // Browsing & Download History
 user_pref("privacy.clearOnShutdown.offlineApps", true); // Offline Website Data
 user_pref("privacy.clearOnShutdown.sessions", true); // Active Logins
-user_pref("privacy.clearOnShutdown.siteSettings", false); // Site Preferences
+user_pref("privacy.clearOnShutdown.siteSettings", true); // Site Preferences
 /* 2804: set what history items to clear with Ctrl-Shift-Del (to match above)
  * This dialog can also be accessed from the menu History>Clear Recent History
  * [NOTE] Regardless of what you set privacy.cpd.downloads to, as soon as the dialog
@@ -1544,7 +1544,7 @@ user_pref("privacy.cpd.history", true); // Browsing & Download History
 user_pref("privacy.cpd.offlineApps", true); // Offline Website Data
 user_pref("privacy.cpd.passwords", true); // this is not listed
 user_pref("privacy.cpd.sessions", true); // Active Logins
-user_pref("privacy.cpd.siteSettings", false); // Site Preferences
+user_pref("privacy.cpd.siteSettings", true); // Site Preferences
 /* 2805: privacy.*.openWindows (clear session restore data) (FF34+)
  * [NOTE] There is a years-old bug that these cause two windows when Firefox restarts.
  * You do not need these anyway if session restore is disabled (see 1020) ***/
