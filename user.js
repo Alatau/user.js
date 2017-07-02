@@ -750,12 +750,12 @@ user_pref("gfx.font_rendering.opentype_svg.enabled", false);
  * [SETTING] Options>Fonts & Colors>Advanced>Serif|Sans-serif|Monospace
  * [SETUP] These are optional, comment out if you do not require them
  * [NOTE] Been using this for 18 months, it really grows on you ***/
-user_pref("font.name.serif.x-unicode", "Times New Roman");
-user_pref("font.name.serif.x-western", "Times New Roman"); // default Times New Roman
+user_pref("font.name.serif.x-unicode", "Georgia");
+user_pref("font.name.serif.x-western", "Georgia"); // default Times New Roman
 user_pref("font.name.sans-serif.x-unicode", "Arial");
 user_pref("font.name.sans-serif.x-western", "Arial"); // default Arial
-user_pref("font.name.monospace.x-unicode", "Courier New");
-user_pref("font.name.monospace.x-western", "Courier New"); // default Courier New
+user_pref("font.name.monospace.x-unicode", "Lucida Console");
+user_pref("font.name.monospace.x-western", "Lucida Console"); // default Courier New
 /* 1405: disable WOFF2 (Web Open Font Format) ***/
 user_pref("gfx.downloadable_fonts.woff2.enabled", false);
 /* 1406: disable CSS Font Loading API
