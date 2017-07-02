@@ -739,7 +739,7 @@ user_pref("ghacks_user.js.parrot", "1400 syntax error: the parrot's bereft of li
  * enumeration (by JS) which is a high entropy fingerprinting vector.
  * [SETTING] Options>Content>Font & Colors>Advanced>Allow pages to choose...
  * [SETUP] Disabling fonts can uglify the web a fair bit. ***/
-user_pref("browser.display.use_document_fonts", 1);
+user_pref("browser.display.use_document_fonts", 0);
 /* 1402: enable icon fonts (glyphs) (FF41+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=789788 ***/
 user_pref("gfx.downloadable_fonts.enabled", true);
@@ -865,14 +865,14 @@ user_pref("plugin.sessionPermissionNow.intervalInMinutes", 0);
  * you can set all these plugin.state's via Add-ons>Plugins or search for plugin.state in about:config
  * [NOTE] You can still over-ride individual sites eg youtube via site permissions
  * [1] http://www.ghacks.net/2013/07/09/how-to-make-sure-that-a-firefox-plugin-never-activates-again/ ***/
-user_pref("plugin.state.flash", 1);
+   // user_pref("plugin.state.flash", 0);
 /* 1804: disable plugins using external/untrusted scripts with XPCOM or XPConnect ***/
 user_pref("security.xpconnect.plugin.unrestricted", false);
 /* 1805: disable scanning for plugins [WINDOWS]
  * [1] http://kb.mozillazine.org/Plugin_scanning
  * plid.all = whether to scan the directories specified in the Windows registry for PLIDs.
  * Used to detect RealPlayer, Java, Antivirus etc, but since FF52 only covers Flash ***/
-user_pref("plugin.scan.plid.all", true);
+user_pref("plugin.scan.plid.all", false);
 /* 1820: disable all GMP (Gecko Media Plugins) [SETUP]
  * [1] https://wiki.mozilla.org/GeckoMediaPlugins ***/
 user_pref("media.gmp-provider.enabled", false);
@@ -1459,9 +1459,9 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
    [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1333651
  ** disable device sensor API (see 2512) (FF56+)
    [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1369319
- ** disable site specific zoom (see 2515) (FF56+)		
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1369357		
- ** disable gamepad API (see 2501) (FF56+)		
+ ** disable site specific zoom (see 2515) (FF56+)
+   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1369357
+ ** disable gamepad API (see 2501) (FF56+)
    [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1337161
  ** spoof network information API as "unknown" (see 2503) (FF56+)
    [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1372072
