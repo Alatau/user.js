@@ -15,7 +15,7 @@
   1. READ the full README
      * https://github.com/ghacksuserjs/ghacks-user.js/blob/master/README.md
   2. READ this
-     * https://github.com/ghacksuserjs/ghacks-user.js/wiki/1.3-Implementationuser_pref("privacy.donottrackheader.enabled
+     * https://github.com/ghacksuserjs/ghacks-user.js/wiki/1.3-Implementation
   3. If you skipped steps 1 and 2 above (shame on you), then here is the absolute minimum
      * Auto-installing updates for Firefox and extensions/addon-ons are disabled (section 0302's)
      * Some user data is erased (section 2800), namely history (browsing, form, download)
