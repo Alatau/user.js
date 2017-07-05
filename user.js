@@ -15,7 +15,7 @@
   1. READ the full README
      * https://github.com/ghacksuserjs/ghacks-user.js/blob/master/README.md
   2. READ this
-     * https://github.com/ghacksuserjs/ghacks-user.js/wiki/1.3-Implementation
+     * https://github.com/ghacksuserjs/ghacks-user.js/wiki/1.3-Implementationuser_pref("privacy.donottrackheader.enabled
   3. If you skipped steps 1 and 2 above (shame on you), then here is the absolute minimum
      * Auto-installing updates for Firefox and extensions/addon-ons are disabled (section 0302's)
      * Some user data is erased (section 2800), namely history (browsing, form, download)
@@ -296,8 +296,8 @@ user_pref("browser.safebrowsing.provider.google4.reportPhishMistakeURL", ""); //
 /* 0420: enable Tracking Protection in all windows
  * [1] https://wiki.mozilla.org/Security/Tracking_protection
  * [2] https://support.mozilla.org/en-US/kb/tracking-protection-firefox ***/
-user_pref("privacy.trackingprotection.pbmode.enabled", true);
-user_pref("privacy.trackingprotection.enabled", true);
+   // user_pref("privacy.trackingprotection.enabled", true); // default false
+   // user_pref("privacy.trackingprotection.pbmode.enabled", true);  // default true
 /* 0421: enable more Tracking Protection choices under Options>Privacy>Use Tracking Protection
  * Displays three choices: "Always", "Only in private windows", "Never" ***/
 user_pref("privacy.trackingprotection.ui.enabled", true);
@@ -829,7 +829,7 @@ user_pref("network.http.referer.hideOnionSource", true);
 /* 1610: ALL: disable the DNT HTTP header (this is essentially USELESS and raises entropy)
  * [SETTING] Options>Privacy>Tracking>Request that sites not track you
  * [NOTE] If you use NoScript MAKE SURE to set the pref noscript.doNotTrack.enabled to match ***/
-user_pref("privacy.donottrackheader.enabled", true);
+user_pref("privacy.donottrackheader.enabled", false);
 
 /*** 1700: CONTAINERS [SETUP]
      [1] https://support.mozilla.org/kb/containers-experiment
