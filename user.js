@@ -1159,8 +1159,8 @@ user_pref("dom.keyboardevent.dispatch_during_composition", false);
  * [NOTE] Changing this option changes BOTH these preferences
  * [WARNING] [SETUP] Affects text rendering (fonts will look different) and impacts video performance
  * [1] https://wiki.mozilla.org/Platform/GFX/HardwareAcceleration ***/
-user_pref("gfx.direct2d.disabled", false); // [WINDOWS]
-user_pref("layers.acceleration.disabled", false);
+user_pref("gfx.direct2d.disabled", true); // [WINDOWS]
+user_pref("layers.acceleration.disabled", true);
 /* 2509: disable touch events [SETUP]
  * fingerprinting attack vector - leaks screen res & actual screen coordinates
  * [1] https://developer.mozilla.org/en-US/docs/Web/API/Touch_events
@@ -1915,6 +1915,7 @@ user_pref("media.eme.apiVisible", false);
 user_pref("dom.archivereader.enabled", false);
 // ***/
 
+/*** 0000: MY SETTINGS ***/
 user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?prf=310dc9be8b4e353fb03dbc16880b19be");
 user_pref("ui.osk.enabled", false);
 user_pref("accessibility.blockautorefresh", true);
