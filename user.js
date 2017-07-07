@@ -618,7 +618,7 @@ user_pref("ghacks_user.js.parrot", "1200 syntax error: the parrot's a stiff!");
  * [WARNING] Firefox and Chrome currently allow TLS 1.0 by default, so this is your call.
  * [1] http://kb.mozillazine.org/Security.tls.version.*
  * [2] https://www.ssl.com/how-to/turn-off-ssl-3-0-and-tls-1-0-in-your-browser/ ***/
-   // user_pref("security.tls.version.min", 2);
+user_pref("security.tls.version.min", 2);
 user_pref("security.tls.version.fallback-limit", 3);
 user_pref("security.tls.version.max", 4); // 4 = allow up to and including TLS 1.3
 /* 1203: disable SSL session tracking (FF36+)
@@ -1390,7 +1390,7 @@ user_pref("security.csp.experimentalEnabled", true);
 /* 2697b: navigator.buildID (see gecko.buildID in about:config) reveals build time
  * down to the second which defeats user agent spoofing and can compromise OS etc
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=583181 ***/
-   // user_pref("general.buildID.override", "20100101"); // (hidden pref)
+user_pref("general.buildID.override", "20100101"); // (hidden pref)
 /* 2697c: navigator.appName ***/
    //user_pref("general.appname.override", "Netscape"); // (hidden pref)
 /* 2697d: navigator.appVersion ***/
