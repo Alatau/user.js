@@ -647,10 +647,9 @@ user_pref("security.ssl.enable_ocsp_stapling", true);
 user_pref("security.OCSP.enabled", 1);
 /* 1212: enable OCSP revocation. When a CA cannot be reached to validate a cert, Firefox currently
  * continues the connection. With OCSP revocation, Firefox terminates the connection instead.
- * [WARNING] Since FF44 the default is false. If set to true, this may/will cause some
- * site breakage. Some users have previously mentioned issues with youtube, microsoft etc
+ * [WARNING] Since FF44 the default is false. If set to true, this will cause some site breakage
  * [1] https://blog.mozilla.org/security/2013/07/29/ocsp-stapling-in-firefox/ ***/
-user_pref("security.OCSP.require", false);
+user_pref("security.OCSP.require", true);
 /** CERTS / HSTS (HTTP Strict Transport Security) / HPKP (HTTP Public Key Pinning) ***/
 /* 1220: disable Windows 8.1's Microsoft Family Safety cert [WINDOWS] (FF50+)
  * 0=disable detecting Family Safety mode and importing the root
@@ -1487,7 +1486,9 @@ user_pref("ghacks_user.js.parrot", "2700 syntax error: the parrot's joined the b
 /* 2701: disable cookies on all sites [SETUP]
  * You can set exceptions under site permissions or use an extension (eg Cookie Controller)
  * 0=allow all 1=allow same host 2=disallow all 3=allow 3rd party if it already set a cookie
- * [SETTING] Options>Privacy>History>Custom Settings>Accept cookies from sites ***/
+ * [SETTING] Options>Privacy>History>Custom Settings>Accept cookies from sites
+ * [NOTE] This also controls access to 3rd party Web Storage, IndexedDB, Cache API and Service Worker Cache
+ * [1] https://www.fxsitecompat.com/en-CA/docs/2015/web-storage-indexeddb-cache-api-now-obey-third-party-cookies-preference/ ***/
 user_pref("network.cookie.cookieBehavior", 1);
 /* 2702: set third-party cookies (if enabled, see above pref) to session-only
  * [1] https://feeding.cloud.geek.nz/posts/tweaking-cookies-for-privacy-in-firefox/
