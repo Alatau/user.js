@@ -332,6 +332,18 @@ user_pref("extensions.shield-recipe-client.api_url", "");
  * [1] https://wiki.mozilla.org/Firefox/Activity_Stream
  * [2] https://www.ghacks.net/2016/02/15/firefox-mockups-show-activity-stream-new-tab-page-and-share-updates/ ***/
 user_pref("browser.newtabpage.activity-stream.enabled", false);
+/* 0515: disable Onboarding (FF55+)
+ * Onboarding is an interactive tour/setup for new installs/profiles and features. Every time
+ * about:home or about:newtab is opened, the onboarding overlay is injected into that page
+ * [1] https://wiki.mozilla.org/Firefox/Onboarding ***/
+user_pref("browser.onboarding.enabled", false);
+/* 0516: disable Screenshots (FF55+)
+ * [1] https://github.com/mozilla-services/screenshots
+ * [2] https://www.ghacks.net/2017/05/28/firefox-screenshots-integrated-in-firefox-nightly/ ***/
+user_pref("extensions.screenshots.disabled", true);
+/* 0518: disable Web Compatibility Reporter (FF56+)
+ * Web Compatibility Reporter adds a "Report Site Issue" button to send data to Mozilla ***/
+user_pref("extensions.webcompat-reporter.enabled", false);
 
 /*** 0600: BLOCK IMPLICIT OUTBOUND [not explicitly asked for - eg clicked on] ***/
 user_pref("ghacks_user.js.parrot", "0600 syntax error: the parrot's no more!");
@@ -1414,7 +1426,7 @@ user_pref("security.csp.experimentalEnabled", true);
 /* 2697b: navigator.buildID (see gecko.buildID in about:config) reveals build time
  * down to the second which defeats user agent spoofing and can compromise OS etc
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=583181 ***/
-user_pref("general.buildID.override", "20100101"); // (hidden pref)
+   // user_pref("general.buildID.override", "20100101"); // (hidden pref)
 /* 2697c: navigator.appName ***/
    //user_pref("general.appname.override", "Netscape"); // (hidden pref)
 /* 2697d: navigator.appVersion ***/
