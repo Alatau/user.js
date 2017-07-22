@@ -326,7 +326,7 @@ user_pref("dom.flyweb.enabled", false);
  * [2] https://github.com/mozilla/normandy ***/
 user_pref("extensions.shield-recipe-client.enabled", false);
 user_pref("extensions.shield-recipe-client.api_url", "");
-/* 0513: disable Activity Stream (FF54+)
+/* 0514: disable Activity Stream (FF54+)
  * Activity Stream replaces "New Tab" with one based on metadata and browsing behavior,
  * and includes telemetry as well as web content such as snippets and "spotlight"
  * [1] https://wiki.mozilla.org/Firefox/Activity_Stream
@@ -427,6 +427,9 @@ user_pref("browser.urlbar.userMadeSearchSuggestionsChoice", true); // (FF41+)
 /* 0809: disable location bar suggesting "preloaded" top websites (FF54+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1211726 ***/
 user_pref("browser.urlbar.usepreloadedtopurls.enabled", false);
+/* 0810: disable location bar making speculative connections (FF56+)
+ * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1348275 ***/
+user_pref("browser.urlbar.speculativeConnect.enabled", false);
 /* 0850a: disable location bar autocomplete [controlled by 0850b] ***/
 user_pref("browser.urlbar.autocomplete.enabled", false);
 /* 0850b: disable location bar suggestion types [controls 0850a]
@@ -1953,7 +1956,7 @@ user_pref("dom.archivereader.enabled", false);
 // ***/
 
 /*** 0000: MY SETTINGS ***/
-user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?prf=310dc9be8b4e353fb03dbc16880b19be");
+user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?prf=de02bd334b3292d8aa12044cff47e206");
 user_pref("ui.osk.enabled", false);
 user_pref("accessibility.blockautorefresh", true);
 user_pref("dom.disable_open_during_load", true);
