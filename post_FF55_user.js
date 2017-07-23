@@ -316,7 +316,7 @@ user_pref("experiments.activeExperiment", false);
 /* 0502: disable Mozilla permission to silently opt you into tests ***/
 user_pref("network.allow-experiments", false);
 /* 0505: block URL used for system add-on updates (FF44+)
- * [NOTE] You will not get system add-on security/privacy fixes except when you update Firefox ***/
+ * [NOTE] You will not get any system add-on updates except when you update Firefox ***/
    // user_pref("extensions.systemAddon.update.url", "");
 /* 0510: disable Pocket (FF39+)
  * Pocket is a third party (now owned by Mozilla) "save for later" cloud service
@@ -344,7 +344,10 @@ user_pref("browser.newtabpage.activity-stream.enabled", false);
 /* 0515: disable Onboarding (FF55+)
  * Onboarding is an interactive tour/setup for new installs/profiles and features. Every time
  * about:home or about:newtab is opened, the onboarding overlay is injected into that page
- * [1] https://wiki.mozilla.org/Firefox/Onboarding ***/
+ * [NOTE] Onboarding leaks resource://URIs [2], and uses Google Analytics [3]
+ * [1] https://wiki.mozilla.org/Firefox/Onboarding
+ * [2] https://github.com/mozilla/onboard/commit/db4d6c8726c89a5d6a241c1b1065827b525c5baf
+ * [3] https://bugzilla.mozilla.org/show_bug.cgi?id=863246#c154 ***/
 user_pref("browser.onboarding.enabled", false);
 /* 0516: disable Screenshots (FF55+)
  * [1] https://github.com/mozilla-services/screenshots
