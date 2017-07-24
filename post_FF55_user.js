@@ -402,7 +402,7 @@ user_pref("network.predictor.enable-prefetch", false);
 user_pref("ghacks_user.js.parrot", "0800 syntax error: the parrot's ceased to be!");
 /* 0801: disable location bar using search - PRIVACY
  * don't leak typos to a search engine, give an error message instead ***/
-user_pref("keyword.enabled", true);
+user_pref("keyword.enabled", false);
 /* 0802: disable location bar domain guessing - PRIVACY/SECURITY
  * domain guessing intercepts DNS "hostname not found errors" and resends a
  * request (e.g. by adding www or .com). This is inconsistent use (e.g. FQDNs), does not work
@@ -1718,7 +1718,7 @@ user_pref("browser.urlbar.decodeURLsOnCopy", true);
 /* 3029: disable Firefox Screenshots (FF54+)
  * [1] https://www.ghacks.net/2017/05/28/firefox-screenshots-integrated-in-firefox-nightly/
  * [2] https://github.com/mozilla-services/screenshots ***/
-   // user_pref("extensions.screenshots.system-disabled", true);
+user_pref("extensions.screenshots.system-disabled", true);
 
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("ghacks_user.js.parrot", "No no he's not dead, he's, he's restin'! Remarkable bird, the Norwegian Blue");
