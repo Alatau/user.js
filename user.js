@@ -359,7 +359,7 @@ user_pref("network.predictor.enable-prefetch", false);
 user_pref("ghacks_user.js.parrot", "0800 syntax error: the parrot's ceased to be!");
 /* 0801: disable location bar using search - PRIVACY
  * don't leak typos to a search engine, give an error message instead ***/
-user_pref("keyword.enabled", true);
+user_pref("keyword.enabled", false);
 /* 0802: disable location bar domain guessing - PRIVACY/SECURITY
  * domain guessing intercepts DNS "hostname not found errors" and resends a
  * request (eg by adding www or .com). This is inconsistent use (eg FQDNs), does not work
@@ -1392,9 +1392,9 @@ user_pref("security.csp.experimentalEnabled", true);
 /* 2697b: navigator.buildID (see gecko.buildID in about:config) reveals build time
  * down to the second which defeats user agent spoofing and can compromise OS etc
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=583181 ***/
-user_pref("general.buildID.override", "20100101"); // (hidden pref)
+   // user_pref("general.buildID.override", "20100101"); // (hidden pref)
 /* 2697c: navigator.appName ***/
-   //user_pref("general.appname.override", "Netscape"); // (hidden pref)
+   // user_pref("general.appname.override", "Netscape"); // (hidden pref)
 /* 2697d: navigator.appVersion ***/
    // user_pref("general.appversion.override", "5.0 (Windows)"); // (hidden pref)
 /* 2697e: navigator.platform leaks in JS ***/
@@ -1556,7 +1556,7 @@ user_pref("privacy.clearOnShutdown.siteSettings", true); // Site Preferences
  * for "Clear Recent History" is opened, it is synced to the same as 'history' ***/
 user_pref("privacy.cpd.cache", true);
 user_pref("privacy.cpd.cookies", true);
-user_pref("privacy.cpd.downloads", true); // not used, see note above
+   // user_pref("privacy.cpd.downloads", true); // not used, see note above
 user_pref("privacy.cpd.formdata", true); // Form & Search History
 user_pref("privacy.cpd.history", true); // Browsing & Download History
 user_pref("privacy.cpd.offlineApps", true); // Offline Website Data
@@ -1670,7 +1670,7 @@ user_pref("browser.urlbar.decodeURLsOnCopy", true);
 /* 3029: disable Firefox Screenshots (FF54+)
  * [1] https://www.ghacks.net/2017/05/28/firefox-screenshots-integrated-in-firefox-nightly/
  * [2] https://github.com/mozilla-services/screenshots ***/
-   // user_pref("extensions.screenshots.system-disabled", true);
+user_pref("extensions.screenshots.system-disabled", true);
 
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("ghacks_user.js.parrot", "No no he's not dead, he's, he's restin'! Remarkable bird, the Norwegian Blue");
@@ -1920,7 +1920,7 @@ user_pref("dom.archivereader.enabled", false);
 // ***/
 
 /*** 0000: MY SETTINGS ***/
-user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?prf=310dc9be8b4e353fb03dbc16880b19be");
+user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?prf=de02bd334b3292d8aa12044cff47e206");
 user_pref("ui.osk.enabled", false);
 user_pref("accessibility.blockautorefresh", true);
 user_pref("dom.disable_open_during_load", true);
