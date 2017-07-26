@@ -352,6 +352,15 @@ user_pref("browser.onboarding.enabled", false);
  * [1] https://github.com/mozilla-services/screenshots
  * [2] https://www.ghacks.net/2017/05/28/firefox-screenshots-integrated-in-firefox-nightly/ ***/
 user_pref("extensions.screenshots.disabled", true);
+/* 0517: disable Form Autofill (also see 0864) (FF55+)
+ * [SETTING] Options>Privacy>Forms & Passwords>Enable Profile Autofill
+ * [NOTE] Stored data is NOT secure (uses a JSON file)
+ * [NOTE] Heuristics controls Form Autofill on forms without @autocomplete attributes
+ * [1] https://wiki.mozilla.org/Firefox/Features/Form_Autofill
+ * [2] https://www.ghacks.net/2017/05/24/firefoxs-new-form-autofill-is-awesome/ ***/
+user_pref("extensions.formautofill.addresses.enabled", false);
+user_pref("extensions.formautofill.experimental", false);
+user_pref("extensions.formautofill.heuristics.enabled", false);
 /* 0518: disable Web Compatibility Reporter (FF56+)
  * Web Compatibility Reporter adds a "Report Site Issue" button to send data to Mozilla ***/
 user_pref("extensions.webcompat-reporter.enabled", false);
@@ -483,6 +492,10 @@ user_pref("browser.urlbar.oneOffSearches", false);
  * [1] https://www.ghacks.net/2017/05/24/firefoxs-new-form-autofill-is-awesome/
  * [2] https://wiki.mozilla.org/Firefox/Features/Form_Autofill ***/
 user_pref("browser.formautofill.enabled", false);
+/* 0864: disable form @autocomplete (FF32+)
+ * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1009935
+ * [2] https://html.spec.whatwg.org/#attr-fe-autocomplete ***/
+user_pref("dom.forms.autocomplete.experimental", false);
 /* 0870: disable Windows jumplist [WINDOWS] ***/
 user_pref("browser.taskbar.lists.enabled", false);
 user_pref("browser.taskbar.lists.frequent.enabled", false);
@@ -1031,7 +1044,7 @@ user_pref("dom.disable_window_flip", true); // window z-order
 user_pref("dom.disable_window_move_resize", true);
 user_pref("dom.disable_window_open_feature.close", true);
 user_pref("dom.disable_window_open_feature.minimizable", true);
-user_pref("dom.disable_window_open_feature.personalbar", true); //bookmarks toolbar
+user_pref("dom.disable_window_open_feature.personalbar", true); // bookmarks toolbar
 user_pref("dom.disable_window_open_feature.titlebar", true);
 user_pref("dom.disable_window_status_change", true);
 user_pref("dom.allow_scripts_to_close_windows", false);
@@ -1187,7 +1200,8 @@ user_pref("dom.vr.openvr.enabled", false); // (FF51+)
  * [2] https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices ***/
 user_pref("media.navigator.enabled", false);
 /* 2506: disable video statistics - JS performance fingerprinting (FF25+)
- * [1] https://trac.torproject.org/projects/tor/ticket/15757 ***/
+ * [1] https://trac.torproject.org/projects/tor/ticket/15757
+ * [2] https://bugzilla.mozilla.org/show_bug.cgi?id=654550 ***/
 user_pref("media.video_stats.enabled", false);
 /* 2507: disable keyboard fingerprinting (FF38+) (physical keyboards)
  * The Keyboard API allows tracking the "read parameter" of pressed keys in forms on
