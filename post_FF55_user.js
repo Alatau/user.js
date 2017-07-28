@@ -334,13 +334,21 @@ user_pref("dom.flyweb.enabled", false);
  * [2] https://github.com/mozilla/normandy ***/
 user_pref("extensions.shield-recipe-client.enabled", false);
 user_pref("extensions.shield-recipe-client.api_url", "");
+/* 0513: disable Follow On Search (FF53+)
+ * Just DELETE the XPI file in your system add-ons directory
+ * [1] https://blog.mozilla.org/data/2017/06/05/measuring-search-in-firefox/ ***/
 /* 0514: disable Activity Stream (FF54+)
  * Activity Stream replaces "New Tab" with one based on metadata and browsing behavior,
  * and includes telemetry as well as web content such as snippets and "spotlight"
  * [1] https://wiki.mozilla.org/Firefox/Activity_Stream
  * [2] https://www.ghacks.net/2016/02/15/firefox-mockups-show-activity-stream-new-tab-page-and-share-updates/ ***/
 user_pref("browser.newtabpage.activity-stream.enabled", false);
-/* 0515: disable Onboarding (FF55+)
+/* 0515: disable Screenshots (FF54+)
+ * [1] https://github.com/mozilla-services/screenshots
+ * [2] https://www.ghacks.net/2017/05/28/firefox-screenshots-integrated-in-firefox-nightly/ ***/
+user_pref("extensions.screenshots.system-disabled", true); // (FF54+)
+user_pref("extensions.screenshots.disabled", true); // (FF55+)
+/* 0516: disable Onboarding (FF55+)
  * Onboarding is an interactive tour/setup for new installs/profiles and features. Every time
  * about:home or about:newtab is opened, the onboarding overlay is injected into that page
  * [NOTE] Onboarding uses Google Analytics [2], and leaks resource://URIs [3]
@@ -348,11 +356,7 @@ user_pref("browser.newtabpage.activity-stream.enabled", false);
  * [2] https://github.com/mozilla/onboard/commit/db4d6c8726c89a5d6a241c1b1065827b525c5baf
  * [3] https://bugzilla.mozilla.org/show_bug.cgi?id=863246#c154 ***/
 user_pref("browser.onboarding.enabled", false);
-/* 0516: disable Screenshots (FF55+)
- * [1] https://github.com/mozilla-services/screenshots
- * [2] https://www.ghacks.net/2017/05/28/firefox-screenshots-integrated-in-firefox-nightly/ ***/
-user_pref("extensions.screenshots.disabled", true);
-/* 0517: disable Form Autofill (also see 0864) (FF55+)
+/* 0517: disable Form Autofill (FF55+)
  * [SETTING] Options>Privacy>Forms & Passwords>Enable Profile Autofill
  * [NOTE] Stored data is NOT secure (uses a JSON file)
  * [NOTE] Heuristics controls Form Autofill on forms without @autocomplete attributes
@@ -492,10 +496,6 @@ user_pref("browser.urlbar.oneOffSearches", false);
  * [1] https://www.ghacks.net/2017/05/24/firefoxs-new-form-autofill-is-awesome/
  * [2] https://wiki.mozilla.org/Firefox/Features/Form_Autofill ***/
 user_pref("browser.formautofill.enabled", false);
-/* 0864: disable form @autocomplete (FF32+)
- * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1009935
- * [2] https://html.spec.whatwg.org/#attr-fe-autocomplete ***/
-user_pref("dom.forms.autocomplete.experimental", false);
 /* 0870: disable Windows jumplist [WINDOWS] ***/
 user_pref("browser.taskbar.lists.enabled", false);
 user_pref("browser.taskbar.lists.frequent.enabled", false);
@@ -676,7 +676,7 @@ user_pref("ghacks_user.js.parrot", "1200 syntax error: the parrot's a stiff!");
 /* 1202: control TLS versions with min and max
  * 1=min version of TLS 1.0, 2=min version of TLS 1.1, 3=min version of TLS 1.2 etc
  * [NOTE] Jul-2017: Telemetry indicates approx 2% of TLS web traffic uses 1.0 or 1.1
- * [WARNING] If you get an "SSL_ERROR_NO_CYPHER_OVERLAP" error temporarily
+ * [WARNING] If you get an "SSL_ERROR_NO_CYPHER_OVERLAP" error, temporarily
  * set a lower value for 'security.tls.version.min' in about:config
  * [1] http://kb.mozillazine.org/Security.tls.version.*
  * [2] https://www.ssl.com/how-to/turn-off-ssl-3-0-and-tls-1-0-in-your-browser/
@@ -958,6 +958,8 @@ user_pref("browser.eme.ui.enabled", false); // hides "Play DRM Content" checkbox
 user_pref("media.gmp-gmpopenh264.enabled", false); // (hidden pref)
 user_pref("media.gmp-gmpopenh264.autoupdate", false);
 user_pref("media.gmp-manager.url", "data:text/plain,");
+user_pref("media.gmp-manager.url.override", "data:text/plain,"); // (hidden pref)
+user_pref("media.gmp-manager.updateEnabled", false); // disable local fallback (hidden pref)
 
 /*** 2000: MEDIA / CAMERA / MIC ***/
 user_pref("ghacks_user.js.parrot", "2000 syntax error: the parrot's snuffed it!");
@@ -1461,28 +1463,17 @@ user_pref("security.csp.experimentalEnabled", true);
 /* 2697g: general.useragent.locale (related, see 0204) ***/
 
 /*** 2698: FIRST PARTY ISOLATION (FPI)
- ** isolate favicons (FF52+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1277803
- ** isolate OCSP cache (FF52+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1264562
- ** isolate Shared Workers (FF52+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1268726
- ** isolate SSL session cache (FF52+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1316283
- ** isolate media cache (FF53+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1317927
- ** isolate HSTS and HPKP (FF54+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1323644
- ** isolate HTTP Alternative Services (FF54+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1334690
- ** isolate SPDY/HTTP2 (FF55+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1334693
- ** isolate DNS cache (FF55+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1337893
- ** isolate blob: URI (FF55+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1344170
- ** isolate data://, about: URLs (FF55+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1300671
+ ** 1277803 - isolate favicons (FF52+)
+ ** 1264562 - isolate OCSP cache (FF52+)
+ ** 1268726 - isolate Shared Workers (FF52+)
+ ** 1316283 - isolate SSL session cache (FF52+)
+ ** 1317927 - isolate media cache (FF53+)
+ ** 1323644 - isolate HSTS and HPKP (FF54+)
+ ** 1334690 - isolate HTTP Alternative Services (FF54+)
+ ** 1334693 - isolate SPDY/HTTP2 (FF55+)
+ ** 1337893 - isolate DNS cache (FF55+)
+ ** 1344170 - isolate blob: URI (FF55+)
+ ** 1300671 - isolate data://, about: URLs (FF55+)
 ***/
 /* 2698a: enable First Party Isolation (FF51+)
  * [WARNING] May break cross-domain logins and site functionality until perfected
@@ -1496,42 +1487,30 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
 /*** 2699: privacy.resistFingerprinting
    This master switch will be used for a wide range of items,
    many of which will **override** existing prefs from FF55+
- ** limit window.screen & CSS media queries leaking identifiable info (FF41+)
-   [POC] http://ip-check.info/?lang=en (screen, usable screen, and browser window will match)
-   [NOTE] Does not cover everything yet - https://bugzilla.mozilla.org/show_bug.cgi?id=1216800
-   [NOTE] This will probably make your values pretty unique until you resize or snap the
-   inner window width + height into standard/common resolutions (such as 1366x768)
-   To set a size, open a XUL (chrome) page (such as about:config) which is at 100% zoom, hit
-   Shift+F4 to open the scratchpad, type window.resizeTo(1366,768), hit Ctrl+R to run. Test
-   your window size, do some math, resize to allow for all the non inner window elements
-   [TEST] http://browserspy.dk/screen.php
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=418986
- ** spoof screen orientation (FF50+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1281949
- ** hide the contents of navigator.plugins and navigator.mimeTypes (FF50+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1281963
- ** spoof timezone as UTC 0 (FF55+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1330890
- ** spoof navigator.hardwareConcurrency as 2 (also see 2514) (FF55+)
-   This spoof *shouldn't* affect core chrome/Firefox performance
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1360039
- ** reduce precision of time exposed by javascript (FF55+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1217238
- ** spoof/disable performance API (see 2410-deprecated, 2411, 2412) (FF56+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1369303
- ** spoof Navigator API (see section 2697) (FF56+)
-   The version number will be rounded to the "nearest" multiple of 10
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1333651
- ** disable device sensor API (see 2512) (FF56+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1369319
- ** disable site specific zoom (see 2515) (FF56+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1369357
- ** disable gamepad API (see 2501) (FF56+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1337161
- ** spoof network information API as "unknown" (see 2503) (FF56+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1372072
- ** disable geolocation API (see 0201) (FF56+)
-   [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1372069
+ ** 418986 - limit window.screen & CSS media queries leaking identifiable info (FF41+)
+     [POC] http://ip-check.info/?lang=en (screen, usable screen, and browser window will match)
+     [NOTE] Does not cover everything yet - https://bugzilla.mozilla.org/show_bug.cgi?id=1216800
+     [NOTE] This will probably make your values pretty unique until you resize or snap the
+     inner window width + height into standard/common resolutions (such as 1366x768)
+     To set a size, open a XUL (chrome) page (such as about:config) which is at 100% zoom, hit
+     Shift+F4 to open the scratchpad, type window.resizeTo(1366,768), hit Ctrl+R to run. Test
+     your window size, do some math, resize to allow for all the non inner window elements
+     [TEST] http://browserspy.dk/screen.php
+ ** 1281949 - spoof screen orientation (FF50+)
+ ** 1281963 - hide the contents of navigator.plugins and navigator.mimeTypes (FF50+)
+ ** 1330890 - spoof timezone as UTC 0 (FF55+)
+ ** 1360039 - spoof navigator.hardwareConcurrency as 2 (also see 2514) (FF55+)
+      This spoof *shouldn't* affect core chrome/Firefox performance
+ ** 1217238 - reduce precision of time exposed by javascript (FF55+)
+ ** 1369303 - spoof/disable performance API (see 2410-deprecated, 2411, 2412) (FF56+)
+ ** 1333651 - spoof Navigator API (see section 2697) (FF56+)
+      The version number will be rounded to the "nearest" multiple of 10
+ ** 1369319 - disable device sensor API (see 2512) (FF56+)
+ ** 1369357 - disable site specific zoom (see 2515) (FF56+)
+ ** 1337161 - disable gamepad API (see 2501) (FF56+)
+ ** 1372072 - spoof network information API as "unknown" (see 2503) (FF56+)
+ ** 1372069 - disable geolocation API (see 0201) (FF56+)
+ ** 1333641 - disable WebSpeech API (see 2021) (FF56+)
 ***/
 /* 2699a: enable privacy.resistFingerprinting (FF41+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=418986 ***/
@@ -1629,7 +1608,7 @@ user_pref("privacy.cpd.siteSettings", true); // Site Preferences
    // user_pref("privacy.cpd.openWindows", true);
 /* 2806: reset default 'Time range to clear' for 'Clear Recent History' (see 2804)
  * Firefox remembers your last choice. This will reset the value when you start Firefox.
- * 0=everything, 1=last hour, 2=last two hours, 3=last four hours
+ * 0=everything, 1=last hour, 2=last two hours, 3=last four hours,
  * 4=today, 5=last five minutes, 6=last twenty-four hours
  * [NOTE] The values 5 + 6 are not listed in the dropdown, which will display a
  * blank value if they are used, but they do work as advertised ***/
@@ -1726,10 +1705,6 @@ user_pref("browser.bookmarks.showRecentlyBookmarked", false);
 user_pref("browser.urlbar.decodeURLsOnCopy", true);
 /* 3028: disable middle-click enabling auto-scrolling [WINDOWS] [MAC] ***/
    // user_pref("general.autoScroll", false);
-/* 3029: disable Firefox Screenshots (FF54+)
- * [1] https://www.ghacks.net/2017/05/28/firefox-screenshots-integrated-in-firefox-nightly/
- * [2] https://github.com/mozilla-services/screenshots ***/
-user_pref("extensions.screenshots.system-disabled", true);
 
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("ghacks_user.js.parrot", "No no he's not dead, he's, he's restin'! Remarkable bird, the Norwegian Blue");
