@@ -72,7 +72,7 @@ user_pref("browser.startup.page", 1);
 user_pref("ghacks_user.js.parrot", "0200 syntax error: the parrot's definitely deceased!");
 /* 0201: disable location-aware browsing, but enforce Mozilla's service over Google's ***/
 user_pref("geo.enabled", false);
-user_pref("geo.wifi.uri", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");
+user_pref("geo.wifi.uri", "");
 user_pref("geo.wifi.xhr.timeout", 1); // reset this if you use geolocation
 user_pref("geo.wifi.logging.enabled", false); // (hidden pref)
 user_pref("browser.search.geoip.url", "");
@@ -637,7 +637,7 @@ user_pref("dom.ipc.processCount", 4);
 /* 1104: enforce separate content process for file://URLs (FF53+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1147911
  * [2] https://www.ghacks.net/2016/11/27/firefox-53-exclusive-content-process-for-local-files/ ***/
-   // user_pref("browser.tabs.remote.separateFileUriProcess", true);
+user_pref("browser.tabs.remote.separateFileUriProcess", true);
 /* 1105: enable console shim warnings for add-ons with the 'multiprocessCompatible' flag as false ***/
 user_pref("dom.ipc.shims.enabledWarnings", true);
 /* 1106: control number of WebExtension processes ***/
@@ -1193,9 +1193,6 @@ user_pref("dom.netinfo.enabled", false);
 /* 2504: disable virtual reality devices
  * [1] https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API ***/
 user_pref("dom.vr.enabled", false);
-user_pref("dom.vr.oculus.enabled", false);
-user_pref("dom.vr.osvr.enabled", false); // (FF49+)
-user_pref("dom.vr.openvr.enabled", false); // (FF51+)
 /* 2505: disable media device enumeration (FF29+)
  * [NOTE] media.peerconnection.enabled should also be set to false (see 2001)
  * [1] https://wiki.mozilla.org/Media/getUserMedia
@@ -1641,9 +1638,6 @@ user_pref("xpinstall.signatures.required", false);
  * 1=current window, 2=new window, 3=most recent window
  * [SETTING] Options>General>Tabs>Open new windows in a new tab instead ***/
 user_pref("browser.link.open_newwindow", 3);
-/* 3009: enable APZ (Async Pan/Zoom) - requires e10s
- * [1] https://www.ghacks.net/2015/07/28/scrolling-in-firefox-to-get-a-lot-better-thanks-to-apz/ ***/
-   // user_pref("layers.async-pan-zoom.enabled", true);
 /* 3010: enable ctrl-tab previews ***/
 user_pref("browser.ctrlTab.previews", true);
 /* 3011: don't open "page/selection source" in a tab. The window used instead is cleaner
@@ -1698,6 +1692,7 @@ user_pref("browser.bookmarks.showRecentlyBookmarked", false);
    // user_pref("media.wave.enabled", false);
    // user_pref("media.webm.enabled", false);
    // user_pref("media.wmf.enabled", false); // https://www.youtube.com/html5 - for the two H.264 entries
+   // user_pref("media.wmf.vp9.enabled", false);
 /* 3026: disable "Reader View" ***/
    // user_pref("reader.parse-on-load.enabled", false);
 /* 3027: decode URLs on copy from the urlbar (FF53+)
