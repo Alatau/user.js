@@ -70,9 +70,10 @@ user_pref("browser.startup.page", 1);
 
 /*** 0200: GEOLOCATION ***/
 user_pref("ghacks_user.js.parrot", "0200 syntax error: the parrot's definitely deceased!");
-/* 0201: disable location-aware browsing, but enforce Mozilla's service over Google's ***/
+/* 0201: disable location-aware browsing
+   [NOTE] Use Mozilla's API key if required ***/
 user_pref("geo.enabled", false);
-user_pref("geo.wifi.uri", "");
+user_pref("geo.wifi.uri", ""); // "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%"
 user_pref("geo.wifi.xhr.timeout", 1); // reset this if you use geolocation
 user_pref("geo.wifi.logging.enabled", false); // (hidden pref)
 user_pref("browser.search.geoip.url", "");
@@ -482,12 +483,9 @@ user_pref("browser.urlbar.oneOffSearches", false);
 /* 0860: disable search and form history
  * [SETTING] Options>Privacy>History>Custom Settings>Remember search and form history
  * [NOTE] You can clear formdata on exiting Firefox (see 2803) ***/
-   // user_pref("browser.formfill.enable", false);
-/* 0861: disable saving form history on secure websites
- * For convenience & functionality, this is best left at default true,
- * especially as the web moves more and more to encrypted services
- * You can clear form history on exiting Firefox (see 2803) ***/
-   // user_pref("browser.formfill.saveHttpsForms", false);
+user_pref("browser.formfill.enable", false);
+/* 0861: disable saving form history on secure websites ***/
+user_pref("browser.formfill.saveHttpsForms", false);
 /* 0862: disable browsing and download history
  * [SETTING] Options>Privacy>History>Custom Settings>Remember my browsing and download history
  * [NOTE] You can clear history and downloads on exiting Firefox (see 2803) ***/
