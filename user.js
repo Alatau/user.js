@@ -97,7 +97,7 @@ user_pref("intl.accept_languages", "en-US, en");
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=867501 ***/
 user_pref("javascript.use_us_english_locale", true); // (hidden pref)
 /* 0209: disable geolocation on non-secure origins (FF54+)
- * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1072859
+ * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1269531
  * [2] https://www.ghacks.net/2017/03/14/firefox-55-geolocation-requires-secure-origin/ ***/
 user_pref("geo.security.allowinsecure", false);
 
@@ -302,6 +302,8 @@ user_pref("privacy.trackingprotection.ui.enabled", true);
      updates will restore them. They may also be updated and possibly restored automatically (see 0505)
      * Portable: "...\App\Firefox64\browser\features\" (or "App\Firefox\etc" for 32bit)
      * Windows: "...\Program Files\Mozilla\browser\features" (or "Program Files (X86)\etc" for 32bit)
+     * Mac: "...\Applications\Firefox\Contents\Resources\browser\extensions\"
+            [NOTE] On Mac you can right-click on the application and select "Show Package Contents"
 
      [1] https://gecko.readthedocs.io/en/latest/toolkit/mozapps/extensions/addon-manager/SystemAddons.html
      [2] https://dxr.mozilla.org/mozilla-central/source/browser/extensions
@@ -628,7 +630,7 @@ user_pref("extensions.e10sBlocksEnabling", false);
 /* 1102: control number of content rendering processes
  * [1] https://www.ghacks.net/2016/02/15/change-how-many-processes-multi-process-firefox-uses/
  * [2] https://bugzilla.mozilla.org/show_bug.cgi?id=1207306 ***/
-user_pref("dom.ipc.processCount", 4);
+user_pref("dom.ipc.processCount", 7);
 /* 1103: enable WebExtension add-on code to run in a separate process (webext-oop) (FF53+)
  * [1] https://wiki.mozilla.org/WebExtensions/Implementing_APIs_out-of-process ***/
    // user_pref("extensions.webextensions.remote", true);
@@ -950,6 +952,7 @@ user_pref("media.gmp-widevinecdm.autoupdate", false);
 /* 1830: disable all DRM content (EME: Encryption Media Extension) [SETUP] ***/
 user_pref("media.eme.enabled", false); // Options>Content>Play DRM Content
 user_pref("browser.eme.ui.enabled", false); // hides "Play DRM Content" checkbox, restart required
+user_pref("media.eme.chromium-api.enabled", false); // (FF55+)
 /* 1840: disable the OpenH264 Video Codec by Cisco to "Never Activate"
  * and disable pings to the external update/download server
  * This is the bundled codec used for video chat in WebRTC ***/
@@ -1499,7 +1502,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
  ** 1217238 - reduce precision of time exposed by javascript (FF55+)
  ** 1369303 - spoof/disable performance API (see 2410-deprecated, 2411, 2412) (FF56+)
  ** 1333651 - spoof Navigator API (see section 2697) (FF56+)
-      The version number will be rounded to the "nearest" multiple of 10
+      The version number will be rounded down to the nearest multiple of 10
  ** 1369319 - disable device sensor API (see 2512) (FF56+)
  ** 1369357 - disable site specific zoom (see 2515) (FF56+)
  ** 1337161 - disable gamepad API (see 2501) (FF56+)
@@ -1511,11 +1514,12 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=418986 ***/
 user_pref("privacy.resistFingerprinting", true); // (hidden pref) (not hidden FF55+)
 /* 2699b: set new window sizes to round to hundreds (FF55+) [SETUP]
- * [NOTE] If override values are too big, the code determines it for you
+ * [NOTE] Width will round to multiples of 200s and height to 100s, to fit your screen.
+ * The override values are a starting point to round from if you want some control
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1330882
  * [2] https://metrics.mozilla.com/firefox-hardware-report/ ***/
-   // user_pref("privacy.window.maxInnerWidth", 1366);
-   // user_pref("privacy.window.maxInnerHeight", 768);
+   // user_pref("privacy.window.maxInnerWidth", 1600); // (hidden pref)
+   // user_pref("privacy.window.maxInnerHeight", 900); // (hidden pref)
 
 /*** 2700: COOKIES & DOM STORAGE ***/
 user_pref("ghacks_user.js.parrot", "2700 syntax error: the parrot's joined the bleedin' choir invisible!");
