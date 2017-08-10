@@ -293,7 +293,7 @@ user_pref("privacy.trackingprotection.ui.enabled", true);
      updates will restore them. They may also be updated and possibly restored automatically (see 0505)
      * Portable: "...\App\Firefox64\browser\features\" (or "App\Firefox\etc" for 32bit)
      * Windows: "...\Program Files\Mozilla\browser\features" (or "Program Files (X86)\etc" for 32bit)
-     * Mac: "...\Applications\Firefox\Contents\Resources\browser\extensions\"
+     * Mac: "...\Applications\Firefox\Contents\Resources\browser\features\"
             [NOTE] On Mac you can right-click on the application and select "Show Package Contents"
 
      [1] https://gecko.readthedocs.io/en/latest/toolkit/mozapps/extensions/addon-manager/SystemAddons.html
@@ -627,6 +627,12 @@ user_pref("browser.tabs.remote.separateFileUriProcess", true);
 user_pref("dom.ipc.shims.enabledWarnings", true);
 /* 1106: control number of WebExtension processes ***/
    // user_pref("dom.ipc.processCount.extension", 1);
+/* 1107: control number of file processes ***/
+   // user_pref("dom.ipc.processCount.file", 1);
+/* 1108: block web content in file processes
+ * [WARNING] [SETUP] You may want to disable this for corporate or developer environments
+ * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1343184 ***/
+user_pref("browser.tabs.remote.allowLinkedWebInFileUriProcess", false);
 /* 1110: set sandbox level. DO NOT MEDDLE WITH THESE. They are included to inform you NOT to play
  * with them. The values are integers, but the code below deliberately contains a data mismatch
  * [1] https://wiki.mozilla.org/Sandbox
@@ -930,6 +936,9 @@ user_pref("plugin.scan.plid.all", false);
  * [1] https://wiki.mozilla.org/GeckoMediaPlugins ***/
 user_pref("media.gmp-provider.enabled", false);
 user_pref("media.gmp.trial-create.enabled", false);
+user_pref("media.gmp-manager.url", "data:text/plain,");
+user_pref("media.gmp-manager.url.override", "data:text/plain,"); // (hidden pref)
+user_pref("media.gmp-manager.updateEnabled", false); // disable local fallback (hidden pref)
 /* 1825: disable widevine CDM (Content Decryption Module) [SETUP] ***/
 user_pref("media.gmp-widevinecdm.visible", false);
 user_pref("media.gmp-widevinecdm.enabled", false);
@@ -939,13 +948,9 @@ user_pref("media.eme.enabled", false); // Options>Content>Play DRM Content
 user_pref("browser.eme.ui.enabled", false); // hides "Play DRM Content" checkbox, restart required
 user_pref("media.eme.chromium-api.enabled", false); // (FF55+)
 /* 1840: disable the OpenH264 Video Codec by Cisco to "Never Activate"
- * and disable pings to the external update/download server
  * This is the bundled codec used for video chat in WebRTC ***/
 user_pref("media.gmp-gmpopenh264.enabled", false); // (hidden pref)
 user_pref("media.gmp-gmpopenh264.autoupdate", false);
-user_pref("media.gmp-manager.url", "data:text/plain,");
-user_pref("media.gmp-manager.url.override", "data:text/plain,"); // (hidden pref)
-user_pref("media.gmp-manager.updateEnabled", false); // disable local fallback (hidden pref)
 
 /*** 2000: MEDIA / CAMERA / MIC ***/
 user_pref("ghacks_user.js.parrot", "2000 syntax error: the parrot's snuffed it!");
@@ -1623,6 +1628,9 @@ user_pref("layout.spellcheckDefault", 1);
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=620472
  * [2] https://developer.mozilla.org/en-US/docs/Online_and_offline_events ***/
 user_pref("network.manage-offline-status", false);
+/* 3015: disable animations
+ * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1352069 ***/
+   // user_pref("toolkit.cosmeticAnimations.enabled", false);
 /* 3017: set submenu delay in milliseconds. 0=instant while a small number allows
  * a mouse pass over menu items without any submenus alarmingly shooting out ***/
 user_pref("ui.submenuDelay", 150); // (hidden pref)
@@ -1675,9 +1683,10 @@ user_pref("ghacks_user.js.parrot", "No no he's not dead, he's, he's restin'! Rem
 
 /*** 9999: DEPRECATED / REMOVED / LEGACY / RENAMED
      Documentation denoted as [-]. Numbers may be re-used. See [1] for a link-clickable,
-     viewer-friendly version of the deprecated bugzilla tickets. To enable a section
-     change /* FFxx to // FFxx. The original state of each pref has been preserved,
-     or changed to match the current setup, but you are advised to review them.
+     viewer-friendly version of the deprecated bugzilla tickets. The original state of each pref
+     has been preserved, or changed to match the current setup, but you are advised to review them.
+     [NOTE] Up to FF53, to enable a section change /* FFxx to // FFxx
+     For FF53 on, we have bundled releases to cater for ESR. Change /* to // on the first line
      [1] https://github.com/ghacksuserjs/ghacks-user.js/issues/123
 ***/
 /* FF42 and older
@@ -1885,7 +1894,10 @@ user_pref("dom.telephony.enabled", false);
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1313580
 user_pref("dom.battery.enabled", false);
 // ***/
-/* FF53
+
+/* ESR52 still needs all the following prefs
+// [NOTE] replace the * with a slash in the line above to re-enable them if you're using ESR52.x.x
+// FF53
 // 1265: block rc4 fallback
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1130670
 user_pref("security.tls.unrestricted_rc4_fallback", false);
@@ -1902,8 +1914,8 @@ user_pref("media.getusermedia.screensharing.allow_on_old_platforms", false);
 // 2507: disable keyboard fingerprinting
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1322736
 user_pref("dom.beforeAfterKeyboardEvent.enabled", false);
-// ***/
-/* FF54
+// * * * /
+// FF54
 // 0415: disable reporting URLs (safe browsing)
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1288633
 user_pref("browser.safebrowsing.reportMalwareMistakeURL", "");
@@ -1915,8 +1927,8 @@ user_pref("media.eme.apiVisible", false);
    // i.e. reading archive contents directly in the browser, through DOM file objects
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1342361
 user_pref("dom.archivereader.enabled", false);
-// ***/
-/* FF55
+// * * * /
+// FF55
 // 0209: disable geolocation on non-secure origins (FF54+)
    // [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1269531
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1072859
@@ -1954,6 +1966,7 @@ user_pref("browser.tabs.animate", false);
 // 3016: disable fullscreeen animation - replaced by toolkit.cosmeticAnimations.enabled
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1352069
 user_pref("browser.fullscreen.animate", false);
+// * * * /
 // ***/
 
 /*** 0000: MY SETTINGS ***/
