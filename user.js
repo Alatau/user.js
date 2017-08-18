@@ -529,6 +529,9 @@ user_pref("signon.formlessCapture.enabled", false);
  * [3] https://bugzilla.mozilla.org/show_bug.cgi?id=1319119 ***/
 user_pref("signon.autofillForms.http", false);
 user_pref("security.insecure_field_warning.contextual.enabled", true);
+/* 0911: prevent cross-origin images from triggering an HTTP-Authentication prompt (FF55+)
+ * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1357835 ***/
+user_pref("network.auth.subresource-img-cross-origin-http-auth-allow", false);
 
 /*** 1000: CACHE [SETUP] ***/
 user_pref("ghacks_user.js.parrot", "1000 syntax error: the parrot's gone to meet 'is maker!");
@@ -687,6 +690,10 @@ user_pref("security.ssl.disable_session_identifiers", true); // (hidden pref)
 user_pref("security.ssl.errorReporting.automatic", false);
 user_pref("security.ssl.errorReporting.enabled", false);
 user_pref("security.ssl.errorReporting.url", "");
+/* 1205: disable TLS1.3 0-RTT (round-trip time) (FF51+)
+ * [1] https://github.com/tlswg/tls13-spec/issues/1001
+ * [2] https://blog.cloudflare.com/tls-1-3-overview-and-q-and-a/ ***/
+user_pref("security.tls.enable_0rtt_data", false); // (FF55+ default true)
 /** OCSP (Online Certificate Status Protocol)
     #Required reading [#] https://scotthelme.co.uk/revocation-is-broken/ ***/
 /* 1210: enable OCSP Stapling
