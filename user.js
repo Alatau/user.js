@@ -1509,6 +1509,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
  ** 1382499 - reduce screen co-ordinate fingerprinting in Touch API (see 2509) (FF57+)
  ** 1217290 - enable fingerprinting resistance for WebGL (see 2010-12) (FF57+)
  ** 1382545 - reduce fingerprinting in Animation API (FF57+)
+ ** 1354633 - limit MediaError.message to a whitelist (FF57+)
 ***/
 /* 2699a: enable privacy.resistFingerprinting (FF41+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=418986 ***/
@@ -1906,8 +1907,9 @@ user_pref("media.gmp-eme-adobe.autoupdate", false);
    // [1] https://wiki.mozilla.org/WebAPI/Security/WebTelephony
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1309719
 user_pref("dom.telephony.enabled", false);
-// 2502: disable Battery Status API. Initially a Linux issue (high precision readout) that
-   // was fixed. However, it is still another metric for fingerprinting, used to raise entropy.
+// 2502: disable Battery Status API
+   // Initially a Linux issue (high precision readout) that was fixed.
+   // However, it is still another metric for fingerprinting, used to raise entropy.
    // e.g. do you have a battery or not, current charging status, charge level, times remaining etc
    // [1] https://techcrunch.com/2015/08/04/battery-attributes-can-be-used-to-track-web-users/
    // [2] https://bugzilla.mozilla.org/show_bug.cgi?id=1124127
