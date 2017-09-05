@@ -47,7 +47,7 @@ user_pref("ghacks_user.js.parrot", "Oh yes, the Norwegian Blue... what's wrong w
  * used as a one off window (File>New Private Window) to provide a temporary self-contained
  * new instance. Closing all Private Windows clears all traces. Repeat as required.
  * [1] https://wiki.mozilla.org/Private_Browsing ***/
-user_pref("browser.privatebrowsing.autostart", true);
+user_pref("browser.privatebrowsing.autostart", false);
 
 /*** 0100: STARTUP ***/
 user_pref("ghacks_user.js.parrot", "0100 syntax error: the parrot's dead!");
@@ -489,7 +489,7 @@ user_pref("browser.formfill.enable", false);
 /* 0862: disable browsing and download history
  * [SETTING] Options>Privacy>History>Custom Settings>Remember my browsing and download history
  * [NOTE] You can clear history and downloads on exiting Firefox (see 2803) ***/
-   // user_pref("places.history.enabled", false);
+user_pref("places.history.enabled", false);
 /* 0870: disable Windows jumplist [WINDOWS] ***/
 user_pref("browser.taskbar.lists.enabled", false);
 user_pref("browser.taskbar.lists.frequent.enabled", false);
