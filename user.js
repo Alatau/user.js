@@ -1152,7 +1152,7 @@ user_pref("dom.idle-observers-api.enabled", false);
  * [NOTE] about:permissions is no longer available since FF46 but you can still override
  * individual domains: use info icon in urlbar etc or right click on a web page>view page info
  * set to false=block, set to true=ask ***/
-user_pref("full-screen-api.enabled", false);
+user_pref("full-screen-api.enabled", true);
 /* 2420: disable support for asm.js ( http://asmjs.org/ )
  * [1] https://www.mozilla.org/security/advisories/mfsa2015-29/
  * [2] https://www.mozilla.org/security/advisories/mfsa2015-50/
