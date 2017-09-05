@@ -417,7 +417,7 @@ user_pref("network.predictor.enable-prefetch", false);
 user_pref("ghacks_user.js.parrot", "0800 syntax error: the parrot's ceased to be!");
 /* 0801: disable location bar using search - PRIVACY
  * don't leak typos to a search engine, give an error message instead ***/
-user_pref("keyword.enabled", false);
+user_pref("keyword.enabled", true);
 /* 0802: disable location bar domain guessing - PRIVACY/SECURITY
  * domain guessing intercepts DNS "hostname not found errors" and resends a
  * request (e.g. by adding www or .com). This is inconsistent use (e.g. FQDNs), does not work
@@ -1131,7 +1131,7 @@ user_pref("dom.allow_cut_copy", false); // (hidden pref)
  * [WARNING] This BREAKS uBlock Origin 1.14.0+ [2017-08-30]
  * [1] https://github.com/gorhill/uBlock/releases/tag/1.14.0 
  * [WARNING] This *will* break other add-ons and web extensions, and *will* break some sites ***/
-user_pref("dom.indexedDB.enabled", false);
+   // user_pref("dom.indexedDB.enabled", false);
 /* 2411: disable resource/navigation timing ***/
 user_pref("dom.enable_resource_timing", false);
 /* 2412: disable timing attacks - javascript performance fingerprinting
