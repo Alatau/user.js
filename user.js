@@ -47,7 +47,7 @@ user_pref("ghacks_user.js.parrot", "Oh yes, the Norwegian Blue... what's wrong w
  * used as a one off window (File>New Private Window) to provide a temporary self-contained
  * new instance. Closing all Private Windows clears all traces. Repeat as required.
  * [1] https://wiki.mozilla.org/Private_Browsing ***/
-user_pref("browser.privatebrowsing.autostart", false);
+   // user_pref("browser.privatebrowsing.autostart", true);
 
 /*** 0100: STARTUP ***/
 user_pref("ghacks_user.js.parrot", "0100 syntax error: the parrot's dead!");
@@ -66,7 +66,7 @@ user_pref("browser.shell.checkDefaultBrowser", false);
 /* 0102: set start page (0=blank, 1=home, 2=last visited page, 3=resume previous session)
  * home = browser.startup.homepage preference.
  * [SETTING] Options>General>Startup>When Firefox starts ***/
-user_pref("browser.startup.page", 1);
+   // user_pref("browser.startup.page", 0);
 
 /*** 0200: GEOLOCATION ***/
 user_pref("ghacks_user.js.parrot", "0200 syntax error: the parrot's definitely deceased!");
@@ -417,7 +417,7 @@ user_pref("network.predictor.enable-prefetch", false);
 user_pref("ghacks_user.js.parrot", "0800 syntax error: the parrot's ceased to be!");
 /* 0801: disable location bar using search - PRIVACY
  * don't leak typos to a search engine, give an error message instead ***/
-user_pref("keyword.enabled", true);
+   // user_pref("keyword.enabled", false);
 /* 0802: disable location bar domain guessing - PRIVACY/SECURITY
  * domain guessing intercepts DNS "hostname not found errors" and resends a
  * request (e.g. by adding www or .com). This is inconsistent use (e.g. FQDNs), does not work
@@ -1152,7 +1152,7 @@ user_pref("dom.idle-observers-api.enabled", false);
  * [NOTE] about:permissions is no longer available since FF46 but you can still override
  * individual domains: use info icon in urlbar etc or right click on a web page>view page info
  * set to false=block, set to true=ask ***/
-user_pref("full-screen-api.enabled", true);
+   // user_pref("full-screen-api.enabled", false);
 /* 2420: disable support for asm.js ( http://asmjs.org/ )
  * [1] https://www.mozilla.org/security/advisories/mfsa2015-29/
  * [2] https://www.mozilla.org/security/advisories/mfsa2015-50/
