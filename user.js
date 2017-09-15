@@ -366,6 +366,7 @@ user_pref("browser.onboarding.enabled", false);
  * [1] https://wiki.mozilla.org/Firefox/Features/Form_Autofill
  * [2] https://www.ghacks.net/2017/05/24/firefoxs-new-form-autofill-is-awesome/ ***/
 user_pref("extensions.formautofill.addresses.enabled", false);
+user_pref("extensions.formautofill.available", "off"); // (FF56+)
 user_pref("extensions.formautofill.creditCards.enabled", false); // (FF56+)
 user_pref("extensions.formautofill.experimental", false);
 user_pref("extensions.formautofill.heuristics.enabled", false);
@@ -733,7 +734,7 @@ user_pref("security.family_safety.mode", 0);
  * [NOTE] This may be better handled under FPI (ticket 1323644, part of Tor Uplift)
  * [WARNING] This affects login/cert/key dbs. The effect is all credentials are session-only.
  * Saved logins and passwords are not available. Reset the pref and restart to return them.
- * [TEST] https://fiprinca.0x90.eu/poc/ [NOTE: 2017-08: expired cert]
+ * [TEST] https://fiprinca.0x90.eu/poc/
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1334485 - related bug
  * [2] https://bugzilla.mozilla.org/show_bug.cgi?id=1216882 - related bug (see comment 9) ***/
    // user_pref("security.nocertdb", true); // (hidden pref)
@@ -1522,6 +1523,7 @@ user_pref("privacy.sanitize.timeSpan", 0);
  ** 1344170 - isolate blob: URI (FF55+)
  ** 1300671 - isolate data://, about: URLs (FF55+)
 ***/
+user_pref("ghacks_user.js.parrot", "4000 syntax error: the parrot's pegged out");
 /* 4001: enable First Party Isolation (FF51+)
  * [WARNING] May break cross-domain logins and site functionality until perfected
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1260931 ***/
@@ -1571,11 +1573,12 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
  ** 1382533 - enable fingerprinting resistance for Presentation API (see 2513) (FF57+)
       This blocks exposure of local IP Addresses via mDNS (Multicast DNS)
 ***/
+user_pref("ghacks_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting (FF41+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=418986 ***/
 user_pref("privacy.resistFingerprinting", true); // (hidden pref) (not hidden FF55+)
 /* 4502: set new window sizes to round to hundreds (FF55+) [SETUP]
- * [NOTE] Width will round to multiples of 200s and height to 100s, to fit your screen.
+ * [NOTE] Width will round down to multiples of 200s and height to 100s, to fit your screen.
  * The override values are a starting point to round from if you want some control
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1330882
  * [2] https://hardware.metrics.mozilla.com/ ***/
@@ -1588,6 +1591,7 @@ user_pref("privacy.window.maxInnerHeight", 900); // (hidden pref)
      Make sure they are RESET in about:config as per your Firefox version
    * IF you DO NOT use RFP or are on ESR... then turn on each ESR section below
 ***/
+user_pref("ghacks_user.js.parrot", "4600 syntax error: the parrot's crossed the Jordan");
 /* [NOTE] ESR52.x and non-RFP users replace the * with a slash on this line to enable these
 // FF55+
 // 4601: spoof (or limit?) number of CPU cores (FF48+)
@@ -1614,6 +1618,7 @@ user_pref("privacy.window.maxInnerHeight", 900); // (hidden pref)
        which is already plugging leaks (see 2 above) the prefs below do not address
      * Values below are for example only based on the current ESR/TBB at the time of writing
 ***/
+user_pref("ghacks_user.js.parrot", "4700 syntax error: the parrot's taken 'is last bow");
 /* 4701: navigator.userAgent leaks in JS
  * [NOTE] Setting this will break any UA spoofing extension whitelisting ***/
    // user_pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0"); // (hidden pref)
@@ -1669,7 +1674,7 @@ user_pref("layout.spellcheckDefault", 1);
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=620472
  * [2] https://developer.mozilla.org/docs/Online_and_offline_events ***/
 user_pref("network.manage-offline-status", false);
-/* 5015: disable animations
+/* 5015: disable animations (FF55+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1352069 ***/
    // user_pref("toolkit.cosmeticAnimations.enabled", false);
 /* 5017: set submenu delay in milliseconds. 0=instant while a small number allows
