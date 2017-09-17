@@ -20,6 +20,10 @@
      * Auto-installing updates for Firefox and extensions are disabled (section 0302's)
      * Some user data is erased on close (section 2800), namely history (browsing, form, download)
      * Cookies (and thus logins) are denied by default (2701). Use site exceptions or an extension
+     * EACH RELEASE check:
+         - 4600s: reset prefs made redundant due to privacy.resistFingerprinting (RPF)
+                  or enable them as an alternative to RFP or for ESR users
+         - 9999s: reset deprecated prefs in about:config or enable relevant section(s) for ESR
      * Site breakage WILL happen
          - There are often trade-offs and conflicts between Security vs Privacy vs Anti-Fingerprinting
            and these need to be balanced against Functionality & Convenience & Breakage
@@ -36,7 +40,7 @@
  * Yes, this next pref setting is redundant, but we like it!
  * [1] https://en.wikipedia.org/wiki/Dead_parrot
  * [2] https://en.wikipedia.org/wiki/Warrant_canary ***/
-user_pref("ghacks_user.js.parrot", "Oh yes, the Norwegian Blue... what's wrong with it?");
+user_pref("_user.js.parrot", "START: Oh yes, the Norwegian Blue... what's wrong with it?");
 
 /* 0001: start Firefox in PB (Private Browsing) mode
  * [SETTING] Options>Privacy>History>Custom Settings>Always use private browsing mode
@@ -50,7 +54,7 @@ user_pref("ghacks_user.js.parrot", "Oh yes, the Norwegian Blue... what's wrong w
    // user_pref("browser.privatebrowsing.autostart", true);
 
 /*** 0100: STARTUP ***/
-user_pref("ghacks_user.js.parrot", "0100 syntax error: the parrot's dead!");
+user_pref("_user.js.parrot", "0100 syntax error: the parrot's dead!");
 /* 0101: disable "slow startup" options
  * warnings, disk history, welcomes, intros, EULA, default browser check ***/
 user_pref("browser.slowStartup.notificationDisabled", true);
@@ -69,7 +73,7 @@ user_pref("browser.shell.checkDefaultBrowser", false);
    // user_pref("browser.startup.page", 0);
 
 /*** 0200: GEOLOCATION ***/
-user_pref("ghacks_user.js.parrot", "0200 syntax error: the parrot's definitely deceased!");
+user_pref("_user.js.parrot", "0200 syntax error: the parrot's definitely deceased!");
 /* 0201: disable location-aware browsing
    [NOTE] Use Mozilla's API key if required ***/
 user_pref("geo.enabled", false);
@@ -102,7 +106,7 @@ user_pref("javascript.use_us_english_locale", true); // (hidden pref)
      There are many legitimate reasons to turn off auto-INSTALLS, including hijacked or
      monetized extensions, time constraints, legacy issues, and fear of breakage/bugs.
      It is still important to do updates for security reasons, please do so manually. ***/
-user_pref("ghacks_user.js.parrot", "0300 syntax error: the parrot's not pinin' for the fjords!");
+user_pref("_user.js.parrot", "0300 syntax error: the parrot's not pinin' for the fjords!");
 /* 0301a: disable auto-update checks for Firefox
  * [NOTE] Firefox currently checks every 12 hrs and allows 8 day notification dismissal
  * [SETTING] Options>Advanced>Update>Never check for updates ***/
@@ -136,9 +140,9 @@ user_pref("browser.search.update", false);
 user_pref("dom.ipc.plugins.flash.subprocess.crashreporter.enabled", false);
 /* 0310: disable sending the URL of the website where a plugin crashed ***/
 user_pref("dom.ipc.plugins.reportCrashURL", false);
-/* 0320: disable extension discovery
- * featured extensions for displaying in Get Add-ons panel ***/
-user_pref("extensions.webservice.discoverURL", "http://127.0.0.1");
+/* 0320: disable about:addons' Get Add-ons panel (uses Google-Analytics) ***/
+user_pref("extensions.getAddons.showPane", false); // hidden pref
+user_pref("extensions.webservice.discoverURL", "");
 /* 0330: disable telemetry
  * the pref (.unified) affects the behaviour of the pref (.enabled)
  * IF unified=false then .enabled controls the telemetry module
@@ -199,7 +203,7 @@ user_pref("social.enabled", false); // (hidden pref)
      These do rely on 3rd parties (Google for SB and Disconnect for TP), but many steps, which are
      continually being improved, have been taken to preserve privacy. Disable at your own risk.
 ***/
-user_pref("ghacks_user.js.parrot", "0400 syntax error: the parrot's passed on!");
+user_pref("_user.js.parrot", "0400 syntax error: the parrot's passed on!");
 /** BLOCKLISTS ***/
 /* 0401: enable Firefox blocklist, but sanitize blocklist url
  * [NOTE] It includes updates for "revoked certificates"
@@ -304,11 +308,12 @@ user_pref("privacy.trackingprotection.ui.enabled", true);
      * Windows: "...\Program Files\Mozilla\browser\features" (or "Program Files (X86)\etc" for 32bit)
      * Mac: "...\Applications\Firefox\Contents\Resources\browser\features\"
             [NOTE] On Mac you can right-click on the application and select "Show Package Contents"
+     * Linux: "/usr/lib/firefox/browser/features" (or similar)
 
      [1] https://firefox-source-docs.mozilla.org/toolkit/mozapps/extensions/addon-manager/SystemAddons.html
      [2] https://dxr.mozilla.org/mozilla-central/source/browser/extensions
 ***/
-user_pref("ghacks_user.js.parrot", "0500 syntax error: the parrot's cashed in 'is chips!");
+user_pref("_user.js.parrot", "0500 syntax error: the parrot's cashed in 'is chips!");
 /* 0501: disable experiments
  * [1] https://wiki.mozilla.org/Telemetry/Experiments ***/
 user_pref("experiments.enabled", false);
@@ -375,7 +380,7 @@ user_pref("extensions.formautofill.heuristics.enabled", false);
 user_pref("extensions.webcompat-reporter.enabled", false);
 
 /*** 0600: BLOCK IMPLICIT OUTBOUND [not explicitly asked for - e.g. clicked on] ***/
-user_pref("ghacks_user.js.parrot", "0600 syntax error: the parrot's no more!");
+user_pref("_user.js.parrot", "0600 syntax error: the parrot's no more!");
 /* 0601: disable link prefetching
  * [1] https://developer.mozilla.org/docs/Web/HTTP/Link_prefetching_FAQ ***/
 user_pref("network.prefetch-next", false);
@@ -416,7 +421,7 @@ user_pref("network.predictor.enable-prefetch", false);
      [NOTE] The urlbar is also commonly referred to as the location bar and address bar
      #Required reading [#] https://xkcd.com/538/
  ***/
-user_pref("ghacks_user.js.parrot", "0800 syntax error: the parrot's ceased to be!");
+user_pref("_user.js.parrot", "0800 syntax error: the parrot's ceased to be!");
 /* 0801: disable location bar using search - PRIVACY
  * don't leak typos to a search engine, give an error message instead ***/
    // user_pref("keyword.enabled", false);
@@ -501,7 +506,7 @@ user_pref("browser.taskbar.lists.tasks.enabled", false);
 user_pref("browser.taskbar.previews.enable", false);
 
 /*** 0900: PASSWORDS ***/
-user_pref("ghacks_user.js.parrot", "0900 syntax error: the parrot's expired!");
+user_pref("_user.js.parrot", "0900 syntax error: the parrot's expired!");
 /* 0901: disable saving passwords
  * [SETTING] Options>Security>Logins>Remember logins for sites
  * [NOTE] This does not clear any passwords already saved ***/
@@ -545,7 +550,7 @@ user_pref("security.insecure_field_warning.contextual.enabled", true);
 user_pref("network.auth.subresource-img-cross-origin-http-auth-allow", false);
 
 /*** 1000: CACHE [SETUP] ***/
-user_pref("ghacks_user.js.parrot", "1000 syntax error: the parrot's gone to meet 'is maker!");
+user_pref("_user.js.parrot", "1000 syntax error: the parrot's gone to meet 'is maker!");
 /** CACHE ***/
 /* 1001: disable disk cache ***/
 user_pref("browser.cache.disk.enable", false);
@@ -619,7 +624,7 @@ user_pref("alerts.showFavicons", false);
      - any legacy extensions are missing the 'multiprocessCompatible' flag, then they *might* be disabled
      [1] https://blog.mozilla.org/addons/2017/02/16/the-road-to-firefox-57-compatibility-milestones/
 ***/
-user_pref("ghacks_user.js.parrot", "1100 syntax error: the parrot's bought the farm!");
+user_pref("_user.js.parrot", "1100 syntax error: the parrot's bought the farm!");
 /* 1101: start the browser in e10s mode (FF48+)
  * about:support>Application Basics>Multiprocess Windows ***/
 user_pref("browser.tabs.remote.autostart", true);
@@ -663,17 +668,15 @@ user_pref("browser.tabs.remote.allowLinkedWebInFileUriProcess", false);
    vector, see [1] (It's quite technical but the first part is easy to understand
    and you can stop reading when you reach the second section titled "Enter Bro")
 
-   Option 1: Use our settings to tighten up encryption options. It *is* a fingerprinting attack
-             vector, and we certainly do want to reduce any attack surface, but this is not how
-             you *DEFEAT* fingerprinting - to do that you need large numbers to buy into the same
-             enforced browser-wide settings (such as TBB), and/or you use OpSec.
-   Option 2: Use Firefox defaults for the 1260's items (item 1260 default for SHA-1, is local only
-             anyway). There is nothing *weak* about Firefox's defaults, but Mozilla (and other
-             browsers) will always lag for fear of breakage and upset end-users
+   Option 1: Use Firefox defaults for the 1260's items (item 1260 default for SHA-1, is local
+             only anyway). There is nothing *weak* about Firefox's defaults, but Mozilla (and
+             other browsers) will always lag for fear of breakage and upset end-users
+   Option 2: Disable the ciphers in 1261, 1262 and 1263. These shouldn't break anything.
+             Optionally, disable the ciphers in 1264.
 
    [1] https://www.securityartwork.es/2017/02/02/tls-client-fingerprinting-with-bro/
  ***/
-user_pref("ghacks_user.js.parrot", "1200 syntax error: the parrot's a stiff!");
+user_pref("_user.js.parrot", "1200 syntax error: the parrot's a stiff!");
 /** SSL (Secure Sockets Layer) / TLS (Transport Layer Security) ***/
 /* 1201: disable old SSL/TLS - vulnerable to a MiTM attack
  * [WARNING] Tested Feb 2017 - still breaks too many sites
@@ -779,15 +782,15 @@ user_pref("security.pki.sha1_enforcement_level", 1);
  * [1] https://en.wikipedia.org/wiki/3des#Security
  * [2] http://en.citizendium.org/wiki/Meet-in-the-middle_attack
  * [3] https://www-archive.mozilla.org/projects/security/pki/nss/ssl/fips-ssl-ciphersuites.html ***/
-user_pref("security.ssl3.rsa_des_ede3_sha", false);
+   // user_pref("security.ssl3.rsa_des_ede3_sha", false);
 /* 1262: disable 128 bits ***/
-user_pref("security.ssl3.ecdhe_ecdsa_aes_128_sha", false);
-user_pref("security.ssl3.ecdhe_rsa_aes_128_sha", false);
+   // user_pref("security.ssl3.ecdhe_ecdsa_aes_128_sha", false);
+   // user_pref("security.ssl3.ecdhe_rsa_aes_128_sha", false);
 /* 1263: disable DHE (Diffie-Hellman Key Exchange)
  * [WARNING] May break obscure sites, but not major sites, which should support ECDH over DHE
  * [1] https://www.eff.org/deeplinks/2015/10/how-to-protect-yourself-from-nsa-attacks-1024-bit-DH ***/
-user_pref("security.ssl3.dhe_rsa_aes_128_sha", false);
-user_pref("security.ssl3.dhe_rsa_aes_256_sha", false);
+   // user_pref("security.ssl3.dhe_rsa_aes_128_sha", false);
+   // user_pref("security.ssl3.dhe_rsa_aes_256_sha", false);
 /* 1264: disable the remaining non-modern cipher suites as of FF52
  * [NOTE] Commented out because it still breaks too many sites ***/
    // user_pref("security.ssl3.rsa_aes_128_sha", false);
@@ -807,7 +810,7 @@ user_pref("browser.ssl_override_behavior", 1);
 user_pref("browser.xul.error_pages.expert_bad_cert", true);
 
 /*** 1400: FONTS ***/
-user_pref("ghacks_user.js.parrot", "1400 syntax error: the parrot's bereft of life!");
+user_pref("_user.js.parrot", "1400 syntax error: the parrot's bereft of life!");
 /* 1401: disable websites choosing fonts (0=block, 1=allow)
  * If you disallow fonts, this drastically limits/reduces font
  * enumeration (by JS) which is a high entropy fingerprinting vector.
@@ -868,7 +871,7 @@ user_pref("gfx.font_rendering.graphite.enabled", false);
 
      #Required reading [#] https://feeding.cloud.geek.nz/posts/tweaking-referrer-for-privacy-in-firefox/
  ***/
-user_pref("ghacks_user.js.parrot", "1600 syntax error: the parrot rests in peace!");
+user_pref("_user.js.parrot", "1600 syntax error: the parrot rests in peace!");
 /* 1601: ALL: control when images/links send a referer
  * 0=never, 1=send only when links are clicked, 2=for links and images (default)
  * [NOTE] Recommended left at default. Focus on XSS and granular cross origin referer control ***/
@@ -914,7 +917,7 @@ user_pref("privacy.donottrackheader.enabled", false);
      [2] https://wiki.mozilla.org/Security/Contextual_Identity_Project/Containers
      [3] https://github.com/mozilla/testpilot-containers
 ***/
-user_pref("ghacks_user.js.parrot", "1700 syntax error: the parrot's bit the dust!");
+user_pref("_user.js.parrot", "1700 syntax error: the parrot's bit the dust!");
 /* 1701: enable [SETTING] Options>Privacy>Container Tabs (FF50+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1279029 ***/
 user_pref("privacy.userContext.ui.enabled", true);
@@ -931,7 +934,7 @@ user_pref("privacy.usercontext.about_newtab_segregation.enabled", true);
 user_pref("privacy.userContext.longPressBehavior", 2);
 
 /*** 1800: PLUGINS ***/
-user_pref("ghacks_user.js.parrot", "1800 syntax error: the parrot's pushing up daisies!");
+user_pref("_user.js.parrot", "1800 syntax error: the parrot's pushing up daisies!");
 /* 1801: set default plugin state (i.e. new plugins on discovery) to never activate
  * 0=disabled, 1=ask to activate, 2=active - you can override individual plugins ***/
 user_pref("plugin.default.state", 0);
@@ -972,7 +975,7 @@ user_pref("media.gmp-gmpopenh264.enabled", false); // (hidden pref)
 user_pref("media.gmp-gmpopenh264.autoupdate", false);
 
 /*** 2000: MEDIA / CAMERA / MIC ***/
-user_pref("ghacks_user.js.parrot", "2000 syntax error: the parrot's snuffed it!");
+user_pref("_user.js.parrot", "2000 syntax error: the parrot's snuffed it!");
 /* 2001: disable WebRTC (Web Real-Time Communication)
  * [1] https://www.privacytools.io/#webrtc ***/
 user_pref("media.peerconnection.enabled", false);
@@ -1041,7 +1044,7 @@ user_pref("media.block-autoplay-until-in-foreground", true);
 
 /*** 2200: UI MEDDLING
    see http://kb.mozillazine.org/Prevent_websites_from_disabling_new_window_features ***/
-user_pref("ghacks_user.js.parrot", "2200 syntax error: the parrot's 'istory!");
+user_pref("_user.js.parrot", "2200 syntax error: the parrot's 'istory!");
 /* 2201: disable website control over browser right-click context menu
  * [NOTE] Shift-Right-Click will always bring up the browser right-click context menu ***/
 user_pref("dom.event.contextmenu.enabled", false);
@@ -1090,7 +1093,7 @@ user_pref("dom.disable_beforeunload", true);
      [5]   ChromeWorker: https://developer.mozilla.org/docs/Web/API/ChromeWorker
      [6]  Notifications: https://support.mozilla.org/questions/1165867#answer-981820
  ***/
-user_pref("ghacks_user.js.parrot", "2300 syntax error: the parrot's off the twig!");
+user_pref("_user.js.parrot", "2300 syntax error: the parrot's off the twig!");
 /* 2301: disable workers
  * [NOTE] CVE-2016-5259, CVE-2016-2812, CVE-2016-1949, CVE-2016-5287 (fixed) ***/
 user_pref("dom.workers.enabled", false);
@@ -1118,7 +1121,7 @@ user_pref("dom.push.serverURL", "");
 user_pref("dom.push.userAgentID", "");
 
 /*** 2400: DOM (DOCUMENT OBJECT MODEL) & JAVASCRIPT ***/
-user_pref("ghacks_user.js.parrot", "2400 syntax error: the parrot's kicked the bucket!");
+user_pref("_user.js.parrot", "2400 syntax error: the parrot's kicked the bucket!");
 /* 2402: disable website access to clipboard events/content
  * [WARNING] This will break some sites functionality such as pasting into facebook, wordpress
  * this applies to onCut, onCopy, onPaste events - i.e. you have to interact with
@@ -1186,10 +1189,11 @@ user_pref("browser.offline-apps.notify", true);
    // user_pref("offline-apps.quota.warn", 51200);
 
 /*** 2500: HARDWARE FINGERPRINTING ***/
-user_pref("ghacks_user.js.parrot", "2500 syntax error: the parrot's shuffled off 'is mortal coil!");
+user_pref("_user.js.parrot", "2500 syntax error: the parrot's shuffled off 'is mortal coil!");
 /* 2501: disable gamepad API - USB device ID enumeration
+ * [WARNING] [SETUP] Optional protection depending on your connected devices
  * [1] https://trac.torproject.org/projects/tor/ticket/13023 ***/
-user_pref("dom.gamepad.enabled", false);
+   // user_pref("dom.gamepad.enabled", false);
 /* 2503: disable giving away network info (FF31+)
  * e.g. bluetooth, cellular, ethernet, wifi, wimax, other, mixed, unknown, none
  * [1] https://developer.mozilla.org/docs/Web/API/Network_Information_API
@@ -1197,8 +1201,9 @@ user_pref("dom.gamepad.enabled", false);
  * [3] https://bugzilla.mozilla.org/show_bug.cgi?id=960426 ***/
 user_pref("dom.netinfo.enabled", false);
 /* 2504: disable virtual reality devices
+ * [WARNING] [SETUP] Optional protection depending on your connected devices
  * [1] https://developer.mozilla.org/docs/Web/API/WebVR_API ***/
-user_pref("dom.vr.enabled", false);
+   // user_pref("dom.vr.enabled", false);
 /* 2505: disable media device enumeration (FF29+)
  * [NOTE] media.peerconnection.enabled should also be set to false (see 2001)
  * [1] https://wiki.mozilla.org/Media/getUserMedia
@@ -1215,11 +1220,11 @@ user_pref("media.video_stats.enabled", false);
  * [1] https://wiki.mozilla.org/Platform/GFX/HardwareAcceleration ***/
 user_pref("gfx.direct2d.disabled", true); // [WINDOWS]
 user_pref("layers.acceleration.disabled", true);
-/* 2509: disable touch events [SETUP]
+/* 2509: disable touch events
  * fingerprinting attack vector - leaks screen res & actual screen coordinates
  * [1] https://developer.mozilla.org/docs/Web/API/Touch_events
  * [2] https://trac.torproject.org/projects/tor/ticket/10286 ***/
-user_pref("dom.w3c_touch_events.enabled", 0);
+   // user_pref("dom.w3c_touch_events.enabled", 0);
 /* 2510: disable Web Audio API (FF51+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1288359 ***/
 user_pref("dom.webaudio.enabled", false);
@@ -1228,20 +1233,22 @@ user_pref("dom.webaudio.enabled", false);
  * [2] https://developer.mozilla.org/docs/Web/API/MediaDevices/ondevicechange ***/
 user_pref("media.ondevicechange.enabled", false);
 /* 2512: disable device sensor API
+ * [WARNING] [SETUP] Optional protection depending on your device
  * [1] https://trac.torproject.org/projects/tor/ticket/15758
  * [2] https://blog.lukaszolejnik.com/stealing-sensitive-browser-data-with-the-w3c-ambient-light-sensor-api/
  * [3] https://bugzilla.mozilla.org/show_bug.cgi?id=1357733
  * [4] https://bugzilla.mozilla.org/show_bug.cgi?id=1292751 ***/
-user_pref("device.sensors.enabled", false);
+   // user_pref("device.sensors.enabled", false);
 /* 2513: disable Presentation API
+ * [WARNING] [SETUP] Optional protection depending on your connected devices
  * [1] https://wiki.mozilla.org/WebAPI/PresentationAPI
  * [2] https://www.w3.org/TR/presentation-api/ ***/
-user_pref("dom.presentation.enabled", false);
-user_pref("dom.presentation.controller.enabled", false);
-user_pref("dom.presentation.discoverable", false);
-user_pref("dom.presentation.discovery.enabled", false);
-user_pref("dom.presentation.receiver.enabled", false);
-user_pref("dom.presentation.session_transport.data_channel.enable", false);
+   // user_pref("dom.presentation.enabled", false);
+   // user_pref("dom.presentation.controller.enabled", false);
+   // user_pref("dom.presentation.discoverable", false);
+   // user_pref("dom.presentation.discovery.enabled", false);
+   // user_pref("dom.presentation.receiver.enabled", false);
+   // user_pref("dom.presentation.session_transport.data_channel.enable", false);
 /* 2515: disable site specific zoom
  * Zoom levels affect screen res and are highly fingerprintable. This does not stop you using
  * zoom, it will just not use/remember any site specific settings. Zoom levels on new tabs
@@ -1249,7 +1256,7 @@ user_pref("dom.presentation.session_transport.data_channel.enable", false);
 user_pref("browser.zoom.siteSpecific", false);
 
 /*** 2600: MISC - LEAKS / FINGERPRINTING / PRIVACY / SECURITY ***/
-user_pref("ghacks_user.js.parrot", "2600 syntax error: the parrot's run down the curtain!");
+user_pref("_user.js.parrot", "2600 syntax error: the parrot's run down the curtain!");
 /* 2601: disable sending additional analytics to web servers
  * [1] https://developer.mozilla.org/docs/Web/API/Navigator/sendBeacon ***/
 user_pref("beacon.enabled", false);
@@ -1419,7 +1426,7 @@ user_pref("security.csp.enable", true);
 user_pref("security.csp.experimentalEnabled", true);
 
 /*** 2700: COOKIES & DOM STORAGE ***/
-user_pref("ghacks_user.js.parrot", "2700 syntax error: the parrot's joined the bleedin' choir invisible!");
+user_pref("_user.js.parrot", "2700 syntax error: the parrot's joined the bleedin' choir invisible!");
 /* 2701: disable cookies on all sites [SETUP]
  * You can set exceptions under site permissions or use an extension
  * 0=allow all 1=allow same host 2=disallow all 3=allow 3rd party if it already set a cookie
@@ -1466,7 +1473,7 @@ user_pref("network.cookie.leave-secure-alone", true);
      [NOTE] In both 2803 + 2804, the 'download' and 'history' prefs are combined in the
      Firefox interface as "Browsing & Download History" and their values will be synced
  ***/
-user_pref("ghacks_user.js.parrot", "2800 syntax error: the parrot's bleedin' demised!");
+user_pref("_user.js.parrot", "2800 syntax error: the parrot's bleedin' demised!");
 /* 2802: enable Firefox to clear history items on shutdown
  * [SETTING] Options>Privacy>Clear history when Firefox closes ***/
 user_pref("privacy.sanitize.sanitizeOnShutdown", true);
@@ -1523,7 +1530,7 @@ user_pref("privacy.sanitize.timeSpan", 0);
  ** 1344170 - isolate blob: URI (FF55+)
  ** 1300671 - isolate data://, about: URLs (FF55+)
 ***/
-user_pref("ghacks_user.js.parrot", "4000 syntax error: the parrot's pegged out");
+user_pref("_user.js.parrot", "4000 syntax error: the parrot's pegged out");
 /* 4001: enable First Party Isolation (FF51+)
  * [WARNING] May break cross-domain logins and site functionality until perfected
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1260931 ***/
@@ -1533,7 +1540,7 @@ user_pref("privacy.firstparty.isolate", true);
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1319773#c22 ***/
 user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
 
-/*** 4500: privacy.resistFingerprinting
+/*** 4500: privacy.resistFingerprinting (RFP)
    This master switch will be used for a wide range of items, many of which will
    **override** existing prefs from FF55+, often providing a **better** solution
 
@@ -1573,7 +1580,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
  ** 1382533 - enable fingerprinting resistance for Presentation API (see 2513) (FF57+)
       This blocks exposure of local IP Addresses via mDNS (Multicast DNS)
 ***/
-user_pref("ghacks_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
+user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting (FF41+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=418986 ***/
 user_pref("privacy.resistFingerprinting", true); // (hidden pref) (not hidden FF55+)
@@ -1591,7 +1598,7 @@ user_pref("privacy.window.maxInnerHeight", 900); // (hidden pref)
      Make sure they are RESET in about:config as per your Firefox version
    * IF you DO NOT use RFP or are on ESR... then turn on each ESR section below
 ***/
-user_pref("ghacks_user.js.parrot", "4600 syntax error: the parrot's crossed the Jordan");
+user_pref("_user.js.parrot", "4600 syntax error: the parrot's crossed the Jordan");
 /* [NOTE] ESR52.x and non-RFP users replace the * with a slash on this line to enable these
 // FF55+
 // 4601: spoof (or limit?) number of CPU cores (FF48+)
@@ -1618,7 +1625,7 @@ user_pref("ghacks_user.js.parrot", "4600 syntax error: the parrot's crossed the 
        which is already plugging leaks (see 2 above) the prefs below do not address
      * Values below are for example only based on the current ESR/TBB at the time of writing
 ***/
-user_pref("ghacks_user.js.parrot", "4700 syntax error: the parrot's taken 'is last bow");
+user_pref("_user.js.parrot", "4700 syntax error: the parrot's taken 'is last bow");
 /* 4701: navigator.userAgent leaks in JS
  * [NOTE] Setting this will break any UA spoofing extension whitelisting ***/
    // user_pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0"); // (hidden pref)
@@ -1639,7 +1646,7 @@ user_pref("ghacks_user.js.parrot", "4700 syntax error: the parrot's taken 'is la
 /*** 5000: PERSONAL SETTINGS [SETUP]
      Settings that are handy to migrate and/or are not in the Options interface. Users
      can put their own non-security/privacy/fingerprinting/tracking stuff here ***/
-user_pref("ghacks_user.js.parrot", "5000 syntax error: this is an ex-parrot!");
+user_pref("_user.js.parrot", "5000 syntax error: this is an ex-parrot!");
 /* 5001: disable annoying warnings ***/
 user_pref("general.warnOnAboutConfig", false);
 user_pref("browser.tabs.warnOnClose", false);
@@ -1724,9 +1731,6 @@ user_pref("browser.urlbar.decodeURLsOnCopy", true);
 /* 5028: disable middle-click enabling auto-scrolling [WINDOWS] [MAC] ***/
    // user_pref("general.autoScroll", false);
 
-/* END: internal custom pref to test for syntax errors ***/
-user_pref("ghacks_user.js.parrot", "No no he's not dead, he's, he's restin'! Remarkable bird, the Norwegian Blue");
-
 /*** 9999: DEPRECATED / REMOVED / LEGACY / RENAMED
      Documentation denoted as [-]. Numbers may be re-used. See [1] for a link-clickable,
      viewer-friendly version of the deprecated bugzilla tickets. The original state of each pref
@@ -1735,6 +1739,7 @@ user_pref("ghacks_user.js.parrot", "No no he's not dead, he's, he's restin'! Rem
      For FF53 on, we have bundled releases to cater for ESR. Change /* to // on the first line
      [1] https://github.com/ghacksuserjs/ghacks-user.js/issues/123
 ***/
+user_pref("_user.js.parrot", "9999 syntax error: the parrot's deprecated!");
 /* FF42 and older
 // 2607: (25+) disable page thumbnails - replaced by browser.pagethumbnails.capturing_disabled
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=897811
@@ -2015,6 +2020,9 @@ user_pref("browser.tabs.animate", false);
 user_pref("browser.fullscreen.animate", false);
 // * * * /
 // ***/
+
+/* END: internal custom pref to test for syntax errors ***/
+user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 
 /*** 0000: MY SETTINGS ***/
 user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?prf=de02bd334b3292d8aa12044cff47e206");
