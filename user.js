@@ -820,22 +820,21 @@ user_pref("_user.js.parrot", "1400 syntax error: the parrot's bereft of life!");
  * [SETTING] Options>Content>Font & Colors>Advanced>Allow pages to choose...
  * [SETUP] Disabling fonts can uglify the web a fair bit. ***/
 user_pref("browser.display.use_document_fonts", 0);
-/* 1402: enable icon fonts (glyphs) (FF41+)
+/* 1402: set more legible default fonts [SETUP]
+ * [SETTING] Options>Fonts & Colors>Advanced>Serif|Sans-serif|Monospace
+ * [NOTE] Example below for Windows/Western only ***/
+   // user_pref("font.name.serif.x-unicode", "Georgia");
+   // user_pref("font.name.serif.x-western", "Georgia"); // default Times New Roman
+   // user_pref("font.name.sans-serif.x-unicode", "Arial");
+   // user_pref("font.name.sans-serif.x-western", "Arial"); // default Arial
+   // user_pref("font.name.monospace.x-unicode", "Lucida Console");
+   // user_pref("font.name.monospace.x-western", "Lucida Console"); // default Courier New
+/* 1403: enable icon fonts (glyphs) (FF41+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=789788 ***/
 user_pref("gfx.downloadable_fonts.enabled", true);
-/* 1403: disable rendering of SVG OpenType fonts
+/* 1404: disable rendering of SVG OpenType fonts
  * [1] https://wiki.mozilla.org/SVGOpenTypeFonts - iSECPartnersReport recommends to disable this ***/
 user_pref("gfx.font_rendering.opentype_svg.enabled", false);
-/* 1404: set more legible default fonts
- * [SETTING] Options>Fonts & Colors>Advanced>Serif|Sans-serif|Monospace
- * [SETUP] These are optional, comment out if you do not require them
- * [NOTE] Been using this for 18 months, it really grows on you ***/
-user_pref("font.name.serif.x-unicode", "Georgia");
-user_pref("font.name.serif.x-western", "Georgia"); // default Times New Roman
-user_pref("font.name.sans-serif.x-unicode", "Arial");
-user_pref("font.name.sans-serif.x-western", "Arial"); // default Arial
-user_pref("font.name.monospace.x-unicode", "Lucida Console");
-user_pref("font.name.monospace.x-western", "Lucida Console"); // default Courier New
 /* 1405: disable WOFF2 (Web Open Font Format) ***/
 user_pref("gfx.downloadable_fonts.woff2.enabled", false);
 /* 1406: disable CSS Font Loading API
@@ -1023,12 +1022,6 @@ user_pref("media.getusermedia.browser.enabled", false);
 user_pref("media.getusermedia.audiocapture.enabled", false);
 /* 2023: disable camera stuff ***/
 user_pref("camera.control.face_detection.enabled", false);
-/* 2024: enable/disable MSE (Media Source Extensions)
- * [1] https://www.ghacks.net/2014/05/10/enable-media-source-extensions-firefox/ ***/
-user_pref("media.mediasource.enabled", true);
-user_pref("media.mediasource.mp4.enabled", true);
-user_pref("media.mediasource.webm.audio.enabled", true);
-user_pref("media.mediasource.webm.enabled", true);
 /* 2026: disable canvas capture stream
  * [1] https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement/captureStream ***/
 user_pref("canvas.capturestream.enabled", false);
@@ -1596,10 +1589,10 @@ user_pref("privacy.resistFingerprinting", true); // (hidden pref) (not hidden FF
  * [2] https://hardware.metrics.mozilla.com/ ***/
 user_pref("privacy.window.maxInnerWidth", 1600); // (hidden pref)
 user_pref("privacy.window.maxInnerHeight", 900); // (hidden pref)
-
 /* 4503: disable mozAddonManager Web API (FF57+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1384330 ***/
    // user_pref("privacy.resistFingerprinting.block_mozAddonManager", true); // (hidden pref)
+
 /*** 4600: RFP (4500) ALTERNATIVES [SETUP]
    * IF you DO use RFP (see 4500) then you DO NOT need these redundant prefs. In fact,
      some even cause RFP to not behave as you would expect and alter your fingerprint.
@@ -1717,9 +1710,15 @@ user_pref("browser.tabs.loadInBackground", true);
 user_pref("browser.tabs.loadDivertedInBackground", false);
 /* 5022: hide recently bookmarked items (you still have the original bookmarks) (FF49+) ***/
 user_pref("browser.bookmarks.showRecentlyBookmarked", false);
-/* 5024: enable "Find As You Type"
+/* 5023: enable "Find As You Type"
  * [1] http://kb.mozillazine.org/Accessibility.typeaheadfind ***/
    // user_pref("accessibility.typeaheadfind", true);
+/* 5024: enable/disable MSE (Media Source Extensions)
+ * [1] https://www.ghacks.net/2014/05/10/enable-media-source-extensions-firefox/ ***/
+   // user_pref("media.mediasource.enabled", false);
+   // user_pref("media.mediasource.mp4.enabled", false);
+   // user_pref("media.mediasource.webm.audio.enabled", false);
+   // user_pref("media.mediasource.webm.enabled", false);
 /* 5025: enable/disable various media types ***/
    // user_pref("media.mp4.enabled", false);
    // user_pref("media.flac.enabled", false); // (FF51+)
