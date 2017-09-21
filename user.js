@@ -102,7 +102,7 @@ user_pref("intl.accept_languages", "en-US, en");
 user_pref("javascript.use_us_english_locale", true); // (hidden pref)
 /* 0209: use APP locale over OS locale in regional preferences (FF56+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1379420 [also 1364789] ***/
-user_pref("intl.regional_prefs.use_os_locales", true);
+user_pref("intl.regional_prefs.use_os_locales", false);
 
 /*** 0300: QUIET FOX
      We choose to not disable auto-CHECKs (0301's) but to disable auto-INSTALLs (0302's).
@@ -1489,8 +1489,9 @@ user_pref("privacy.clearOnShutdown.history", true); // Browsing & Download Histo
 user_pref("privacy.clearOnShutdown.offlineApps", true); // Offline Website Data
 user_pref("privacy.clearOnShutdown.sessions", true); // Active Logins
 user_pref("privacy.clearOnShutdown.siteSettings", true); // Site Preferences
-/* 2804: set what history items to clear with Ctrl-Shift-Del (to match above)
+/* 2804: reset default history items to clear with Ctrl-Shift-Del (to match above)
  * This dialog can also be accessed from the menu History>Clear Recent History
+ * Firefox remembers your last choices. This will reset them when you start Firefox.
  * [NOTE] Regardless of what you set privacy.cpd.downloads to, as soon as the dialog
  * for "Clear Recent History" is opened, it is synced to the same as 'history' ***/
 user_pref("privacy.cpd.cache", true);
