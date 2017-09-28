@@ -356,11 +356,10 @@ user_pref("extensions.shield-recipe-client.api_url", "");
  * [1] https://wiki.mozilla.org/Firefox/Activity_Stream
  * [2] https://www.ghacks.net/2016/02/15/firefox-mockups-show-activity-stream-new-tab-page-and-share-updates/ ***/
 user_pref("browser.newtabpage.activity-stream.enabled", false);
-/* 0515: disable Screenshots (FF54+)
+/* 0515: disable Screenshots (FF55+)
  * [1] https://github.com/mozilla-services/screenshots
  * [2] https://www.ghacks.net/2017/05/28/firefox-screenshots-integrated-in-firefox-nightly/ ***/
-user_pref("extensions.screenshots.system-disabled", true); // (FF54+)
-user_pref("extensions.screenshots.disabled", true); // (FF55+)
+user_pref("extensions.screenshots.disabled", true);
 /* 0516: disable Onboarding (FF55+)
  * Onboarding is an interactive tour/setup for new installs/profiles and features. Every time
  * about:home or about:newtab is opened, the onboarding overlay is injected into that page
@@ -378,7 +377,6 @@ user_pref("browser.onboarding.enabled", false);
 user_pref("extensions.formautofill.addresses.enabled", false);
 user_pref("extensions.formautofill.available", "off"); // (FF56+)
 user_pref("extensions.formautofill.creditCards.enabled", false); // (FF56+)
-user_pref("extensions.formautofill.experimental", false);
 user_pref("extensions.formautofill.heuristics.enabled", false);
 /* 0518: disable Web Compatibility Reporter (FF56+)
  * Web Compatibility Reporter adds a "Report Site Issue" button to send data to Mozilla ***/
@@ -1423,6 +1421,11 @@ user_pref("security.csp.enable", true);
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=855326
  * [2] https://bugzilla.mozilla.org/show_bug.cgi?id=883975 ***/
 user_pref("security.csp.experimentalEnabled", true);
+/* 2675: block top level window data: URIs (FF56+)
+ * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1331351
+ * [2] https://www.wordfence.com/blog/2017/01/gmail-phishing-data-uri/
+ * [3] https://www.fxsitecompat.com/en-CA/docs/2017/data-url-navigations-on-top-level-window-will-be-blocked/ ***/
+user_pref("security.data_uri.block_toplevel_data_uri_navigations", true);
 
 /*** 2700: COOKIES & DOM STORAGE ***/
 user_pref("_user.js.parrot", "2700 syntax error: the parrot's joined the bleedin' choir invisible!");
@@ -1528,7 +1531,7 @@ user_pref("privacy.sanitize.timeSpan", 0);
  ** 1334693 - isolate SPDY/HTTP2 (FF55+)
  ** 1337893 - isolate DNS cache (FF55+)
  ** 1344170 - isolate blob: URI (FF55+)
- ** 1300671 - isolate data://, about: URLs (FF55+)
+ ** 1300671 - isolate data:, about: URLs (FF55+)
 ***/
 user_pref("_user.js.parrot", "4000 syntax error: the parrot's pegged out");
 /* 4001: enable First Party Isolation (FF51+)
@@ -2029,6 +2032,14 @@ user_pref("browser.tabs.animate", false);
 // 5016: disable fullscreeen animation - replaced by toolkit.cosmeticAnimations.enabled
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1352069
 user_pref("browser.fullscreen.animate", false);
+// * * * /
+// FF56
+// 0515: disable Screenshots (rollout pref only) (FF54+)
+   // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1386333
+   // user_pref("extensions.screenshots.system-disabled", true);
+// 0517: disable Form Autofill (FF55+) - replaced by extensions.formautofill.available
+   // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1385201
+user_pref("extensions.formautofill.experimental", false);
 // * * * /
 // ***/
 
