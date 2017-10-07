@@ -1,4 +1,4 @@
-This Repo provides my personal [user.js](https://github.com/Forsaked/Firefox_User.js) which is based on the [ghacks-user.js](https://github.com/ghacksuserjs/ghacks-user.js).
+This Repo provides my personal [user.js](https://github.com/Forsaked/user.js) which is based on the [ghacks-user.js](https://github.com/ghacksuserjs/ghacks-user.js).
 
 This file belongs in following path to be functional:
 
