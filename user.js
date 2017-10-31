@@ -1,8 +1,8 @@
 /******
 * name: ghacks user.js
-* date: 2 October 2017
-* version 56: You're So Pants
-*   "You're so pants, you probably think this song is about you. Don't you? Don't You?"
+* date: 30 October 2017
+* version 57-beta: I Love Rock 'n' Pants
+*   "Singing, I love rock and pants. So put another dime in the jukebox, baby"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
 
@@ -19,7 +19,9 @@
   3. If you skipped steps 1 and 2 above (shame on you), then here is the absolute minimum
      * Auto-installing updates for Firefox and extensions are disabled (section 0302's)
      * Some user data is erased on close (section 2800), namely history (browsing, form, download)
-     * Cookies (and thus logins) are denied by default (2701). Use site exceptions or an extension
+     * Cookies are denied by default (2701), we use site exceptions. This breaks extensions
+       that use IndexedDB, so you need to allow exceptions for those as well: see [1] below
+       [1] https://github.com/ghacksuserjs/ghacks-user.js/wiki/1.7-Setting-Extension-Permission-Exceptions
      * EACH RELEASE check:
          - 4600s: reset prefs made redundant due to privacy.resistFingerprinting (RPF)
                   or enable them as an alternative to RFP or for ESR users
@@ -1084,9 +1086,8 @@ user_pref("dom.disable_beforeunload", true);
 /*** 2300: WEB WORKERS [SETUP]
      A worker is a JS "background task" running in a global context, i.e. it is different from
      the current window. Workers can spawn new workers (must be the same origin & scheme),
-     including service and shared workers. Shared workers can be utilized by multiple scripts
-     and communicate between browsing contexts (windows/tabs/iframes) and can even control your
-     cache. Push and web notifications require service workers, which in turn require workers.
+     including service and shared workers. Shared workers can be utilized by multiple scripts and
+     communicate between browsing contexts (windows/tabs/iframes) and can even control your cache.
 
      [WARNING] Disabling workers *will* break sites (e.g. Google Street View, Twitter).
      It is recommended that you use a separate profile for these sorts of sites.
@@ -1570,7 +1571,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
  ** 1354633 - limit MediaError.message to a whitelist (FF57+)
  ** 1382533 - enable fingerprinting resistance for Presentation API (see 2513) (FF57+)
       This blocks exposure of local IP Addresses via mDNS (Multicast DNS)
- **  967895 - enable site permission prompt before allowing canvas data extraction (FF58+)
+ ** 967895 - enable site permission prompt before allowing canvas data extraction (FF58+)
 ***/
 user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting (FF41+)
