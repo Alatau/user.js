@@ -168,6 +168,8 @@ user_pref("toolkit.telemetry.cachedClientID", "");
 user_pref("toolkit.telemetry.newProfilePing.enabled", false); // (FF55+)
 user_pref("toolkit.telemetry.shutdownPingSender.enabled", false); // (FF55+)
 user_pref("toolkit.telemetry.updatePing.enabled", false); // (FF56+)
+user_pref("toolkit.telemetry.bhrPing.enabled", false); // (FF57+) Background Hang Reporter
+user_pref("toolkit.telemetry.firstShutdownPing.enabled", false); // (FF57+)
 /* 0333a: disable health report ***/
 user_pref("datareporting.healthreport.uploadEnabled", false);
 /* 0333b: disable about:healthreport page (which connects to Mozilla for locale/css+js+json)
@@ -363,6 +365,7 @@ user_pref("extensions.shield-recipe-client.api_url", "");
  * [1] https://wiki.mozilla.org/Firefox/Activity_Stream
  * [2] https://www.ghacks.net/2016/02/15/firefox-mockups-show-activity-stream-new-tab-page-and-share-updates/ ***/
 user_pref("browser.newtabpage.activity-stream.enabled", false);
+user_pref("browser.library.activity-stream.enabled", false); // (FF57+)
 /* 0515: disable Screenshots (FF55+)
  * [1] https://github.com/mozilla-services/screenshots
  * [2] https://www.ghacks.net/2017/05/28/firefox-screenshots-integrated-in-firefox-nightly/ ***/
@@ -1571,7 +1574,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
  ** 1354633 - limit MediaError.message to a whitelist (FF57+)
  ** 1382533 - enable fingerprinting resistance for Presentation API (see 2513) (FF57+)
       This blocks exposure of local IP Addresses via mDNS (Multicast DNS)
- ** 967895 - enable site permission prompt before allowing canvas data extraction (FF58+)
+ **  967895 - enable site permission prompt before allowing canvas data extraction (FF58+)
 ***/
 user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting (FF41+)
@@ -1714,6 +1717,10 @@ user_pref("layout.spellcheckDefault", 1);
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=620472
  * [2] https://developer.mozilla.org/docs/Online_and_offline_events ***/
 user_pref("network.manage-offline-status", false);
+/* 5014: control download button visibility (FF57+)
+ * true = the button is automatically shown/hidden based on whether the session has downloads or not
+ * false = the button is always visible ***/
+   // user_pref("browser.download.autohideButton", false);
 /* 5015: disable animations (FF55+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1352069 ***/
    // user_pref("toolkit.cosmeticAnimations.enabled", false);
@@ -1763,6 +1770,7 @@ user_pref("browser.bookmarks.showRecentlyBookmarked", false);
    // user_pref("media.wave.enabled", false);
    // user_pref("media.webm.enabled", false);
    // user_pref("media.wmf.enabled", false); // https://www.youtube.com/html5 - for the two H.264 entries
+   // user_pref("media.wmf.amd.vp9.enabled", true); // (FF57+)
    // user_pref("media.wmf.vp9.enabled", false);
 /* 5026: disable "Reader View" ***/
    // user_pref("reader.parse-on-load.enabled", false);
