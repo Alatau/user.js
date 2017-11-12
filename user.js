@@ -1266,6 +1266,9 @@ user_pref("network.jar.open-unsafe-types", false);
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=232227
  * [2] https://bugzilla.mozilla.org/show_bug.cgi?id=1330876 ***/
 user_pref("ui.use_standins_for_native_colors", true); // (hidden pref)
+/* 2610: remove special permissions for certain mozilla domains (FF35+)
+ * [1] resource://app/defaults/permissions ***/
+user_pref("permissions.manager.defaultsUrl", "");
 /* 2611: disable WebIDE to prevent remote debugging and extension downloads
  * [1] https://trac.torproject.org/projects/tor/ticket/16222 ***/
 user_pref("devtools.webide.autoinstallADBHelper", false);
@@ -1706,6 +1709,9 @@ user_pref("xpinstall.signatures.required", false);
  * 1=current window, 2=new window, 3=most recent window
  * [SETTING] Options>General>Tabs>Open new windows in a new tab instead ***/
 user_pref("browser.link.open_newwindow", 3);
+/* 5008: open bookmarks in a new tab (FF57+)
+ * [NOTE] You can also use middle-click, cmd/ctl-click, and use the context menu ***/
+   // user_pref("browser.tabs.loadBookmarksInTabs", true)
 /* 5010: enable ctrl-tab previews ***/
 user_pref("browser.ctrlTab.previews", true);
 /* 5011: don't open "page/selection source" in a tab. The window used instead is cleaner
