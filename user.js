@@ -199,15 +199,6 @@ user_pref("browser.newtabpage.introShown", true);
  * MUST use HTTPS - arbitrary content injected into this page via http opens up MiTM attacks
  * [1] https://wiki.mozilla.org/Firefox/Projects/Firefox_Start/Snippet_Service ***/
 user_pref("browser.aboutHomeSnippets.updateUrl", "https://127.0.0.1");
-/* 0374: disable "social" integration
- * [1] https://developer.mozilla.org/docs/Mozilla/Projects/Social_API ***/
-user_pref("social.whitelist", "");
-user_pref("social.toast-notifications.enabled", false);
-user_pref("social.shareDirectory", "");
-user_pref("social.remote-install.enabled", false);
-user_pref("social.directories", "");
-user_pref("social.share.activationPanelEnabled", false);
-user_pref("social.enabled", false); // (hidden pref)
 
 /*** 0400: BLOCKLISTS / SAFE BROWSING / TRACKING PROTECTION
      This section has security & tracking protection implications vs privacy concerns vs effectiveness
@@ -507,6 +498,9 @@ user_pref("browser.urlbar.autoFill.typed", false);
 /* 0850e: disable location bar one-off searches (FF51+)
  * [1] https://www.ghacks.net/2016/08/09/firefox-one-off-searches-address-bar/ ***/
 user_pref("browser.urlbar.oneOffSearches", false);
+/* 0850f: disable location bar suggesting local search history (FF57+)
+ * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1181644 ***/
+user_pref("browser.urlbar.maxHistoricalSearchSuggestions", 0); // max. number of search suggestions
 /* 0860: disable search and form history
  * [SETTING-56+] Options>Privacy & Security>History>Custom Settings>Remember search and form history
  * [SETTING-ESR] Options>Privacy>History>Custom Settings>Remember search and form history
@@ -993,7 +987,6 @@ user_pref("media.gmp-widevinecdm.autoupdate", false);
 /* 1830: disable all DRM content (EME: Encryption Media Extension) [SETUP] ***/
 user_pref("media.eme.enabled", false); // Options>Content>Play DRM Content
 user_pref("browser.eme.ui.enabled", false); // hides "Play DRM Content" checkbox, restart required
-user_pref("media.eme.chromium-api.enabled", false); // (FF55+)
 /* 1840: disable the OpenH264 Video Codec by Cisco to "Never Activate"
  * This is the bundled codec used for video chat in WebRTC ***/
 user_pref("media.gmp-gmpopenh264.enabled", false); // (hidden pref)
@@ -1275,13 +1268,8 @@ user_pref("permissions.manager.defaultsUrl", "");
 /* 2611: disable WebIDE to prevent remote debugging and extension downloads
  * [1] https://trac.torproject.org/projects/tor/ticket/16222 ***/
 user_pref("devtools.webide.autoinstallADBHelper", false);
-user_pref("devtools.webide.autoinstallFxdtAdapters", false);
 user_pref("devtools.debugger.remote-enabled", false);
 user_pref("devtools.webide.enabled", false);
-/* 2612: disable SimpleServiceDiscovery - which can bypass proxy settings - e.g. Roku
- * [1] https://trac.torproject.org/projects/tor/ticket/16222 ***/
-user_pref("browser.casting.enabled", false);
-user_pref("gfx.layerscope.enabled", false);
 /* 2614: disable HTTP2 (which was based on SPDY which is now deprecated)
  * HTTP2 raises concerns with "multiplexing" and "server push", does nothing to enhance
  * privacy, and in fact opens up a number of server-side fingerprinting opportunities
@@ -1643,7 +1631,7 @@ user_pref("browser.zoom.siteSpecific", false);
    // [2] https://wicg.github.io/netinfo/
    // [3] https://bugzilla.mozilla.org/show_bug.cgi?id=960426
 user_pref("dom.netinfo.enabled", false);
-// 4608: [2012] disable the SpeechSynthesis (Text-to-Speech) part of the Web Speech API
+// 4608: [2021] disable the SpeechSynthesis (Text-to-Speech) part of the Web Speech API
    // [1] https://developer.mozilla.org/docs/Web/API/Web_Speech_API
    // [2] https://developer.mozilla.org/docs/Web/API/SpeechSynthesis
    // [3] https://wiki.mozilla.org/HTML5_Speech_API
@@ -1759,8 +1747,6 @@ user_pref("browser.tabs.loadInBackground", true);
  * true: load the new tab in the background, leaving focus on the current tab
  * false: load the new tab in the foreground, taking the focus from the current tab. ***/
 user_pref("browser.tabs.loadDivertedInBackground", false);
-/* 5022: hide recently bookmarked items (you still have the original bookmarks) (FF49+) ***/
-user_pref("browser.bookmarks.showRecentlyBookmarked", false);
 /* 5023: enable "Find As You Type"
  * [1] http://kb.mozillazine.org/Accessibility.typeaheadfind ***/
    // user_pref("accessibility.typeaheadfind", true);
@@ -2085,6 +2071,33 @@ user_pref("browser.fullscreen.animate", false);
 // 0517: disable Form Autofill (FF55+) - replaced by extensions.formautofill.available
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1385201
 user_pref("extensions.formautofill.experimental", false);
+// * * * /
+// FF57
+// 0374: disable "social" integration
+   // [1] https://developer.mozilla.org/docs/Mozilla/Projects/Social_API
+   // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1388902
+   // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1406193 (leftover prefs removed in FF58)
+user_pref("social.whitelist", "");
+user_pref("social.toast-notifications.enabled", false);
+user_pref("social.shareDirectory", "");
+user_pref("social.remote-install.enabled", false);
+user_pref("social.directories", "");
+user_pref("social.share.activationPanelEnabled", false);
+user_pref("social.enabled", false); // (hidden pref)
+// 1830: disable DRM's EME WideVineAdapter
+   // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1395468
+user_pref("media.eme.chromium-api.enabled", false); // (FF55+)
+// 2611: disable WebIDE extension downloads (Valence)
+   // [1] https://trac.torproject.org/projects/tor/ticket/16222
+   // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1393497
+user_pref("devtools.webide.autoinstallFxdtAdapters", false);
+// 2612: disable SimpleServiceDiscovery - which can bypass proxy settings - e.g. Roku
+   // [1] https://trac.torproject.org/projects/tor/ticket/16222
+   // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1393582
+user_pref("browser.casting.enabled", false);
+// 5022: hide recently bookmarked items (you still have the original bookmarks) (FF49+)
+   // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1401238
+user_pref("browser.bookmarks.showRecentlyBookmarked", false);
 // * * * /
 // ***/
 
