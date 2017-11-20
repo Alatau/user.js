@@ -1203,23 +1203,12 @@ user_pref("_user.js.parrot", "2500 syntax error: the parrot's shuffled off 'is m
  * [1] https://wiki.mozilla.org/Media/getUserMedia
  * [2] https://developer.mozilla.org/docs/Web/API/MediaDevices/enumerateDevices ***/
 user_pref("media.navigator.enabled", false);
-/* 2506: disable video statistics - JS performance fingerprinting (FF25+)
- * [1] https://trac.torproject.org/projects/tor/ticket/15757
- * [2] https://bugzilla.mozilla.org/show_bug.cgi?id=654550 ***/
-user_pref("media.video_stats.enabled", false);
 /* 2508: disable hardware acceleration to reduce graphics fingerprinting
  * [SETTING] Options>General>Performance>Custom>Use hardware acceleration when available
  * [WARNING] [SETUP] Affects text rendering (fonts will look different) and impacts video performance
  * [1] https://wiki.mozilla.org/Platform/GFX/HardwareAcceleration ***/
    // user_pref("gfx.direct2d.disabled", true); // [WINDOWS]
 user_pref("layers.acceleration.disabled", true);
-/* 2509: disable touch events
- * fingerprinting attack vector - leaks screen res & actual screen coordinates
- * 0=disabled, 1=enabled, 2=autodetect
- * [WARNING] [SETUP] Optional protection depending on your device
- * [1] https://developer.mozilla.org/docs/Web/API/Touch_events
- * [2] https://trac.torproject.org/projects/tor/ticket/10286 ***/
-   // user_pref("dom.w3c_touch_events.enabled", 0);
 /* 2510: disable Web Audio API (FF51+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1288359 ***/
 user_pref("dom.webaudio.enabled", false);
@@ -1347,6 +1336,10 @@ user_pref("browser.uitour.url", "");
 /* 2629: disable remote JAR files being opened, regardless of content type (FF42+)
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1173171 ***/
 user_pref("network.jar.block-remote-files", true);
+/* 2630: prevent accessibility services from accessing your browser
+ * [SETTING] Options>Privacy & Security>Permissions>Prevent accessibility services from accessing your browser
+ * [1] https://support.mozilla.org/kb/accessibility-services ***/
+user_pref("accessibility.force_disabled", 1);
 /* 2662: disable "open with" in download dialog (FF50+)
  * This is very useful to enable when the browser is sandboxed (e.g. via AppArmor)
  * in such a way that it is forbidden to run external applications.
@@ -1445,8 +1438,8 @@ user_pref("network.cookie.lifetimePolicy", 2);
  * [1] https://developer.mozilla.org/docs/Web/API/StorageManager
  * [2] https://developer.mozilla.org/docs/Web/API/Storage_API
  * [3] https://blog.mozilla.org/l10n/2017/03/07/firefox-l10n-report-aurora-54/ ***/
-user_pref("dom.storageManager.enabled", false); // (FF51+)
-user_pref("browser.storageManager.enabled", false); // (FF53+)
+   // user_pref("dom.storageManager.enabled", false); // (FF51+)
+   // user_pref("browser.storageManager.enabled", false); // (FF53+)
 /* 2707: clear localStorage and UUID when an extension is uninstalled
  * [NOTE] Both preferences must be the same
  * [1] https://developer.mozilla.org/Add-ons/WebExtensions/API/storage/local
@@ -1565,8 +1558,8 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
  ** 1372072 - spoof network information API as "unknown" (see 4607) (FF56+)
  ** 1333641 - reduce fingerprinting in WebSpeech API (see 4608) (FF56+)
  ** 1372069 & 1403813 - block geolocation requests (same as if you deny a site permission) (see 4609) (FF56+)
- ** 1369309 - spoof media statistics (see 2506) (FF57+)
- ** 1382499 - reduce screen co-ordinate fingerprinting in Touch API (see 2509) (FF57+)
+ ** 1369309 - spoof media statistics (see 4610) (FF57+)
+ ** 1382499 - reduce screen co-ordinate fingerprinting in Touch API (see 4611) (FF57+)
  ** 1217290 - enable fingerprinting resistance for WebGL (see 2010-12) (FF57+)
  ** 1382545 - reduce fingerprinting in Animation API (FF57+)
  ** 1354633 - limit MediaError.message to a whitelist (FF57+)
@@ -1643,6 +1636,19 @@ user_pref("media.webspeech.synth.enabled", false);
 // 4609: [0201] disable Location-Aware Browsing
    // [1] https://www.mozilla.org/firefox/geolocation/
 user_pref("geo.enabled", false);
+// * * * /
+// FF57+
+// 4610: [2506] disable video statistics - JS performance fingerprinting (FF25+)
+   // [1] https://trac.torproject.org/projects/tor/ticket/15757
+   // [2] https://bugzilla.mozilla.org/show_bug.cgi?id=654550
+user_pref("media.video_stats.enabled", false);
+// 4611: [2509] disable touch events
+   // fingerprinting attack vector - leaks screen res & actual screen coordinates
+   // 0=disabled, 1=enabled, 2=autodetect
+   // [WARNING] [SETUP] Optional protection depending on your device
+   // [1] https://developer.mozilla.org/docs/Web/API/Touch_events
+   // [2] https://trac.torproject.org/projects/tor/ticket/10286
+   // user_pref("dom.w3c_touch_events.enabled", 0);
 // * * * /
 // ***/
 
