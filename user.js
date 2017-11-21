@@ -2123,3 +2123,4 @@ user_pref("security.ssl.enable_ocsp_must_staple", true);
 user_pref("layout.css.mix-blend-mode.enabled", false);
 user_pref("extensions.e10sMultiBlockedByAddons", false);
 user_pref("dom.mozTCPSocket.enabled", false);
+user_pref("browser.search.widget.inNavBar", true);
