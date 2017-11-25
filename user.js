@@ -1,7 +1,7 @@
 /******
 * name: ghacks user.js
-* date: 30 October 2017
-* version 57-beta: I Love Rock 'n' Pants
+* date: 20 November 2017
+* version 57: I Love Rock 'n' Pants
 *   "Singing, I love rock and pants. So put another dime in the jukebox, baby"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
@@ -73,9 +73,10 @@ user_pref("startup.homepage_override_url", ""); // what's new page after updates
 user_pref("browser.laterrun.enabled", false);
 user_pref("browser.shell.checkDefaultBrowser", false);
 /* 0102: set start page (0=blank, 1=home, 2=last visited page, 3=resume previous session)
- * home = browser.startup.homepage preference.
  * [SETTING] Options>General>Startup>When Firefox starts ***/
-   // user_pref("browser.startup.page", 0);
+user_pref("browser.startup.page", 1);
+/* 0103: set your "home" page (see 0102) ***/
+user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?prf=de02bd334b3292d8aa12044cff47e206");
 
 /*** 0200: GEOLOCATION ***/
 user_pref("_user.js.parrot", "0200 syntax error: the parrot's definitely deceased!");
@@ -583,8 +584,6 @@ user_pref("browser.cache.disk_cache_ssl", false);
  * [NOTE] Not recommended due to performance issues ***/
 user_pref("browser.cache.memory.enable", false);
 user_pref("browser.cache.memory.capacity", 0); // (hidden pref)
-/* 1004: disable offline cache ***/
-user_pref("browser.cache.offline.enable", false);
 /* 1005: disable fastback cache
  * To improve performance when pressing back/forward Firefox stores visited pages
  * so they don't have to be re-parsed. This is not the same as memory cache.
@@ -1140,11 +1139,6 @@ user_pref("dom.event.clipboardevents.enabled", false);
  * this disables document.execCommand("cut"/"copy") to protect your clipboard
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1170911 ***/
 user_pref("dom.allow_cut_copy", false); // (hidden pref)
-/* 2404: disable JS storing data permanently [SETUP]
- * [WARNING] This BREAKS uBlock Origin [1.14.0+] and uMatrix extensions
- * [1] https://github.com/gorhill/uBlock/releases/tag/1.14.0 
- * [WARNING] This *will* break other extensions including legacy, and *will* break some sites ***/
-   // user_pref("dom.indexedDB.enabled", false);
 /* 2414: disable shaking the screen ***/
 user_pref("dom.vibrator.enabled", false);
 /* 2415: set max popups from a single non-click event - default is 20! ***/
@@ -1179,18 +1173,6 @@ user_pref("javascript.options.wasm", false);
  * [2] https://w3c.github.io/IntersectionObserver/
  * [3] https://bugzilla.mozilla.org/show_bug.cgi?id=1243846 ***/
 user_pref("dom.IntersectionObserver.enabled", false);
-/* 2450a: enforce websites to ask to store data for offline use
- * [1] https://support.mozilla.org/questions/1098540
- * [2] https://bugzilla.mozilla.org/show_bug.cgi?id=959985 ***/
-user_pref("offline-apps.allow_by_default", false);
-/* 2450b: display a notification when websites ask to store data for offline use
- * [SETTING-56+] Options>Privacy & Security>Offline Web Content and User Data>Tell you when a website asks...
- * [SETTING-ESR] Options>Advanced>Network>Tell me when a website asks to store data for offline use ***/
-user_pref("browser.offline-apps.notify", true);
-/* 2450c: set size of warning quota for offline cache (default 51200)
- * Offline cache is only used in rare cases to store data locally. FF will store small amounts
- * (default <50MB) of data in the offline (application) cache without asking for permission. ***/
-   // user_pref("offline-apps.quota.warn", 51200);
 
 /*** 2500: HARDWARE FINGERPRINTING ***/
 user_pref("_user.js.parrot", "2500 syntax error: the parrot's shuffled off 'is mortal coil!");
@@ -1405,7 +1387,10 @@ user_pref("security.csp.experimentalEnabled", true);
  * [3] https://www.fxsitecompat.com/en-CA/docs/2017/data-url-navigations-on-top-level-window-will-be-blocked/ ***/
 user_pref("security.data_uri.block_toplevel_data_uri_navigations", true);
 
-/*** 2700: COOKIES & DOM STORAGE ***/
+/*** 2700: PERSISTENT STORAGE
+     Data SET by websites including: cookies, localStorage (also known as DOM Storage),
+     IndexedDB (also known as Offsite Website Data)
+***/
 user_pref("_user.js.parrot", "2700 syntax error: the parrot's joined the bleedin' choir invisible!");
 /* 2701: disable cookies on all sites [SETUP]
  * You can set exceptions under site permissions or use an extension
@@ -1449,6 +1434,25 @@ user_pref("extensions.webextensions.keepUuidOnUninstall", false);
 /* 2708: disable HTTP sites setting cookies with the "secure" directive (default: true) (FF52+)
  * [1] https://developer.mozilla.org/Firefox/Releases/52#HTTP ***/
 user_pref("network.cookie.leave-secure-alone", true);
+/* 2710: disable JS storing data permanently [SETUP]
+ * [WARNING] This BREAKS uBlock Origin [1.14.0+] and uMatrix extensions
+ * [1] https://github.com/gorhill/uBlock/releases/tag/1.14.0
+ * [WARNING] This *will* break other extensions including legacy, and *will* break some sites ***/
+   // user_pref("dom.indexedDB.enabled", false);
+/* 2720: disable offline cache ***/
+user_pref("browser.cache.offline.enable", false);
+/* 2421: enforce websites to ask to store data for offline use
+ * [1] https://support.mozilla.org/questions/1098540
+ * [2] https://bugzilla.mozilla.org/show_bug.cgi?id=959985 ***/
+user_pref("offline-apps.allow_by_default", false);
+/* 2422: display a notification when websites ask to store data for offline use
+ * [SETTING-56+] Options>Privacy & Security>Offline Web Content and User Data>Tell you when a website asks...
+ * [SETTING-ESR] Options>Advanced>Network>Tell me when a website asks to store data for offline use ***/
+user_pref("browser.offline-apps.notify", true);
+/* 2423: set size of warning quota for offline cache (default 51200)
+ * Offline cache is only used in rare cases to store data locally. FF will store small amounts
+ * (default <50MB) of data in the offline (application) cache without asking for permission. ***/
+   // user_pref("offline-apps.quota.warn", 51200);
 
 /*** 2800: SHUTDOWN [SETUP]
      You should set the values to what suits you best. Be aware that the settings below clear
@@ -2115,7 +2119,6 @@ user_pref("browser.bookmarks.showRecentlyBookmarked", false);
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 
 /*** 0000: MY SETTINGS ***/
-user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?prf=de02bd334b3292d8aa12044cff47e206");
 user_pref("ui.osk.enabled", false);
 user_pref("accessibility.blockautorefresh", true);
 user_pref("dom.disable_open_during_load", true);
