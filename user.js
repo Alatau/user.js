@@ -673,7 +673,7 @@ user_pref("dom.ipc.shims.enabledWarnings", true);
 user_pref("browser.tabs.remote.allowLinkedWebInFileUriProcess", false);
 /* 1110: set sandbox level. DO NOT MEDDLE WITH THESE. They are included to inform you NOT to play
  * with them. The values are integers, but the code below deliberately contains a data mismatch
- * [1] https://wiki.mozilla.org/Sandbox
+ * [1] https://wiki.mozilla.org/Security/Sandbox
  * [2] https://www.ghacks.net/2017/01/23/how-to-change-firefoxs-sandbox-security-level/#comment-4105173 ***/
    // user_pref("security.sandbox.content.level", "donotuse");
    // user_pref("dom.ipc.plugins.sandbox-level.default", "donotuse");
@@ -894,12 +894,12 @@ user_pref("_user.js.parrot", "1600 syntax error: the parrot rests in peace!");
 /* 1601: ALL: control when images/links send a referer
  * 0=never, 1=send only when links are clicked, 2=for links and images (default)
  * [NOTE] Recommended left at default. Focus on XSS and granular cross origin referer control ***/
-user_pref("network.http.sendRefererHeader", 2);
+   // user_pref("network.http.sendRefererHeader", 2);
 /* 1602: ALL: control the amount of information to send
  * 0=send full URI (default), 1=scheme+host+path+port, 2=scheme+host+port
  * [NOTE] Cross origin requests can be fine tuned in 1603 + 1604. Limiting same origin requests
  * is rather pointless. Recommended left at default for zero same origin breakage ***/
-user_pref("network.http.referer.trimmingPolicy", 0);
+   // user_pref("network.http.referer.trimmingPolicy", 0);
 /* 1603: CROSS ORIGIN: control when to send a referer [SETUP]
  * 0=always (default), 1=only if base domains match, 2=only if hosts match
  * [NOTE] 1=less breakage, possible leakage 2=less leakage, more breakage ***/
@@ -916,7 +916,7 @@ user_pref("network.http.referer.spoofSource", false);
  * [NOTE] This is only a default, it can be overridden by a site-controlled Referrer Policy
  * [1] https://www.w3.org/TR/referrer-policy/
  * [2] https://bugzilla.mozilla.org/show_bug.cgi?id=1304623 ***/
-user_pref("network.http.referer.userControlPolicy", 1);
+   // user_pref("network.http.referer.userControlPolicy", 3);
 /* 1607: TOR: hide (not spoof) referrer when leaving a .onion domain (FF54+)
  * [NOTE] Firefox cannot access .onion sites by default. We recommend you use
  * TBB (Tor Browser Bundle) which is specifically designed for the dark web
