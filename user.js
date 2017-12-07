@@ -21,7 +21,7 @@
      * Some user data is erased on close (section 2800), namely history (browsing, form, download)
      * Cookies are denied by default (2701), we use site exceptions. This breaks extensions
        that use IndexedDB, so you need to allow exceptions for those as well: see [1] below
-       [1] https://github.com/ghacksuserjs/ghacks-user.js/wiki/1.7-Setting-Extension-Permission-Exceptions
+       [1] https://github.com/ghacksuserjs/ghacks-user.js/wiki/1.5-Setting-Extension-Permission-Exceptions
      * EACH RELEASE check:
          - 4600s: reset prefs made redundant due to privacy.resistFingerprinting (RPF)
                   or enable them as an alternative to RFP or for ESR users
@@ -34,7 +34,7 @@
            before using to avoid unexpected surprises
          - Search this file for the "[WARNING]" tag to troubleshoot or prevent SOME common issues
   4. BACKUP your profile folder before implementing (and/or test in a new/cloned profile)
-  5. KEEP UP TO DATE: https://github.com/ghacksuserjs/ghacks-user.js/wiki/1.5-Keeping-Up-To-Date
+  5. KEEP UP TO DATE: https://github.com/ghacksuserjs/ghacks-user.js/wiki#small_orange_diamond-keeping-up-to-date
 
  ******/
 
@@ -826,6 +826,9 @@ user_pref("browser.ssl_override_behavior", 1);
  * i.e. it doesn't work for HSTS discrepancies (https://subdomain.preloaded-hsts.badssl.com/)
  * [TEST] https://expired.badssl.com/ ***/
 user_pref("browser.xul.error_pages.expert_bad_cert", true);
+/* 1273: display HTTP sites as insecure (FF59+) ***/
+user_pref("security.insecure_connection_icon.enabled", true); // all windows
+   // user_pref("security.insecure_connection_icon.pbmode.enabled", true); // private windows only
 
 /*** 1400: FONTS ***/
 user_pref("_user.js.parrot", "1400 syntax error: the parrot's bereft of life!");
