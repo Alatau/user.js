@@ -582,8 +582,8 @@ user_pref("browser.cache.disk.smart_size.first_run", false);
 user_pref("browser.cache.disk_cache_ssl", false);
 /* 1003: disable memory cache
  * [NOTE] Not recommended due to performance issues ***/
-user_pref("browser.cache.memory.enable", false);
-user_pref("browser.cache.memory.capacity", 0); // (hidden pref)
+   // user_pref("browser.cache.memory.enable", false);
+   // user_pref("browser.cache.memory.capacity", 0); // (hidden pref)
 /* 1005: disable fastback cache
  * To improve performance when pressing back/forward Firefox stores visited pages
  * so they don't have to be re-parsed. This is not the same as memory cache.
