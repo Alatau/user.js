@@ -1434,6 +1434,7 @@ user_pref("extensions.webextensions.keepUuidOnUninstall", false);
 /* 2720: disable JS storing data permanently [SETUP]
  * [WARNING] This BREAKS uBlock Origin [1.14.0+] and other extensions that require IndexedDB
  * [1] https://github.com/gorhill/uBlock/releases/tag/1.14.0 
+ * [WARNING] This *will* break other extensions including legacy, and *will* break some sites ***/
    // user_pref("dom.indexedDB.enabled", false);
 /* 2730: disable offline cache ***/
 user_pref("browser.cache.offline.enable", false);
