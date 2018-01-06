@@ -2141,7 +2141,6 @@ user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!"
 user_pref("ui.osk.enabled", false);
 user_pref("accessibility.blockautorefresh", true);
 user_pref("dom.disable_open_during_load", true);
-user_pref("security.ssl.enable_ocsp_must_staple", true);
 user_pref("layout.css.mix-blend-mode.enabled", false);
 user_pref("extensions.e10sMultiBlockedByAddons", false);
 user_pref("dom.mozTCPSocket.enabled", false);
