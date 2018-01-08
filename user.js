@@ -905,7 +905,8 @@ user_pref("_user.js.parrot", "1600 syntax error: the parrot rests in peace!");
    // user_pref("network.http.referer.trimmingPolicy", 0);
 /* 1603: CROSS ORIGIN: control when to send a referer [SETUP]
  * 0=always (default), 1=only if base domains match, 2=only if hosts match
- * [NOTE] 1=less breakage, possible leakage 2=less leakage, more breakage ***/
+ * [NOTE] 1=less breakage, possible leakage 2=less leakage, more breakage
+ * [WARNING] Reset to default 0 if you have issues accessing your modem/router ***/
    // user_pref("network.http.referer.XOriginPolicy", 1);
 /* 1604: CROSS ORIGIN: control the amount of information to send (FF52+)
  * 0=send full URI (default) 1=scheme+host+path+port 2=scheme+host+port ***/
@@ -2141,6 +2142,7 @@ user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!"
 user_pref("ui.osk.enabled", false);
 user_pref("accessibility.blockautorefresh", true);
 user_pref("dom.disable_open_during_load", true);
+   // user_pref("security.ssl.enable_ocsp_must_staple", true);
 user_pref("layout.css.mix-blend-mode.enabled", false);
 user_pref("extensions.e10sMultiBlockedByAddons", false);
 user_pref("dom.mozTCPSocket.enabled", false);
