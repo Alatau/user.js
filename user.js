@@ -734,16 +734,19 @@ user_pref("security.tls.enable_0rtt_data", false); // (FF55+ default true)
  * [1] https://blog.mozilla.org/security/2013/07/29/ocsp-stapling-in-firefox/ ***/
 user_pref("security.ssl.enable_ocsp_stapling", true);
 /* 1211: control use of OCSP responder servers to confirm current validity of certificates
- * 0=disable, 1=validate only certificates that specify an OCSP service URL (default)
- * 2=enable and use values in security.OCSP.URL and security.OCSP.signing.
+ * 0=disabled, 1=enabled (default), 2=enabled for EV certificates only
  * OCSP (non-stapled) leaks information about the sites you visit to the CA (cert authority)
  * It's a trade-off between security (checking) and privacy (leaking info to the CA)
+ * [NOTE] This pref only controls OCSP fetching and does not affect OCSP stapling
  * [1] https://en.wikipedia.org/wiki/Ocsp ***/
 user_pref("security.OCSP.enabled", 1);
-/* 1212: enable OCSP revocation. When a CA cannot be reached to validate a cert, Firefox currently
- * continues the connection. With OCSP revocation, Firefox terminates the connection instead.
- * [WARNING] Since FF44 the default is false. If set to true, this will cause some site breakage
- * [1] https://blog.mozilla.org/security/2013/07/29/ocsp-stapling-in-firefox/ ***/
+/* 1212: set non-stapled OCSP to hard-fail
+ * When a CA cannot be reached to validate a cert, Firefox just continues the connection (=soft-fail)
+ * Setting this pref to true tells Firefox to instead terminate the connection (=hard-fail)
+ * For more info about the problems with soft/hard-fail (and OCSP in general) see [2]
+ * [NOTE] this pref is ignored if 'security.OCSP.enabled' is set to 0
+ * [1] https://blog.mozilla.org/security/2013/07/29/ocsp-stapling-in-firefox/
+ * [2] https://www.imperialviolet.org/2014/04/19/revchecking.html ***/
 user_pref("security.OCSP.require", true);
 /** CERTS / HSTS (HTTP Strict Transport Security) / HPKP (HTTP Public Key Pinning) ***/
 /* 1220: disable Windows 8.1's Microsoft Family Safety cert [WINDOWS] (FF50+)
@@ -1156,10 +1159,11 @@ user_pref("dom.idle-observers-api.enabled", false);
 /* 2418: disable full-screen API
  * false=block, true=ask ***/
    // user_pref("full-screen-api.enabled", false);
-/* 2420: disable support for asm.js ( http://asmjs.org/ )
+/* 2420: disable asm.js (http://asmjs.org/) (FF22+)
  * [1] https://www.mozilla.org/security/advisories/mfsa2015-29/
  * [2] https://www.mozilla.org/security/advisories/mfsa2015-50/
- * [3] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-2712 ***/
+ * [3] https://www.mozilla.org/security/advisories/mfsa2017-01/#CVE-2017-5375
+ * [4] https://www.mozilla.org/security/advisories/mfsa2017-05/#CVE-2017-5400 ***/
 user_pref("javascript.options.asmjs", false);
 /* 2421: disable Ion and baseline JIT to help harden JS against exploits such as CVE-2015-0817
  * [WARNING] Causes the odd site issue and there is also a performance loss
