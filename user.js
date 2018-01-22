@@ -260,10 +260,10 @@ user_pref("browser.safebrowsing.downloads.remote.block_uncommon", false);
 user_pref("browser.safebrowsing.downloads.remote.block_dangerous", false); // (FF49+)
 user_pref("browser.safebrowsing.downloads.remote.block_dangerous_host", false); // (FF49+)
 /* 0413: disable Google safebrowsing updates ***/
-   // user_pref("browser.safebrowsing.provider.google.updateURL", "");
-   // user_pref("browser.safebrowsing.provider.google.gethashURL", "");
-   // user_pref("browser.safebrowsing.provider.google4.updateURL", ""); // (FF50+)
-   // user_pref("browser.safebrowsing.provider.google4.gethashURL", ""); // (FF50+)
+user_pref("browser.safebrowsing.provider.google.updateURL", "");
+user_pref("browser.safebrowsing.provider.google.gethashURL", "");
+user_pref("browser.safebrowsing.provider.google4.updateURL", ""); // (FF50+)
+user_pref("browser.safebrowsing.provider.google4.gethashURL", ""); // (FF50+)
 /* 0414: disable binaries NOT in local lists being checked by Google (real-time checking) ***/
 user_pref("browser.safebrowsing.downloads.remote.enabled", false);
 user_pref("browser.safebrowsing.downloads.remote.url", "");
