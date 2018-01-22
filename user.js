@@ -94,6 +94,9 @@ user_pref("browser.search.geoip.url", "");
 user_pref("intl.locale.matchOS", false);
 /* 0204: set APP locale ***/
 user_pref("general.useragent.locale", "en-US");
+/* 0205: set OS & APP locale (replaces 0203 + 0204) (FF59+)
+ * If set to empty, the OS locales are used. If not set at all, default locale is used ***/
+user_pref("intl.locale.requested", "en-US"); // (hidden pref)
 /* 0206: disable geographically specific results/search engines e.g. "browser.search.*.US"
  * i.e. ignore all of Mozilla's various search engines in multiple locales ***/
 user_pref("browser.search.geoSpecificDefaults", false);
@@ -192,7 +195,8 @@ user_pref("breakpad.reportURL", "");
 /* 0351: disable sending of crash reports (FF44+) ***/
 user_pref("browser.tabs.crashReporting.sendReport", false);
 user_pref("browser.crashReports.unsubmittedCheck.enabled", false); // (FF51+)
-user_pref("browser.crashReports.unsubmittedCheck.autoSubmit", false); // (FF51+)
+user_pref("browser.crashReports.unsubmittedCheck.autoSubmit", false); // (FF51-57)
+user_pref("browser.crashReports.unsubmittedCheck.autoSubmit2", false); // (FF58+)
 /* 0360: disable new tab tile ads & preload & marketing junk ***/
 user_pref("browser.newtab.preload", false);
 user_pref("browser.newtabpage.directory.source", "data:text/plain,");
@@ -826,7 +830,7 @@ user_pref("security.pki.sha1_enforcement_level", 1);
  * [1] https://wiki.mozilla.org/Security:Renegotiation ***/
 user_pref("security.ssl.treat_unsafe_negotiation_as_broken", true);
 /* 1271: control "Add Security Exception" dialog on SSL warnings
- * 0=do neither 1=pre-populate url 2+pre-populate url + pre-fetch cert (default)
+ * 0=do neither 1=pre-populate url 2=pre-populate url + pre-fetch cert (default)
  * [1] https://github.com/pyllyukko/user.js/issues/210 ***/
 user_pref("browser.ssl_override_behavior", 1);
 /* 1272: display advanced information on Insecure Connection warning pages
@@ -1505,7 +1509,7 @@ user_pref("privacy.clearOnShutdown.formdata", true); // Form & Search History
 user_pref("privacy.clearOnShutdown.history", true); // Browsing & Download History
 user_pref("privacy.clearOnShutdown.offlineApps", true); // Offline Website Data
 user_pref("privacy.clearOnShutdown.sessions", true); // Active Logins
-user_pref("privacy.clearOnShutdown.siteSettings", true); // Site Preferences
+user_pref("privacy.clearOnShutdown.siteSettings", false); // Site Preferences
 /* 2804: reset default history items to clear with Ctrl-Shift-Del (to match above)
  * This dialog can also be accessed from the menu History>Clear Recent History
  * Firefox remembers your last choices. This will reset them when you start Firefox.
@@ -1519,7 +1523,7 @@ user_pref("privacy.cpd.history", true); // Browsing & Download History
 user_pref("privacy.cpd.offlineApps", true); // Offline Website Data
 user_pref("privacy.cpd.passwords", true); // this is not listed
 user_pref("privacy.cpd.sessions", true); // Active Logins
-user_pref("privacy.cpd.siteSettings", true); // Site Preferences
+user_pref("privacy.cpd.siteSettings", false); // Site Preferences
 /* 2805: privacy.*.openWindows (clear session restore data) (FF34+)
  * [NOTE] There is a years-old bug that these cause two windows when Firefox restarts.
  * You do not need these anyway if session restore is disabled (see 1020) ***/
@@ -1723,7 +1727,7 @@ user_pref("_user.js.parrot", "4700 syntax error: the parrot's taken 'is last bow
    // user_pref("general.platform.override", "Win32"); // (hidden pref)
 /* 4706: navigator.oscpu leaks in JS ***/
    // user_pref("general.oscpu.override", "Windows NT 6.1"); // (hidden pref)
-/* 4707: general.useragent.locale (related, see 0204) ***/
+/* 4707: general.useragent.locale (related, see 0204 deprecated FF59+) ***/
 
 /*** 5000: PERSONAL SETTINGS [SETUP]
      Settings that are handy to migrate and/or are not in the Options interface. Users
