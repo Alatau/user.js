@@ -822,7 +822,7 @@ user_pref("gfx.downloadable_fonts.enabled", true);
 /* 1404: disable rendering of SVG OpenType fonts
  * [1] https://wiki.mozilla.org/SVGOpenTypeFonts - iSECPartnersReport recommends to disable this ***/
 user_pref("gfx.font_rendering.opentype_svg.enabled", false);
-/* 1405: disable WOFF2 (Web Open Font Format) ***/
+/* 1405: disable WOFF2 (Web Open Font Format) (FF35+) ***/
 user_pref("gfx.downloadable_fonts.woff2.enabled", false);
 /* 1406: disable CSS Font Loading API
  * [SETUP] Disabling fonts can uglify the web a fair bit. ***/
@@ -1006,6 +1006,12 @@ user_pref("media.getusermedia.browser.enabled", false);
 user_pref("media.getusermedia.audiocapture.enabled", false);
 /* 2023: disable camera stuff ***/
 user_pref("camera.control.face_detection.enabled", false);
+/* 2024: set a default permission for Camera/Microphone (FF58+)
+ * 0=always ask (default), 1=allow, 2=block
+ * [SETTING] to add site exceptions: Page Info>Permissions>Use the Camera/Microphone
+ * [SETTING] to manage site exceptions: Options>Privacy>Permissions>Camera/Microphone>Settings ***/
+   // user_pref("permissions.default.camera", 2);
+   // user_pref("permissions.default.microphone", 2);
 /* 2026: disable canvas capture stream
  * [1] https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement/captureStream ***/
 user_pref("canvas.capturestream.enabled", false);
@@ -1085,11 +1091,14 @@ user_pref("_user.js.parrot", "2300 syntax error: the parrot's off the twig!");
  * [NOTE] Service workers only run over HTTPS. Service Workers have no DOM access. ***/
    // user_pref("dom.serviceWorkers.enabled", false);
 /* 2304: disable web notifications
- * [NOTE] You can still override individual domains under site permissions (FF44+)
  * [1] https://developer.mozilla.org/docs/Web/API/Notifications_API ***/
-user_pref("dom.webnotifications.enabled", false);
-user_pref("dom.webnotifications.serviceworker.enabled", false);
-/* 2305: disable push notifications (FF44+)
+user_pref("dom.webnotifications.enabled", false); // (FF22+)
+user_pref("dom.webnotifications.serviceworker.enabled", false); // (FF44+)
+/* 2305: set a default permission for Notifications (see 2304) (FF58+)
+ * [SETTING] to add site exceptions: Page Info>Permissions>Receive Notifications
+ * [SETTING] to manage site exceptions: Options>Privacy>Permissions>Notifications>Settings ***/
+   // user_pref("permissions.default.desktop-notification", 2); // 0=always ask (default), 1=allow, 2=block
+/* 2306: disable push notifications (FF44+)
  * web apps can receive messages pushed to them from a server, whether or
  * not the web app is in the foreground, or even currently loaded
  * [1] https://developer.mozilla.org/docs/Web/API/Push_API ***/
@@ -1293,6 +1302,10 @@ user_pref("accessibility.force_disabled", 1);
  * [WARNING] [SETUP] You may want to disable this for corporate or developer environments
  * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1343184 ***/
 user_pref("browser.tabs.remote.allowLinkedWebInFileUriProcess", false);
+/* 2632: disable websites overriding Firefox's keyboard shortcuts (FF58+)
+ * [SETTING] to add site exceptions: Page Info>Permissions>Override Keyboard Shortcuts
+ * [NOTE] At the time of writing, causes issues with delete and backspace keys ***/
+   // user_pref("permissions.default.shortcuts", 2); //  0 (default) or 1=allow, 2=block
 /* 2662: disable "open with" in download dialog (FF50+)
  * This is very useful to enable when the browser is sandboxed (e.g. via AppArmor)
  * in such a way that it is forbidden to run external applications.
@@ -1550,7 +1563,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
  ** 1337161 - hide gamepads from content (see 4606) (FF56+)
  ** 1372072 - spoof network information API as "unknown" (see 4607) (FF56+)
  ** 1333641 - reduce fingerprinting in WebSpeech API (see 4608) (FF56+)
- ** 1372069 & 1403813 - block geolocation requests (same as if you deny a site permission) (see 4609) (FF56+)
+ ** 1372069 & 1403813 - block geolocation requests (same as if you deny a site permission) (see 4609, 4612) (FF56+)
  ** 1369309 - spoof media statistics (see 4610) (FF57+)
  ** 1382499 - reduce screen co-ordinate fingerprinting in Touch API (see 4611) (FF57+)
  ** 1217290 - enable fingerprinting resistance for WebGL (see 2010-12) (FF57+)
@@ -1647,6 +1660,12 @@ user_pref("media.video_stats.enabled", false);
    // [1] https://developer.mozilla.org/docs/Web/API/Touch_events
    // [2] https://trac.torproject.org/projects/tor/ticket/10286
    // user_pref("dom.w3c_touch_events.enabled", 0);
+// * * * /
+// FF58+
+// 4612: [new] set a default permission for Location (FF58+)
+   // [SETTING] to add site exceptions: Page Info>Permissions>Access Your Location
+   // [SETTING] to manage site exceptions: Options>Privacy>Permissions>Location>Settings
+   // user_pref("permissions.default.geo", 2); // 0=always ask (default), 1=allow, 2=block
 // * * * /
 // ***/
 
