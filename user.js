@@ -1133,9 +1133,11 @@ user_pref("dom.idle-observers-api.enabled", false);
  * [3] https://www.mozilla.org/security/advisories/mfsa2017-01/#CVE-2017-5375
  * [4] https://www.mozilla.org/security/advisories/mfsa2017-05/#CVE-2017-5400 ***/
 user_pref("javascript.options.asmjs", false);
-/* 2421: disable Ion and baseline JIT to help harden JS against exploits such as CVE-2015-0817
+/* 2421: disable Ion and baseline JIT to help harden JS against exploits
+ * see: CVE-2015-0817 (FF36 1145255), CVE-2017-5375 (FF51 1325200), CVE-2017-5400 (FF52 1334933)
  * [WARNING] Causes the odd site issue and there is also a performance loss
- * [1] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-0817 ***/
+ * [1] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-0817
+ * [2] https://rh0dev.github.io/blog/2017/the-return-of-the-jit/ ***/
    // user_pref("javascript.options.ion", false);
    // user_pref("javascript.options.baselinejit", false);
 /* 2422: disable WebAssembly for now (FF52+)
@@ -1821,7 +1823,7 @@ user_pref("network.websocket.enabled", false);
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1042135#c101
    // user_pref("privacy.donottrackheader.value", 1);
 // 2023: (37+) disable camera autofocus callback
-   // The API will be superceded by the WebRTC Capture and Stream API
+   // The API will be superseded by the WebRTC Capture and Stream API
    // [1] https://developer.mozilla.org/docs/Archive/B2G_OS/API/CameraControl
    // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1107683
 user_pref("camera.control.autofocus_moving_callback.enabled", false);
