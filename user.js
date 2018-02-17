@@ -1127,17 +1127,17 @@ user_pref("dom.idle-observers-api.enabled", false);
 /* 2418: disable full-screen API
  * false=block, true=ask ***/
    // user_pref("full-screen-api.enabled", false);
-/* 2420: disable asm.js (http://asmjs.org/) (FF22+)
- * [1] https://www.mozilla.org/security/advisories/mfsa2015-29/
- * [2] https://www.mozilla.org/security/advisories/mfsa2015-50/
- * [3] https://www.mozilla.org/security/advisories/mfsa2017-01/#CVE-2017-5375
- * [4] https://www.mozilla.org/security/advisories/mfsa2017-05/#CVE-2017-5400 ***/
+/* 2420: disable asm.js (FF22+)
+ * [1] http://asmjs.org/
+ * [2] https://www.mozilla.org/security/advisories/mfsa2015-29/
+ * [3] https://www.mozilla.org/security/advisories/mfsa2015-50/
+ * [4] https://www.mozilla.org/security/advisories/mfsa2017-01/#CVE-2017-5375
+ * [5] https://www.mozilla.org/security/advisories/mfsa2017-05/#CVE-2017-5400
+ * [6] https://rh0dev.github.io/blog/2017/the-return-of-the-jit/ ***/
 user_pref("javascript.options.asmjs", false);
 /* 2421: disable Ion and baseline JIT to help harden JS against exploits
- * see: CVE-2015-0817 (FF36 1145255), CVE-2017-5375 (FF51 1325200), CVE-2017-5400 (FF52 1334933)
  * [WARNING] Causes the odd site issue and there is also a performance loss
- * [1] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-0817
- * [2] https://rh0dev.github.io/blog/2017/the-return-of-the-jit/ ***/
+ * [1] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-0817 ***/
    // user_pref("javascript.options.ion", false);
    // user_pref("javascript.options.baselinejit", false);
 /* 2422: disable WebAssembly for now (FF52+)
@@ -1773,24 +1773,6 @@ user_pref("browser.tabs.loadDivertedInBackground", false);
 /* 5023: enable "Find As You Type"
  * [1] http://kb.mozillazine.org/Accessibility.typeaheadfind ***/
    // user_pref("accessibility.typeaheadfind", true);
-/* 5024: enable/disable MSE (Media Source Extensions)
- * [1] https://www.ghacks.net/2014/05/10/enable-media-source-extensions-firefox/ ***/
-   // user_pref("media.mediasource.enabled", false);
-   // user_pref("media.mediasource.mp4.enabled", false);
-   // user_pref("media.mediasource.webm.audio.enabled", false);
-   // user_pref("media.mediasource.webm.enabled", false);
-/* 5025: enable/disable various media types ***/
-   // user_pref("media.mp4.enabled", false);
-   // user_pref("media.flac.enabled", false); // (FF51+)
-   // user_pref("media.ogg.enabled", false);
-   // user_pref("media.ogg.flac.enabled", false); // (FF51+)
-   // user_pref("media.opus.enabled", false);
-   // user_pref("media.raw.enabled", false);
-   // user_pref("media.wave.enabled", false);
-   // user_pref("media.webm.enabled", false);
-   // user_pref("media.wmf.enabled", false); // https://www.youtube.com/html5 - for the two H.264 entries
-   // user_pref("media.wmf.amd.vp9.enabled", true); // (FF57+)
-   // user_pref("media.wmf.vp9.enabled", false);
 /* 5026: disable "Reader View" ***/
    // user_pref("reader.parse-on-load.enabled", false);
 /* 5027: decode URLs on copy from the urlbar (FF53+)
