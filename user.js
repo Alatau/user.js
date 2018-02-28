@@ -1552,10 +1552,10 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
       This spoof *shouldn't* affect core chrome/Firefox performance
  ** 1217238 - reduce precision of time exposed by javascript (FF55+)
  ** 1369303 - spoof/disable performance API (see 2410-deprecated, 4602, 4603) (FF56+)
- ** 1333651 & 1383495 & 1396468 & 1393283 & 1404608 - spoof Navigator API (see section 4700) (FF56+)
+ ** 1333651 & 1383495 & 1396468 - spoof Navigator API (see section 4700) (FF56+)
       FF56: The version number will be rounded down to the nearest multiple of 10
-      FF57: The version number will match current ESR
-      FF59: The OS will be reported as Windows, OSX, Android, or Linux (to reduce breakage)
+      FF57: The version number will match current ESR (1393283, 1418672)
+      FF59: The OS will be reported as Windows, OSX, Android, or Linux (to reduce breakage) (1404608)
  ** 1369319 - disable device sensor API (see 4604) (FF56+)
  ** 1369357 - disable site specific zoom (see 4605) (FF56+)
  ** 1337161 - hide gamepads from content (see 4606) (FF56+)
@@ -1564,7 +1564,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
  ** 1372069 & 1403813 - block geolocation requests (same as if you deny a site permission) (see 4609, 4612) (FF56+)
  ** 1369309 - spoof media statistics (see 4610) (FF57+)
  ** 1382499 - reduce screen co-ordinate fingerprinting in Touch API (see 4611) (FF57+)
- ** 1217290 - enable fingerprinting resistance for WebGL (see 2010-12) (FF57+)
+ ** 1217290 & 1409677 - enable fingerprinting resistance for WebGL (see 2010-12) (FF57+)
  ** 1382545 - reduce fingerprinting in Animation API (FF57+)
  ** 1354633 - limit MediaError.message to a whitelist (FF57+)
  ** 1382533 - enable fingerprinting resistance for Presentation API (FF57+)
