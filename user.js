@@ -1709,20 +1709,20 @@ user_pref("_user.js.parrot", "5000 syntax error: this is an ex-parrot!");
    // user_pref("full-screen-api.warning.delay", 0);
    // user_pref("full-screen-api.warning.timeout", 0);
 /* APPEARANCE ***/
-   // user_pref("browser.download.autohideButton", false); // (FF57+)
+user_pref("browser.download.autohideButton", false); // (FF57+)
    // user_pref("toolkit.cosmeticAnimations.enabled", false); // (FF55+)
 /* CONTENT BEHAVIOR ***/
-   // user_pref("accessibility.typeaheadfind", true); // enable "Find As You Type"
-   // user_pref("clipboard.autocopy", false); // disable autocopy default [LINUX]
-   // user_pref("layout.spellcheckDefault", 2); // 0=none, 1-multi-line, 2=multi-line & single-line
+user_pref("accessibility.typeaheadfind", true); // enable "Find As You Type"
+user_pref("clipboard.autocopy", false); // disable autocopy default [LINUX]
+user_pref("layout.spellcheckDefault", 0); // 0=none, 1-multi-line, 2=multi-line & single-line
 /* UX BEHAVIOR ***/
-   // user_pref("browser.backspace_action", 2); // 0=previous page, 1=scroll up, 2=do nothing
-   // user_pref("browser.ctrlTab.previews", true);
-   // user_pref("browser.tabs.closeWindowWithLastTab", false);
+user_pref("browser.backspace_action", 2); // 0=previous page, 1=scroll up, 2=do nothing
+user_pref("browser.ctrlTab.previews", true);
+user_pref("browser.tabs.closeWindowWithLastTab", false);
    // user_pref("browser.tabs.loadBookmarksInTabs", true); // open bookmarks in a new tab (FF57+)
    // user_pref("browser.urlbar.decodeURLsOnCopy", true); // see  Bugzilla 1320061 (FF53+)
-   // user_pref("general.autoScroll", false); // middle-click enabling auto-scrolling [WINDOWS] [MAC]
-   // user_pref("view_source.tab", false); // open "page/selection source" in a new window
+user_pref("general.autoScroll", false); // middle-click enabling auto-scrolling [WINDOWS] [MAC]
+user_pref("view_source.tab", false); // open "page/selection source" in a new window
 /* OTHER ***/
 user_pref("browser.bookmarks.max_backups", 0);
 user_pref("identity.fxaccounts.enabled", false); // disable and hide Firefox Accounts and Sync (FF60+) [RESTART]
