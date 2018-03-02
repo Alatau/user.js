@@ -84,6 +84,9 @@ user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?pr
 
 /*** 0200: GEOLOCATION ***/
 user_pref("_user.js.parrot", "0200 syntax error: the parrot's definitely deceased!");
+/* 0201: disable Location-Aware Browsing
+ * [1] https://www.mozilla.org/firefox/geolocation/ ***/
+user_pref("geo.enabled", false);
 /* 0202: disable GeoIP-based search results
  * [NOTE] May not be hidden if Firefox has changed your settings due to your locale
  * [1] https://trac.torproject.org/projects/tor/ticket/16254
@@ -114,6 +117,10 @@ user_pref("intl.regional_prefs.use_os_locales", false);
  * Optionally enable logging to the console (defaults to false) ***/
 user_pref("geo.wifi.uri", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");
    // user_pref("geo.wifi.logging.enabled", true); // (hidden pref)
+/* 0211: set a default permission for Location (FF58+)
+ * [SETTING] to add site exceptions: Page Info>Permissions>Access Your Location
+ * [SETTING] to manage site exceptions: Options>Privacy>Permissions>Location>Settings ***/
+   // user_pref("permissions.default.geo", 2); // 0=always ask (default), 1=allow, 2=block
 
 /*** 0300: QUIET FOX
      We choose to not disable auto-CHECKs (0301's) but to disable auto-INSTALLs (0302's).
@@ -1562,7 +1569,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
  ** 1337161 - hide gamepads from content (see 4606) (FF56+)
  ** 1372072 - spoof network information API as "unknown" (see 4607) (FF56+)
  ** 1333641 - reduce fingerprinting in WebSpeech API (see 4608) (FF56+)
- ** 1372069 & 1403813 - block geolocation requests (same as if you deny a site permission) (see 4609, 4612) (FF56+)
+ ** 1372069 & 1403813 - block geolocation requests (same as if you deny a site permission) (see 0201, 0211) (FF56+)
  ** 1369309 - spoof media statistics (see 4610) (FF57+)
  ** 1382499 - reduce screen co-ordinate fingerprinting in Touch API (see 4611) (FF57+)
  ** 1217290 & 1409677 - enable fingerprinting resistance for WebGL (see 2010-12) (FF57+)
@@ -1644,9 +1651,6 @@ user_pref("dom.netinfo.enabled", false);
    // [2] https://developer.mozilla.org/docs/Web/API/SpeechSynthesis
    // [3] https://wiki.mozilla.org/HTML5_Speech_API
 user_pref("media.webspeech.synth.enabled", false);
-// 4609: [0201] disable Location-Aware Browsing
-   // [1] https://www.mozilla.org/firefox/geolocation/
-user_pref("geo.enabled", false);
 // * * * /
 // FF57+
 // 4610: [2506] disable video statistics - JS performance fingerprinting (FF25+)
@@ -1660,12 +1664,6 @@ user_pref("media.video_stats.enabled", false);
    // [1] https://developer.mozilla.org/docs/Web/API/Touch_events
    // [2] https://trac.torproject.org/projects/tor/ticket/10286
    // user_pref("dom.w3c_touch_events.enabled", 0);
-// * * * /
-// FF58+
-// 4612: [new] set a default permission for Location (FF58+)
-   // [SETTING] to add site exceptions: Page Info>Permissions>Access Your Location
-   // [SETTING] to manage site exceptions: Options>Privacy>Permissions>Location>Settings
-   // user_pref("permissions.default.geo", 2); // 0=always ask (default), 1=allow, 2=block
 // * * * /
 // ***/
 
@@ -1701,85 +1699,36 @@ user_pref("_user.js.parrot", "4700 syntax error: the parrot's taken 'is last bow
    // user_pref("general.oscpu.override", "Windows NT 6.1"); // (hidden pref)
 /* 4707: general.useragent.locale (related, see 0204 deprecated FF59+) ***/
 
-/*** 5000: PERSONAL SETTINGS [SETUP]
-     Settings that are handy to migrate and/or are not in the Options interface. Users
-     can put their own non-security/privacy/fingerprinting/tracking stuff here ***/
+/*** 5000: PERSONAL [SETUP]
+     Non-project related but useful. If any of these interest you, add them to your overrides ***/
 user_pref("_user.js.parrot", "5000 syntax error: this is an ex-parrot!");
-/* 5001: disable annoying warnings ***/
-user_pref("browser.tabs.warnOnClose", false);
-user_pref("browser.tabs.warnOnCloseOtherTabs", false);
-user_pref("browser.tabs.warnOnOpen", false);
-/* 5002: disable warning when a domain requests full screen
- * [1] https://developer.mozilla.org/docs/Web/API/Fullscreen_API ***/
+/* WARNINGS ***/
+   // user_pref("browser.tabs.warnOnClose", false);
+   // user_pref("browser.tabs.warnOnCloseOtherTabs", false);
+   // user_pref("browser.tabs.warnOnOpen", false);
    // user_pref("full-screen-api.warning.delay", 0);
    // user_pref("full-screen-api.warning.timeout", 0);
-/* 5003: disable closing browser with last tab ***/
-user_pref("browser.tabs.closeWindowWithLastTab", false);
-/* 5004: disable backspace (0=previous page, 1=scroll up, 2=do nothing) ***/
-user_pref("browser.backspace_action", 2);
-/* 5005: disable autocopy default [LINUX] ***/
-user_pref("clipboard.autocopy", false);
-/* 5006: disable enforced extension signing (FF43+)
- * [NOTE] Only applicable to Nightly and ESR (FF48+)
- * [1] https://wiki.mozilla.org/Add-ons/Extension_Signing#Documentation ***/
-user_pref("xpinstall.signatures.required", false);
-/* 5007: open new windows in a new tab instead
- * 1=current window, 2=new window, 3=most recent window
- * [SETTING] Options>General>Tabs>Open new windows in a new tab instead ***/
-user_pref("browser.link.open_newwindow", 3);
-/* 5008: open bookmarks in a new tab (FF57+)
- * [NOTE] You can also use middle-click, cmd/ctl-click, and use the context menu ***/
-   // user_pref("browser.tabs.loadBookmarksInTabs", true);
-/* 5010: enable ctrl-tab previews ***/
-user_pref("browser.ctrlTab.previews", true);
-/* 5011: don't open "page/selection source" in a tab. The window used instead is cleaner
- * and easier to use and move around (e.g. developers/multi-screen). ***/
-user_pref("view_source.tab", false);
-/* 5012: control spellchecking: 0=none, 1-multi-line controls, 2=multi-line & single-line controls ***/
-user_pref("layout.spellcheckDefault", 1);
-/* 5013: disable automatic "Work Offline" status
- * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=620472
- * [2] https://developer.mozilla.org/docs/Online_and_offline_events ***/
-user_pref("network.manage-offline-status", false);
-/* 5014: control download button visibility (FF57+)
- * true = the button is automatically shown/hidden based on whether the session has downloads or not
- * false = the button is always visible ***/
-   // user_pref("browser.download.autohideButton", false);
-/* 5015: disable animations (FF55+)
- * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1352069 ***/
-   // user_pref("toolkit.cosmeticAnimations.enabled", false);
-/* 5016: disable reload/stop animation (FF56+) ***/
-   // user_pref("browser.stopReloadAnimation.enabled", true);
-/* 5018: set maximum number of daily bookmark backups to keep (default is 15) ***/
+/* APPEARANCE ***/
+   // user_pref("browser.download.autohideButton", false); // (FF57+)
+   // user_pref("toolkit.cosmeticAnimations.enabled", false); // (FF55+)
+/* CONTENT BEHAVIOR ***/
+   // user_pref("accessibility.typeaheadfind", true); // enable "Find As You Type"
+   // user_pref("clipboard.autocopy", false); // disable autocopy default [LINUX]
+   // user_pref("layout.spellcheckDefault", 2); // 0=none, 1-multi-line, 2=multi-line & single-line
+/* UX BEHAVIOR ***/
+   // user_pref("browser.backspace_action", 2); // 0=previous page, 1=scroll up, 2=do nothing
+   // user_pref("browser.ctrlTab.previews", true);
+   // user_pref("browser.tabs.closeWindowWithLastTab", false);
+   // user_pref("browser.tabs.loadBookmarksInTabs", true); // open bookmarks in a new tab (FF57+)
+   // user_pref("browser.urlbar.decodeURLsOnCopy", true); // see  Bugzilla 1320061 (FF53+)
+   // user_pref("general.autoScroll", false); // middle-click enabling auto-scrolling [WINDOWS] [MAC]
+   // user_pref("view_source.tab", false); // open "page/selection source" in a new window
+/* OTHER ***/
 user_pref("browser.bookmarks.max_backups", 0);
-/* 5020: control urlbar click behaviour (with defaults) ***/
-user_pref("browser.urlbar.clickSelectsAll", true);
-user_pref("browser.urlbar.doubleClickSelectsAll", false);
-/* 5021a: control tab behaviours (with defaults)
- * open links in a new tab immediately to the right of parent tab, not far right ***/
-user_pref("browser.tabs.insertRelatedAfterCurrent", true);
-/* 5021b: switch to the parent tab (if it has one) on close, rather than
- * to the adjacent right tab if it exists or to the adjacent left tab if it doesn't.
- * [NOTE] Requires browser.link.open_newwindow set to 3 (see pref 5007) ***/
-user_pref("browser.tabs.selectOwnerOnClose", true);
-/* 5021c: stay on the parent tab when opening links in a new tab
- * [SETTING] Options>General>Tabs>When you open a link in a new tab, switch to it immediately ***/
-user_pref("browser.tabs.loadInBackground", true);
-/* 5021d: set behavior of pages normally meant to open in a new window (such as target="_blank"
- * or from an external program), but that have instead been loaded in a new tab.
- * true: load the new tab in the background, leaving focus on the current tab
- * false: load the new tab in the foreground, taking the focus from the current tab. ***/
-user_pref("browser.tabs.loadDivertedInBackground", false);
-/* 5023: enable "Find As You Type"
- * [1] http://kb.mozillazine.org/Accessibility.typeaheadfind ***/
-   // user_pref("accessibility.typeaheadfind", true);
-/* 5026: disable "Reader View" ***/
-   // user_pref("reader.parse-on-load.enabled", false);
-/* 5027: decode URLs on copy from the urlbar (FF53+)
- * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1320061 ***/
-user_pref("browser.urlbar.decodeURLsOnCopy", true);
-/* 5028: disable middle-click enabling auto-scrolling [WINDOWS] [MAC] ***/
-   // user_pref("general.autoScroll", false);
+user_pref("identity.fxaccounts.enabled", false); // disable and hide Firefox Accounts and Sync (FF60+) [RESTART]
+   // user_pref("network.manage-offline-status", false); // see Bugzilla 620472
+user_pref("reader.parse-on-load.enabled", false); // "Reader View"
+   // user_pref("xpinstall.signatures.required", false); // enforced extension signing (Nightly/ESR)
 
 /*** 9999: DEPRECATED / REMOVED / LEGACY / RENAMED
      Documentation denoted as [-]. Numbers may be re-used. See [1] for a link-clickable,
