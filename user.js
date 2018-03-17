@@ -1,7 +1,7 @@
 /******
 * name: ghacks user.js
-* date: 27 February 2018
-* version 59-beta: Sweet Dreams (Are Made of Pants)
+* date: 16 March 2018
+* version 59: Sweet Dreams (Are Made of Pants)
 *   "Sweet dreams are made of pants. Who are you to disagree?"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
@@ -875,7 +875,7 @@ user_pref("gfx.font_rendering.graphite.enabled", false);
      Our default settings provide the best balance between protection and amount of breakage.
      To harden it a bit more you can set XOriginPolicy (1603) to 2 (+ optionally 1604 to 1 or 2).
      To fix broken sites, temporarily set XOriginPolicy=0 and XOriginTrimmingPolicy=2 in about:config,
-     use the site and then change the values back. If you visit those sites regularly, use an extension.
+     use the site and then change the values back. If you visit those sites regularly (e.g. Vimeo), use an extension.
 
                     full URI: https://example.com:8888/foo/bar.html?id=1234
        scheme+host+path+port: https://example.com:8888/foo/bar.html
@@ -1196,6 +1196,9 @@ user_pref("layers.acceleration.disabled", true);
 /* 2510: disable Web Audio API (FF51+)
  * [1] https://bugzilla.mozilla.org/1288359 ***/
 user_pref("dom.webaudio.enabled", false);
+/* 2516: disable PointerEvents
+ * [1] https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent ***/
+user_pref("dom.w3c_pointer_events.enabled", false);
 
 /*** 2600: MISCELLANEOUS ***/
 user_pref("_user.js.parrot", "2600 syntax error: the parrot's run down the curtain!");
@@ -1343,6 +1346,9 @@ user_pref("security.csp.experimentalEnabled", true);
  * [2] https://www.wordfence.com/blog/2017/01/gmail-phishing-data-uri/
  * [3] https://www.fxsitecompat.com/en-CA/docs/2017/data-url-navigations-on-top-level-window-will-be-blocked/ ***/
 user_pref("security.data_uri.block_toplevel_data_uri_navigations", true);
+/* 2676: disable CSP violation events
+ * [1] https://developer.mozilla.org/docs/Web/API/SecurityPolicyViolationEvent ***/
+user_pref("security.csp.enable_violation_events", false);
 
 /*** 2700: PERSISTENT STORAGE
      Data SET by websites including
