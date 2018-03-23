@@ -185,7 +185,8 @@ user_pref("toolkit.telemetry.updatePing.enabled", false); // (FF56+)
 user_pref("toolkit.telemetry.bhrPing.enabled", false); // (FF57+) Background Hang Reporter
 user_pref("toolkit.telemetry.firstShutdownPing.enabled", false); // (FF57+)
 user_pref("toolkit.telemetry.hybridContent.enabled", false); // (FF59+)
-/* 0333: disable health report ***/
+/* 0333: disable health report
+ * [SETTING] Options>Privacy & Security>Firefox Data Collection & Use>Allow Firefox to send technical... data ***/
 user_pref("datareporting.healthreport.uploadEnabled", false);
 /* 0334: disable new data submission, master kill switch (FF41+)
  * If disabled, no policy is shown or upload takes place, ever
@@ -193,7 +194,8 @@ user_pref("datareporting.healthreport.uploadEnabled", false);
 user_pref("datareporting.policy.dataSubmissionEnabled", false);
 /* 0350: disable crash reports ***/
 user_pref("breakpad.reportURL", "");
-/* 0351: disable sending of crash reports (FF44+) ***/
+/* 0351: disable sending of crash reports (FF44+)
+ * [SETTING] Options>Privacy & Security/Firefox Data Collection & Use/Allow Firefox to send crash reports ***/
 user_pref("browser.tabs.crashReporting.sendReport", false);
 user_pref("browser.crashReports.unsubmittedCheck.enabled", false); // (FF51+)
 user_pref("browser.crashReports.unsubmittedCheck.autoSubmit", false); // (FF51-57)
@@ -315,12 +317,12 @@ user_pref("privacy.trackingprotection.ui.enabled", true);
    // user_pref("privacy.trackingprotection.annotate_channels", false);
    // user_pref("privacy.trackingprotection.lower_network_priority", false);
 
-/*** 0500: SYSTEM EXTENSIONS / EXPERIMENTS
-     System extensions are a method for shipping extensions, considered to be
+/*** 0500: SYSTEM ADD-ONS / EXPERIMENTS
+     System Add-ons are a method for shipping extensions, considered to be
      built-in features to Firefox, that are hidden from the about:addons UI.
-     To view your system extensions go to about:support, they are listed under "Firefox Features"
+     To view your System Add-ons go to about:support, they are listed under "Firefox Features"
 
-     Some system extensions have no on-off prefs. Instead you can manually remove them. Note that app
+     Some System Add-ons have no on-off prefs. Instead you can manually remove them. Note that app
      updates will restore them. They may also be updated and possibly restored automatically (see 0505)
      * Portable: "...\App\Firefox64\browser\features\" (or "App\Firefox\etc" for 32bit)
      * Windows: "...\Program Files\Mozilla\browser\features" (or "Program Files (X86)\etc" for 32bit)
@@ -340,10 +342,17 @@ user_pref("experiments.supported", false);
 user_pref("experiments.activeExperiment", false);
 /* 0502: disable Mozilla permission to silently opt you into tests ***/
 user_pref("network.allow-experiments", false);
-/* 0505: block URL used for system extension updates (FF44+)
- * [NOTE] You will not get any system extension updates except when you update Firefox ***/
+/* 0503: disable Normandy/Shield (FF60+)
+ * Shield is an telemetry system (including Heartbeat) that can also push and test "recipes"
+ * [1] https://wiki.mozilla.org/Firefox/Shield
+ * [2] https://github.com/mozilla/normandy ***/
+user_pref("app.normandy.enabled", false);
+user_pref("app.normandy.api_url", "");
+user_pref("app.shield.optoutstudies.enabled", false);
+/* 0505: block URL used for System Add-on updates (FF44+)
+ * [NOTE] You will not get any System Add-on updates except when you update Firefox ***/
    // user_pref("extensions.systemAddon.update.url", "");
-/* 0506: disable PingCentre telemetry (used in several system extensions) (FF57+)
+/* 0506: disable PingCentre telemetry (used in several System Add-ons) (FF57+)
  * Currently blocked by 'datareporting.healthreport.uploadEnabled' (see 0333) ***/
 user_pref("browser.ping-centre.telemetry", false);
 /* 0510: disable Pocket (FF39+)
@@ -351,14 +360,14 @@ user_pref("browser.ping-centre.telemetry", false);
  * [1] https://en.wikipedia.org/wiki/Pocket_(application)
  * [2] https://www.gnu.gl/blog/Posts/multiple-vulnerabilities-in-pocket/ ***/
 user_pref("extensions.pocket.enabled", false);
-/* 0512: disable Shield (FF53+)
+/* 0512: disable Shield (FF53-FF59) - replaced internally by Normandy (see 0503)
  * Shield is an telemetry system (including Heartbeat) that can also push and test "recipes"
  * [1] https://wiki.mozilla.org/Firefox/Shield
  * [2] https://github.com/mozilla/normandy ***/
 user_pref("extensions.shield-recipe-client.enabled", false);
 user_pref("extensions.shield-recipe-client.api_url", "");
 /* 0513: disable Follow On Search (FF53+)
- * Just DELETE the XPI file in your system extensions directory
+ * Just DELETE the XPI file in your System Add-ons directory
  * [1] https://blog.mozilla.org/data/2017/06/05/measuring-search-in-firefox/ ***/
 /* 0514: disable Activity Stream (FF54+)
  * Activity Stream replaces "New Tab" with one based on metadata and browsing behavior,
@@ -1556,10 +1565,10 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
       FF59: Added to site permissions panel (1413780) Only prompt when triggered by user input (1376865)
  ** 1372073 - spoof/block fingerprinting in MediaDevices API (see 4612) (FF59+)
  ** 1039069 - warn when language prefs are set to non en-US (see 0207, 0208) (FF59+)
- ** 1222285 & 1433592 - spoof keyboard events and suppress keyboard modifier events (FF59+)
+ ** 1222285 - spoof keyboard events and suppress keyboard modifier events (FF59+)
       Spoofing mimics the content language of the document. Currently it only supports en-US.
-      Modifier events suppressed are SHIFT and both ALT keys. Chrome is not affected.
-      FF60: Fixes keydown/keyup events (1438795)
+      Modifier events suppressed are SHIFT, CTRL and both ALT keys. Chrome is not affected.
+      FF60: Don't spoof/suppress CTRL key (1433592) Fix keydown/keyup events (1438795)
 ***/
 user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting (FF41+)
