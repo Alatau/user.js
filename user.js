@@ -1079,6 +1079,11 @@ user_pref("browser.link.open_newwindow", 3);
  * [TEST] https://people.torproject.org/~gk/misc/entire_desktop.html
  * [1] https://trac.torproject.org/projects/tor/ticket/9881 ***/
 user_pref("browser.link.open_newwindow.restriction", 0);
+/* 2206: disable Fullscreen API [SETUP]
+ * [NOTE] You can still manually toggle the browser's fullscreen state (F11), 
+ * but this pref will disable embedded video/game fullscreen controls, e.g. youtube
+ * [TEST] https://developer.mozilla.org/samples/domref/fullscreen.html ***/
+   // user_pref("full-screen-api.enabled", false);
 /* 2207: block popup windows
  * [SETTING] Options>Privacy & Security>Permissions>Block pop-up windows ***/
 user_pref("dom.disable_open_during_load", true);
@@ -1088,10 +1093,6 @@ user_pref("dom.popup_maximum", 3);
  * default is "change click dblclick mouseup pointerup notificationclick reset submit touchend"
  * [1] http://kb.mozillazine.org/Dom.popup_allowed_events ***/
 user_pref("dom.popup_allowed_events", "click dblclick");
-/* 2206: open new windows in a new tab instead
- * 1=current window, 2=new window, 3=most recent window
- * [SETTING] Options>General>Tabs>Open new windows in a new tab instead ***/
-user_pref("browser.link.open_newwindow", 3);
 
 /*** 2300: WEB WORKERS [SETUP]
      A worker is a JS "background task" running in a global context, i.e. it is different from
