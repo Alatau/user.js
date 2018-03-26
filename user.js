@@ -658,8 +658,8 @@ user_pref("browser.cache.frecency_experiment", -1);
 /* 1020: disable the Session Restore service completely
  * [WARNING] [SETUP] This also disables the "Recently Closed Tabs" feature
  * It does not affect "Recently Closed Windows" or any history. ***/
-user_pref("browser.sessionstore.max_tabs_undo", 10);
-user_pref("browser.sessionstore.max_windows_undo", 10);
+   // user_pref("browser.sessionstore.max_tabs_undo", 0);
+   // user_pref("browser.sessionstore.max_windows_undo", 0);
 /* 1021: disable storing extra session data
  * extra session data contains contents of forms, scrollbar positions, cookies and POST data
  * define on which sites to save extra session data:
@@ -1069,11 +1069,9 @@ user_pref("dom.disable_window_flip", true); // window z-order - default: true
 user_pref("dom.disable_window_move_resize", true);
 /* 2204: open new windows in a new tab instead
  * [NOTE] A value of 3 is required for 2205 to work properly
- * with 2203 dom.disable_window_move_resize=true | 2418 full-screen-api.enabled=false
- * [NOTE] You can still right click a link and select open in a new window
- * [TEST] https://people.torproject.org/~gk/misc/entire_desktop.html
- * [1] https://trac.torproject.org/projects/tor/ticket/9881 ***/
-user_pref("browser.link.open_newwindow.restriction", 0);
+ * 1=current window, 2=new window, 3=most recent window
+ * [SETTING] Options>General>Tabs>Open new windows in a new tab instead ***/
+user_pref("browser.link.open_newwindow", 3);
 /* 2205: disable links opening in a new window
  * You can still right click a link and open in a new window. This is to stop malicious window
  * sizes in conjunction with 2204 + 2206 + 2203's dom.disable_window_move_resize=true.
@@ -1081,11 +1079,6 @@ user_pref("browser.link.open_newwindow.restriction", 0);
  * [TEST] https://people.torproject.org/~gk/misc/entire_desktop.html
  * [1] https://trac.torproject.org/projects/tor/ticket/9881 ***/
 user_pref("browser.link.open_newwindow.restriction", 0);
-/* 2206: disable Fullscreen API [SETUP]
- * [NOTE] You can still manually toggle the browser's fullscreen state (F11), 
- * but this pref will disable embedded video/game fullscreen controls, e.g. youtube
- * [TEST] https://developer.mozilla.org/samples/domref/fullscreen.html ***/
-   // user_pref("full-screen-api.enabled", false);
 /* 2207: block popup windows
  * [SETTING] Options>Privacy & Security>Permissions>Block pop-up windows ***/
 user_pref("dom.disable_open_during_load", true);
