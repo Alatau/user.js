@@ -1050,38 +1050,51 @@ user_pref("media.autoplay.enabled", false);
  * [1] https://www.ghacks.net/2016/11/14/firefox-51-blocks-automatic-audio-playback-in-non-active-tabs/ ***/
 user_pref("media.block-autoplay-until-in-foreground", true);
 
-/*** 2200: UI MEDDLING
-   see http://kb.mozillazine.org/Prevent_websites_from_disabling_new_window_features ***/
+/*** 2200: WINDOW MEDDLING/LEAKS & POPUPS ***/
 user_pref("_user.js.parrot", "2200 syntax error: the parrot's 'istory!");
-/* 2201: disable website control over browser right-click context menu
- * [NOTE] Shift-Right-Click will always bring up the browser right-click context menu ***/
-user_pref("dom.event.contextmenu.enabled", false);
-/* 2202: disable [new window] scripts hiding or disabling the following ***/
-user_pref("dom.disable_window_open_feature.location", true);
-user_pref("dom.disable_window_open_feature.menubar", true);
-user_pref("dom.disable_window_open_feature.resizable", true);
-user_pref("dom.disable_window_open_feature.status", true);
-user_pref("dom.disable_window_open_feature.toolbar", true);
-/* 2203: disable [popup window] scripts hiding or disabling the following ***/
-user_pref("dom.disable_window_flip", true); // window z-order
-user_pref("dom.disable_window_move_resize", true);
+/* 2202: prevent websites from disabling new window features
+ * [1] http://kb.mozillazine.org/Prevent_websites_from_disabling_new_window_features ***/
 user_pref("dom.disable_window_open_feature.close", true);
+user_pref("dom.disable_window_open_feature.location", true); // default: true
+user_pref("dom.disable_window_open_feature.menubar", true);
 user_pref("dom.disable_window_open_feature.minimizable", true);
 user_pref("dom.disable_window_open_feature.personalbar", true); // bookmarks toolbar
+user_pref("dom.disable_window_open_feature.resizable", true); // default: true
+user_pref("dom.disable_window_open_feature.status", true); // status bar - default: true
 user_pref("dom.disable_window_open_feature.titlebar", true);
-user_pref("dom.allow_scripts_to_close_windows", false);
-/* 2204: disable links opening in a new window
- * This is to stop malicious window sizes and screen res leaks etc in conjunction
+user_pref("dom.disable_window_open_feature.toolbar", true);
+/* 2203: disable meddling with open windows ***/
+user_pref("dom.allow_scripts_to_close_windows", false); // default: false
+user_pref("dom.disable_window_flip", true); // window z-order - default: true
+user_pref("dom.disable_window_move_resize", true);
+/* 2204: open new windows in a new tab instead
+ * [NOTE] A value of 3 is required for 2205 to work properly
  * with 2203 dom.disable_window_move_resize=true | 2418 full-screen-api.enabled=false
  * [NOTE] You can still right click a link and select open in a new window
  * [TEST] https://people.torproject.org/~gk/misc/entire_desktop.html
  * [1] https://trac.torproject.org/projects/tor/ticket/9881 ***/
 user_pref("browser.link.open_newwindow.restriction", 0);
-/* 2205: disable "Confirm you want to leave" dialog on page close
- * Does not prevent JS leaks of the page close event.
- * [1] https://developer.mozilla.org/docs/Web/Events/beforeunload
- * [2] https://support.mozilla.org/questions/1043508 ***/
-user_pref("dom.disable_beforeunload", true);
+/* 2205: disable links opening in a new window
+ * You can still right click a link and open in a new window. This is to stop malicious window
+ * sizes in conjunction with 2204 + 2206 + 2203's dom.disable_window_move_resize=true.
+ * [NOTE] RFP (4500) already resizes new windows to cover screen resolution leaks
+ * [TEST] https://people.torproject.org/~gk/misc/entire_desktop.html
+ * [1] https://trac.torproject.org/projects/tor/ticket/9881 ***/
+user_pref("browser.link.open_newwindow.restriction", 0);
+/* 2206: disable Fullscreen API [SETUP]
+ * [NOTE] You can still manually toggle the browser's fullscreen state (F11), 
+ * but this pref will disable embedded video/game fullscreen controls, e.g. youtube
+ * [TEST] https://developer.mozilla.org/samples/domref/fullscreen.html ***/
+   // user_pref("full-screen-api.enabled", false);
+/* 2207: block popup windows
+ * [SETTING] Options>Privacy & Security>Permissions>Block pop-up windows ***/
+user_pref("dom.disable_open_during_load", true);
+/* 2208 set max popups from a single non-click event - default is 20! ***/
+user_pref("dom.popup_maximum", 3);
+/* 2209: limit events that can cause a popup
+ * default is "change click dblclick mouseup pointerup notificationclick reset submit touchend"
+ * [1] http://kb.mozillazine.org/Dom.popup_allowed_events ***/
+user_pref("dom.popup_allowed_events", "click dblclick");
 /* 2206: open new windows in a new tab instead
  * 1=current window, 2=new window, 3=most recent window
  * [SETTING] Options>General>Tabs>Open new windows in a new tab instead ***/
@@ -1134,6 +1147,9 @@ user_pref("dom.push.userAgentID", "");
 
 /*** 2400: DOM (DOCUMENT OBJECT MODEL) & JAVASCRIPT ***/
 user_pref("_user.js.parrot", "2400 syntax error: the parrot's kicked the bucket!");
+/* 2401: disable website control over browser right-click context menu
+* [NOTE] Shift-Right-Click will always bring up the browser right-click context menu ***/
+user_pref("dom.event.contextmenu.enabled", false);
 /* 2402: disable website access to clipboard events/content
  * [WARNING] This will break some sites functionality such as pasting into facebook, wordpress
  * this applies to onCut, onCopy, onPaste events - i.e. you have to interact with
@@ -1144,17 +1160,13 @@ user_pref("dom.event.clipboardevents.enabled", false);
  * this disables document.execCommand("cut"/"copy") to protect your clipboard
  * [1] https://bugzilla.mozilla.org/1170911 ***/
 user_pref("dom.allow_cut_copy", false); // (hidden pref)
+/* 2404: disable "Confirm you want to leave" dialog on page close
+ * Does not prevent JS leaks of the page close event.
+ * [1] https://developer.mozilla.org/docs/Web/Events/beforeunload
+ * [2] https://support.mozilla.org/questions/1043508 ***/
+user_pref("dom.disable_beforeunload", true);
 /* 2414: disable shaking the screen ***/
 user_pref("dom.vibrator.enabled", false);
-/* 2415: set max popups from a single non-click event - default is 20! ***/
-user_pref("dom.popup_maximum", 3);
-/* 2415b: limit events that can cause a popup
- * default is "change click dblclick mouseup pointerup notificationclick reset submit touchend"
- * [1] http://kb.mozillazine.org/Dom.popup_allowed_events ***/
-user_pref("dom.popup_allowed_events", "click dblclick");
-/* 2418: disable full-screen API
- * false=block, true=ask ***/
-   // user_pref("full-screen-api.enabled", false);
 /* 2420: disable asm.js (FF22+)
  * [1] http://asmjs.org/
  * [2] https://www.mozilla.org/security/advisories/mfsa2015-29/
@@ -1409,8 +1421,9 @@ user_pref("extensions.webextensions.keepUuidOnUninstall", false);
  * [1] https://github.com/gorhill/uBlock/releases/tag/1.14.0
  * [WARNING] This *will* break other extensions including legacy, and *will* break some sites ***/
    // user_pref("dom.indexedDB.enabled", false);
-/* 2730: disable offline cache ***/
-user_pref("browser.cache.offline.enable", false);
+/* 2730: disable offline cache
+ * [NOTE] This is required 'true' for Storage API (2750) ***/
+   // user_pref("browser.cache.offline.enable", false);
 /* 2731: enforce websites to ask to store data for offline use
  * [1] https://support.mozilla.org/questions/1098540
  * [2] https://bugzilla.mozilla.org/959985 ***/
@@ -1430,13 +1443,12 @@ user_pref("dom.caches.enabled", false);
  * The API gives sites the ability to find out how much space they can use, how much
  * they are already using, and even control whether or not they need to be alerted
  * before the user agent disposes of site data in order to make room for other things.
- * [NOTE] This also controls the visibility of the "Options>Privacy & Security>Site Data"
- * section, which also requires Offline Cache (2730) enabled to function
+ * [NOTE] If Storage API is enabled, then Offline Cache (2730) must be also be enabled
  * [1] https://developer.mozilla.org/docs/Web/API/StorageManager
  * [2] https://developer.mozilla.org/docs/Web/API/Storage_API
  * [3] https://blog.mozilla.org/l10n/2017/03/07/firefox-l10n-report-aurora-54/ ***/
-user_pref("dom.storageManager.enabled", false); // (FF51+)
-user_pref("browser.storageManager.enabled", false); // (FF53+)
+   // user_pref("dom.storageManager.enabled", false); // (FF51+)
+   // user_pref("browser.storageManager.enabled", false); // controls "Site Data" UI visibility (FF53+)
 
 /*** 2800: SHUTDOWN [SETUP]
      You should set the values to what suits you best. Be aware that the settings below clear
