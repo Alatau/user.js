@@ -1,8 +1,8 @@
 /******
 * name: ghacks user.js
-* date: 16 March 2018
-* version 59: Sweet Dreams (Are Made of Pants)
-*   "Sweet dreams are made of pants. Who are you to disagree?"
+* date: 4 April 2018
+* version 60-alpha: Call Me Pants, Maybe
+*   "Your stare was holding, ripped JEANS, skin was showin'"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
 * license: MIT: https://github.com/ghacksuserjs/ghacks-user.js/blob/master/LICENSE.txt
@@ -1285,6 +1285,12 @@ user_pref("security.fileuri.strict_origin_policy", true);
  * [1] https://developer.mozilla.org/docs/Web/Security/Subresource_Integrity
  * [2] https://wiki.mozilla.org/Security/Subresource_Integrity ***/
 user_pref("security.sri.enable", true); // default: true
+/* 2625: clear localStorage and UUID when an extension is uninstalled
+ * [NOTE] Both preferences must be the same
+ * [1] https://developer.mozilla.org/Add-ons/WebExtensions/API/storage/local
+ * [2] https://bugzilla.mozilla.org/1213990 ***/
+user_pref("extensions.webextensions.keepStorageOnUninstall", false);
+user_pref("extensions.webextensions.keepUuidOnUninstall", false);
 /* 2626: disable optional user agent token
  * [1] https://developer.mozilla.org/docs/Web/HTTP/Headers/User-Agent/Firefox ***/
 user_pref("general.useragent.compatMode.firefox", false); // default: false
@@ -1380,7 +1386,8 @@ user_pref("_user.js.parrot", "2700 syntax error: the parrot's joined the bleedin
  * 0=allow all 1=allow same host 2=disallow all 3=allow 3rd party if it already set a cookie
  * [SETTING] Privacy & Security>History>Custom Settings>Accept cookies from sites
  * [SETTING-ESR52] Privacy>History>Custom Settings>Accept cookies from sites
- * [NOTE] This also controls access to 3rd party Web Storage, IndexedDB, Cache API and Service Worker Cache
+ * [NOTE] Blocking 3rd party controls 3rd party access to localStorage, IndexedDB, Cache API and Service Worker Cache.
+ * Blocking 1st party controls access to localStorage and IndexedDB (note: Service Workers can still use IndexedDB).
  * [1] https://www.fxsitecompat.com/en-CA/docs/2015/web-storage-indexeddb-cache-api-now-obey-third-party-cookies-preference/ ***/
 user_pref("network.cookie.cookieBehavior", 1);
 /* 2702: set third-party cookies (i.e ALL) (if enabled, see above pref) to session-only
@@ -1405,12 +1412,6 @@ user_pref("network.cookie.leave-secure-alone", true); // default: true
  * [WARNING] This will break a LOT of sites' functionality.
  * You are better off using an extension for more granular control ***/
    // user_pref("dom.storage.enabled", false);
-/* 2711: clear localStorage and UUID when an extension is uninstalled
- * [NOTE] Both preferences must be the same
- * [1] https://developer.mozilla.org/Add-ons/WebExtensions/API/storage/local
- * [2] https://bugzilla.mozilla.org/1213990 ***/
-user_pref("extensions.webextensions.keepStorageOnUninstall", false);
-user_pref("extensions.webextensions.keepUuidOnUninstall", false);
 /* 2720: disable JS storing data permanently [SETUP]
  * [WARNING] This BREAKS uBlock Origin [1.14.0+] and other extensions that require IndexedDB
  * [1] https://github.com/gorhill/uBlock/releases/tag/1.14.0
@@ -1446,9 +1447,11 @@ user_pref("dom.caches.enabled", false);
 
 /*** 2800: SHUTDOWN [SETUP]
      You should set the values to what suits you best. Be aware that the settings below clear
-     browsing, download and form history, but not cookies (we expect you to use an extension).
-     [NOTE] In both 2803 + 2804, the 'download' and 'history' prefs are combined in the
-     Firefox interface as "Browsing & Download History" and their values will be synced
+     browsing, download and form history, but not cookies (use exceptions or an extension).
+     - "Offline Website Data" includes appCache (2730), localStorage (2710),
+       Service Worker cache (2740), and QuotaManager (IndexedDB (2720), asm-cache)
+     - In both 2803 + 2804, the 'download' and 'history' prefs are combined in the
+       Firefox interface as "Browsing & Download History" and their values will be synced
  ***/
 user_pref("_user.js.parrot", "2800 syntax error: the parrot's bleedin' demised!");
 /* 2802: enable Firefox to clear history items on shutdown
