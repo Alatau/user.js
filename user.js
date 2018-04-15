@@ -209,6 +209,11 @@ user_pref("browser.newtabpage.introShown", true);
 /* 0370: disable "Snippets" (Mozilla content shown on about:home screen)
  * [1] https://wiki.mozilla.org/Firefox/Projects/Firefox_Start/Snippet_Service ***/
 user_pref("browser.aboutHomeSnippets.updateUrl", "data:,");
+/* 0380: disable Browser Error Reporter (FF60+)
+ * [1] https://support.mozilla.org/en-US/kb/firefox-nightly-error-collection
+ * [2] https://firefox-source-docs.mozilla.org/browser/browser/BrowserErrorReporter.html ***/
+user_pref("browser.chrome.errorReporter.enabled", false);
+user_pref("browser.chrome.errorReporter.submitUrl", "");
 
 /*** 0400: BLOCKLISTS / SAFE BROWSING / TRACKING PROTECTION
      This section has security & tracking protection implications vs privacy concerns vs effectiveness
@@ -1422,6 +1427,9 @@ user_pref("network.cookie.leave-secure-alone", true); // default: true
 /* 2730: disable offline cache
  * [NOTE] This is required 'true' for Storage API (2750) ***/
    // user_pref("browser.cache.offline.enable", false);
+/* 2730b: disable offline cache on insecure sites (FF60+)
+ * [1] https://blog.mozilla.org/security/2018/02/12/restricting-appcache-secure-contexts/ ***/
+user_pref("browser.cache.offline.insecure.enable", false);
 /* 2731: enforce websites to ask to store data for offline use
  * [1] https://support.mozilla.org/questions/1098540
  * [2] https://bugzilla.mozilla.org/959985 ***/
@@ -1549,6 +1557,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
       [TEST] http://browserspy.dk/screen.php
  ** 1281949 - spoof screen orientation (FF50+)
  ** 1281963 - hide the contents of navigator.plugins and navigator.mimeTypes (FF50+)
+      FF53: Fixes GetSupportedNames in nsMimeTypeArray and nsPluginArray (1324044)
  ** 1330890 - spoof timezone as UTC 0 (FF55+)
       FF58: Date.toLocaleFormat deprecated (818634)
       FF60: Date.toLocaleDateString and Intl.DateTimeFormat fixed (1409973)
