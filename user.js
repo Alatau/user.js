@@ -284,7 +284,7 @@ user_pref("browser.safebrowsing.provider.google4.reportMalwareMistakeURL", ""); 
 user_pref("browser.safebrowsing.provider.google4.reportPhishMistakeURL", ""); // (FF54+)
 /* 0416: disable 'ignore this warning' on Safe Browsing warnings which when clicked
  * bypasses the block for that session. This is a means for admins to enforce SB
- * [TEST] see github wiki APPENDIX C: Test Sites: Section 5
+ * [TEST] see github wiki APPENDIX A: Test Sites: Section 5
  * [1] https://bugzilla.mozilla.org/1226490 ***/
    // user_pref("browser.safebrowsing.allowOverride", false);
 /* 0417: disable data sharing (FF58+) ***/
@@ -385,9 +385,11 @@ user_pref("extensions.shield-recipe-client.api_url", "");
 user_pref("browser.newtabpage.activity-stream.enabled", false);
 user_pref("browser.library.activity-stream.enabled", false); // (FF57+)
 /* 0515: disable Screenshots (FF55+)
+ * alternatively in FF60+, disable uploading to the Screenshots server
  * [1] https://github.com/mozilla-services/screenshots
  * [2] https://www.ghacks.net/2017/05/28/firefox-screenshots-integrated-in-firefox-nightly/ ***/
 user_pref("extensions.screenshots.disabled", true);
+user_pref("extensions.screenshots.upload-disabled", true); // (FF60+)
 /* 0516: disable Onboarding (FF55+)
  * Onboarding is an interactive tour/setup for new installs/profiles and features. Every time
  * about:home or about:newtab is opened, the onboarding overlay is injected into that page
@@ -1736,6 +1738,7 @@ user_pref("browser.tabs.closeWindowWithLastTab", false);
    // user_pref("browser.urlbar.decodeURLsOnCopy", true); // see  Bugzilla 1320061 (FF53+)
 user_pref("general.autoScroll", false); // middle-click enabling auto-scrolling [WINDOWS] [MAC]
 user_pref("view_source.tab", false); // open "page/selection source" in a new window
+   // user_pref("ui.key.menuAccessKey", 0); // disable alt key toggling the menu bar [RESTART]
 /* OTHER ***/
 user_pref("browser.bookmarks.max_backups", 0);
 user_pref("identity.fxaccounts.enabled", false); // disable and hide Firefox Accounts and Sync (FF60+) [RESTART]
