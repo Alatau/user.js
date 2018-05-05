@@ -202,10 +202,7 @@ user_pref("browser.crashReports.unsubmittedCheck.autoSubmit", false); // (FF51-5
 user_pref("browser.crashReports.unsubmittedCheck.autoSubmit2", false); // (FF58+)
 /* 0360: disable new tab tile ads & preload & marketing junk ***/
 user_pref("browser.newtab.preload", false);
-user_pref("browser.newtabpage.directory.source", "data:text/plain,");
 user_pref("browser.newtabpage.enabled", false);
-user_pref("browser.newtabpage.enhanced", false);
-user_pref("browser.newtabpage.introShown", true);
 /* 0370: disable "Snippets" (Mozilla content shown on about:home screen)
  * [1] https://wiki.mozilla.org/Firefox/Projects/Firefox_Start/Snippet_Service ***/
 user_pref("browser.aboutHomeSnippets.updateUrl", "data:,");
@@ -365,12 +362,6 @@ user_pref("browser.ping-centre.telemetry", false);
  * [1] https://en.wikipedia.org/wiki/Pocket_(application)
  * [2] https://www.gnu.gl/blog/Posts/multiple-vulnerabilities-in-pocket/ ***/
 user_pref("extensions.pocket.enabled", false);
-/* 0512: disable Shield (FF53-FF59) - replaced internally by Normandy (see 0503)
- * Shield is an telemetry system (including Heartbeat) that can also push and test "recipes"
- * [1] https://wiki.mozilla.org/Firefox/Shield
- * [2] https://github.com/mozilla/normandy ***/
-user_pref("extensions.shield-recipe-client.enabled", false);
-user_pref("extensions.shield-recipe-client.api_url", "");
 /* 0513: disable Follow On Search (FF53+)
  * Just DELETE the XPI file in your System Add-ons directory
  * [1] https://blog.mozilla.org/data/2017/06/05/measuring-search-in-firefox/ ***/
@@ -382,7 +373,6 @@ user_pref("extensions.shield-recipe-client.api_url", "");
  * And/or you can try to control the ever-growing, ever-changing "browser.newtabpage.activity-stream.*" prefs
  * [1] https://wiki.mozilla.org/Firefox/Activity_Stream
  * [2] https://www.ghacks.net/2016/02/15/firefox-mockups-show-activity-stream-new-tab-page-and-share-updates/ ***/
-user_pref("browser.newtabpage.activity-stream.enabled", false);
 user_pref("browser.library.activity-stream.enabled", false); // (FF57+)
 /* 0515: disable Screenshots (FF55+)
  * alternatively in FF60+, disable uploading to the Screenshots server
@@ -1029,10 +1019,6 @@ user_pref("pdfjs.enableWebGL", false);
 user_pref("webgl.min_capability_mode", true);
 user_pref("webgl.disable-extensions", true);
 user_pref("webgl.disable-fail-if-major-performance-caveat", true);
-/* 2011: disable WebGL debug info being available to websites
- * [1] https://bugzilla.mozilla.org/1171228
- * [2] https://developer.mozilla.org/docs/Web/API/WEBGL_debug_renderer_info ***/
-user_pref("webgl.enable-debug-renderer-info", false);
 /* 2012: disable two more webgl preferences (FF51+) ***/
 user_pref("webgl.dxgl.enabled", false); // [WINDOWS]
 user_pref("webgl.enable-webgl2", false);
@@ -1109,7 +1095,7 @@ user_pref("dom.popup_allowed_events", "click dblclick");
      communicate between browsing contexts (windows/tabs/iframes) and can even control your cache.
 
      [WARNING] Disabling workers *will* break sites (e.g. Google Street View, Twitter).
-     [UPDATE] uMatrix 1.2.0+ allows a per-scope control for workers (2301) and service workers (2302)
+     [UPDATE] uMatrix 1.2.0+ allows a per-scope control for workers (2301-deprecated) and service workers (2302)
               #Required reading [#] https://github.com/gorhill/uMatrix/releases/tag/1.2.0
 
      [1]    Web Workers: https://developer.mozilla.org/docs/Web/API/Web_Workers_API
@@ -1120,9 +1106,6 @@ user_pref("dom.popup_allowed_events", "click dblclick");
      [6]  Notifications: https://support.mozilla.org/questions/1165867#answer-981820
  ***/
 user_pref("_user.js.parrot", "2300 syntax error: the parrot's off the twig!");
-/* 2301: disable workers
- * [NOTE] CVE-2016-5259, CVE-2016-2812, CVE-2016-1949, CVE-2016-5287 (fixed) ***/
-   // user_pref("dom.workers.enabled", false);
 /* 2302: disable service workers
  * Service workers essentially act as proxy servers that sit between web apps, and the browser
  * and network, are event driven, and can control the web page/site it is associated with,
@@ -1258,6 +1241,9 @@ user_pref("permissions.manager.defaultsUrl", "");
 user_pref("devtools.webide.autoinstallADBHelper", false);
 user_pref("devtools.debugger.remote-enabled", false);
 user_pref("devtools.webide.enabled", false);
+/* 2613: disable webextension restrictions on certain mozilla domains (also see 4503) (FF60+)
+ * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1384330,1406795,1415644,1453988 ***/
+   // user_pref("extensions.webextensions.restrictedDomains", "");
 /* 2617: enable Firefox's built-in PDF reader [SETUP]
  * [SETTING] General>Applications>Portable Document Format (PDF)
  * [SETTING-ESR52] Applications>Portable Document Format (PDF)
@@ -1420,6 +1406,11 @@ user_pref("network.cookie.lifetimePolicy", 2);
 /* 2705: disable HTTP sites setting cookies with the "secure" directive (FF52+)
  * [1] https://developer.mozilla.org/Firefox/Releases/52#HTTP ***/
 user_pref("network.cookie.leave-secure-alone", true); // default: true
+/* 2706: enable support for same-site cookies (FF60+)
+ * [1] https://bugzilla.mozilla.org/795346
+ * [2] https://blog.mozilla.org/security/2018/04/24/same-site-cookies-in-firefox-60/
+ * [3] https://www.sjoerdlangkemper.nl/2016/04/14/preventing-csrf-with-samesite-cookie-attribute/ ***/
+   // user_pref("network.cookie.same-site.enabled", true); // default: true
 /* 2710: disable DOM (Document Object Model) Storage
  * [WARNING] This will break a LOT of sites' functionality.
  * You are better off using an extension for more granular control ***/
@@ -1572,7 +1563,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
  ** 1369303 - spoof/disable performance API (see 2410-deprecated, 4602, 4603) (FF56+)
  ** 1333651 & 1383495 & 1396468 - spoof Navigator API (see section 4700) (FF56+)
       FF56: The version number will be rounded down to the nearest multiple of 10
-      FF57: The version number will match current ESR (1393283, 1418672)
+      FF57: The version number will match current ESR (1393283, 1418672, 1418162)
       FF59: The OS will be reported as Windows, OSX, Android, or Linux (to reduce breakage) (1404608)
  ** 1369319 - disable device sensor API (see 4604) (FF56+)
  ** 1369357 - disable site specific zoom (see 4605) (FF56+)
@@ -1595,6 +1586,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
       Spoofing mimics the content language of the document. Currently it only supports en-US.
       Modifier events suppressed are SHIFT and both ALT keys. Chrome is not affected.
       FF60: Fix keydown/keyup events (1438795)
+ ** 1337157 - disable WebGL debug renderer info (see 4613) (FF60+)
 ***/
 user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting (FF41+)
@@ -1608,8 +1600,10 @@ user_pref("privacy.resistFingerprinting", true); // (hidden pref) (not hidden FF
    // user_pref("privacy.window.maxInnerWidth", 1600); // (hidden pref)
    // user_pref("privacy.window.maxInnerHeight", 900); // (hidden pref)
 /* 4503: disable mozAddonManager Web API (FF57+)
- * [1] https://bugzilla.mozilla.org/1384330 ***/
-   // user_pref("privacy.resistFingerprinting.block_mozAddonManager", true); // (hidden pref)
+ * [NOTE] As a side-effect in FF57-59 this allowed extensions to work on AMO. In FF60+ you also need
+ * to sanitize or clear extensions.webextensions.restrictedDomains (see 2613) to keep that side-effect
+ * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1384330,1406795,1415644,1453988 ***/
+user_pref("privacy.resistFingerprinting.block_mozAddonManager", true); // (hidden pref)
 
 /*** 4600: RFP (4500) ALTERNATIVES [SETUP]
    * IF you DO use RFP (see 4500) then you DO NOT need these redundant prefs. In fact,
@@ -1679,6 +1673,12 @@ user_pref("media.video_stats.enabled", false);
    // [1] https://developer.mozilla.org/docs/Web/Events/devicechange
    // [2] https://developer.mozilla.org/docs/Web/API/MediaDevices/ondevicechange
 user_pref("media.ondevicechange.enabled", false);
+// * * * /
+// FF60+
+// 4613: [2011] disable WebGL debug info being available to websites
+   // [1] https://bugzilla.mozilla.org/1171228
+   // [2] https://developer.mozilla.org/docs/Web/API/WEBGL_debug_renderer_info
+user_pref("webgl.enable-debug-renderer-info", false);
 // * * * /
 // ***/
 
@@ -1820,7 +1820,7 @@ user_pref("browser.safebrowsing.provider.google.appRepURL", ""); // browser.safe
 // 1200's: block rc4 whitelist
    // [-] https://bugzilla.mozilla.org/1215796
 user_pref("security.tls.insecure_fallback_hosts.use_static_list", false);
-// 2301: disable SharedWorkers
+// 2300s: disable SharedWorkers
    // [1] https://trac.torproject.org/projects/tor/ticket/15562
    // [-] https://bugzilla.mozilla.org/1207635
 user_pref("dom.workers.sharedWorkers.enabled", false);
@@ -1962,7 +1962,7 @@ user_pref("dom.battery.enabled", false);
 // ***/
 
 /* ESR52.x still uses all the following prefs
-// [NOTE] replace the * with a slash in the line above to re-enable them if you're using ESR52.x.x
+// [NOTE] replace the * with a slash in the line above to re-enable them
 // FF53
 // 1265: block rc4 fallback
    // [-] https://bugzilla.mozilla.org/1130670
@@ -2111,6 +2111,30 @@ user_pref("dom.disable_window_status_change", true);
 // 2416: disable idle observation
    // [-] (part7) https://bugzilla.mozilla.org/1416703#c21
 user_pref("dom.idle-observers-api.enabled", false);
+// * * * /
+// FF60
+// 0360: disable new tab tile ads & preload & marketing junk
+   // [-] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1370930,1433133
+user_pref("browser.newtabpage.directory.source", "data:text/plain,");
+user_pref("browser.newtabpage.enhanced", false);
+user_pref("browser.newtabpage.introShown", true);
+// 0512: disable Shield (FF53-FF59) - replaced internally by Normandy (see 0503)
+   // Shield is an telemetry system (including Heartbeat) that can also push and test "recipes"
+   // [1] https://wiki.mozilla.org/Firefox/Shield
+   // [2] https://github.com/mozilla/normandy
+   // [-] https://bugzilla.mozilla.org/1436113
+user_pref("extensions.shield-recipe-client.enabled", false);
+user_pref("extensions.shield-recipe-client.api_url", "");
+// 0514: disable Activity Stream (FF54+)
+   // [-] https://bugzilla.mozilla.org/1433324
+user_pref("browser.newtabpage.activity-stream.enabled", false);
+// 2301: disable workers
+   // [NOTE] CVE-2016-5259, CVE-2016-2812, CVE-2016-1949, CVE-2016-5287 (fixed)
+   // [-] https://bugzilla.mozilla.org/1434934
+user_pref("dom.workers.enabled", false);
+// 5000s: open "page/selection source" in a new window
+   // [-] https://bugzilla.mozilla.org/1418403
+   // user_pref("view_source.tab", false);
 // * * * /
 // ***/
 
