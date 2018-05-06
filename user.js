@@ -86,7 +86,11 @@ user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?pr
 user_pref("_user.js.parrot", "0200 syntax error: the parrot's definitely deceased!");
 /* 0201: disable Location-Aware Browsing
  * [1] https://www.mozilla.org/firefox/geolocation/ ***/
-user_pref("geo.enabled", false);
+   // user_pref("geo.enabled", false);
+/* 0201b: set a default permission for Location (FF58+)
+ * [SETTING] to add site exceptions: Page Info>Permissions>Access Your Location
+ * [SETTING] to manage site exceptions: Privacy & Security>Permissions>Location>Settings ***/
+user_pref("permissions.default.geo", 2); // 0=always ask (default), 1=allow, 2=block
 /* 0202: disable GeoIP-based search results
  * [NOTE] May not be hidden if Firefox has changed your settings due to your locale
  * [1] https://trac.torproject.org/projects/tor/ticket/16254
@@ -113,10 +117,6 @@ user_pref("intl.regional_prefs.use_os_locales", false);
  * Optionally enable logging to the console (defaults to false) ***/
 user_pref("geo.wifi.uri", "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%");
    // user_pref("geo.wifi.logging.enabled", true); // (hidden pref)
-/* 0211: set a default permission for Location (FF58+)
- * [SETTING] to add site exceptions: Page Info>Permissions>Access Your Location
- * [SETTING] to manage site exceptions: Privacy & Security>Permissions>Location>Settings ***/
-   // user_pref("permissions.default.geo", 2); // 0=always ask (default), 1=allow, 2=block
 
 /*** 0300: QUIET FOX
      We choose to not disable auto-CHECKs (0301's) but to disable auto-INSTALLs (0302's).
@@ -471,9 +471,6 @@ user_pref("network.http.altsvc.oe", false);
  * [1] http://kb.mozillazine.org/Network.proxy.socks_remote_dns
  * [2] https://trac.torproject.org/projects/tor/wiki/doc/TorifyHOWTO/WebBrowsers ***/
 user_pref("network.proxy.socks_remote_dns", true);
-/* 0705: disable DNS requests for hostnames with a .onion TLD (FF45+)
- * [1] https://bugzilla.mozilla.org/1228457 ***/
-user_pref("network.dns.blockDotOnion", true);
 /* 0706: remove paths when sending URLs to PAC scripts (FF51+)
  * CVE-2017-5384: Information disclosure via Proxy Auto-Config (PAC)
  * [1] https://bugzilla.mozilla.org/1255474 ***/
@@ -775,11 +772,6 @@ user_pref("security.family_safety.mode", 0);
  * by inspecting ALL your web traffic, then leave at current default=1
  * [1] https://trac.torproject.org/projects/tor/ticket/16206 ***/
 user_pref("security.cert_pinning.enforcement_level", 2);
-/* 1223: enforce HSTS preload list (default is true)
- * The list is compiled into Firefox and used to always load those domains over HTTPS
- * [1] https://blog.mozilla.org/security/2012/11/01/preloading-hsts/
- * [2] https://wiki.mozilla.org/Privacy/Features/HSTS_Preload_List ***/
-user_pref("network.stricttransportsecurity.preloadlist", true);
 /** MIXED CONTENT ***/
 /* 1240: disable insecure active content on https pages - mixed content
  * [1] https://trac.torproject.org/projects/tor/ticket/21323 ***/
@@ -1073,7 +1065,7 @@ user_pref("dom.disable_window_move_resize", true);
 user_pref("browser.link.open_newwindow", 3);
 user_pref("browser.link.open_newwindow.restriction", 0);
 /* 2204: disable Fullscreen API to prevent screen-resolution leaks [SETUP]
- * [NOTE] You can still manually toggle the browser's fullscreen state (F11), 
+ * [NOTE] You can still manually toggle the browser's fullscreen state (F11),
  * but this pref will disable embedded video/game fullscreen controls, e.g. youtube
  * [TEST] https://developer.mozilla.org/samples/domref/fullscreen.html ***/
    // user_pref("full-screen-api.enabled", false);
@@ -1255,9 +1247,6 @@ user_pref("network.http.redirection-limit", 10);
  * [1] https://trac.torproject.org/projects/tor/ticket/10089
  * [2] http://kb.mozillazine.org/Middlemouse.contentLoadURL ***/
 user_pref("middlemouse.contentLoadURL", false);
-/* 2626: disable optional user agent token
- * [1] https://developer.mozilla.org/docs/Web/HTTP/Headers/User-Agent/Firefox ***/
-user_pref("general.useragent.compatMode.firefox", false); // default: false
 /* 2628: disable UITour backend so there is no chance that a remote page can use it ***/
 user_pref("browser.uitour.enabled", false);
 user_pref("browser.uitour.url", "");
@@ -1281,9 +1270,6 @@ user_pref("browser.tabs.remote.allowLinkedWebInFileUriProcess", false);
  * [TEST] http://browserspy.dk/mathml.php
  * [1] https://bugzilla.mozilla.org/1173199 ***/
 user_pref("mathml.disabled", true);
-/* 2664: disable DeviceStorage API
- * [1] https://wiki.mozilla.org/WebAPI/DeviceStorageAPI ***/
-user_pref("device.storage.enabled", false);
 /* 2665: remove webchannel whitelist ***/
 user_pref("webchannel.allowObject.urlWhitelist", "");
 /* 2667: disable various developer tools in browser context
@@ -1295,17 +1281,16 @@ user_pref("devtools.chrome.enabled", false);
  * including youtube player controls. Best left for "hardened" or specific profiles.
  * [1] https://bugzilla.mozilla.org/1216893 ***/
    // user_pref("svg.disabled", true);
-/* 2672: enforce Punycode for Internationalized Domain Names to eliminate possible spoofing security risk
- * Firefox has *some* protections to mitigate the risk, but it is better to be safe
- * than sorry. The downside: it will also display legitimate IDN's punycoded, which
- * might be undesirable for users from countries with non-latin alphabets
+/* 2672: enforce Punycode for Internationalized Domain Names to eliminate possible spoofing
+ * Firefox has *some* protections, but it is better to be safe than sorry. The downside: it will also
+ * display legitimate IDN's punycoded, which might be undesirable for users of non-latin alphabets
  * [TEST] https://www.xn--80ak6aa92e.com/ (www.apple.com)
- * [1] http://kb.mozillazine.org/Network.IDN_show_punycode
- * [2] https://wiki.mozilla.org/IDN_Display_Algorithm
- * [3] https://en.wikipedia.org/wiki/IDN_homograph_attack
- * [4] CVE-2017-5383: https://www.mozilla.org/security/advisories/mfsa2017-02/
- * [5] https://www.xudongz.com/blog/2017/idn-phishing/ ***/
+ * [1] https://wiki.mozilla.org/IDN_Display_Algorithm
+ * [2] https://en.wikipedia.org/wiki/IDN_homograph_attack
+ * [3] CVE-2017-5383: https://www.mozilla.org/security/advisories/mfsa2017-02/
+ * [4] https://www.xudongz.com/blog/2017/idn-phishing/ ***/
 user_pref("network.IDN_show_punycode", true);
+
 /** DOWNLOADS ***/
 /* 2640: discourage downloading to desktop (0=desktop 1=downloads 2=last used)
  * [SETTING] To set your default "downloads": General>Downloads>Save files to ***/
@@ -1322,6 +1307,7 @@ user_pref("browser.download.hide_plugins_without_extensions", false);
  * [SETUP] This may interfere with some users' workflow or methods
  * [1] https://bugzilla.mozilla.org/1281959 ***/
 user_pref("browser.download.forbid_open_with", true);
+
 /** EXTENSIONS ***/
 /* 2650: lock down allowed extension directories
  * [WARNING] This will break extensions that do not use the default XPI directories
@@ -1342,10 +1328,8 @@ user_pref("extensions.webextensions.keepUuidOnUninstall", false);
  * [SETTING] Privacy & Security>Permissions>Warn you when websites try to install add-ons
  * [SETTING-ESR52] Security>General>Warn me when sites try to install add-ons ***/
 user_pref("xpinstall.whitelist.required", true); // default: true
+
 /** SECURITY ***/
-/* 2680: disable "image/" mime types bypassing CSP (FF51+)
- * [1] https://bugzilla.mozilla.org/1288361 ***/
-user_pref("security.block_script_with_wrong_mime", true);
 /* 2681: enable CSP (Content Security Policy)
  * [1] https://developer.mozilla.org/docs/Web/HTTP/CSP ***/
 user_pref("security.csp.enable", true); // default: true
@@ -1364,13 +1348,6 @@ user_pref("security.data_uri.block_toplevel_data_uri_navigations", true);
  * [1] http://kb.mozillazine.org/Disable_extension_install_delay_-_Firefox
  * [2] https://www.squarefree.com/2004/07/01/race-conditions-in-security-dialogs/ ***/
 user_pref("security.dialog_enable_delay", 700); // default: 1000 (milliseconds)
-/* 2686: enable Strict File Origin Policy on local files
- * [1] http://kb.mozillazine.org/Security.fileuri.strict_origin_policy ***/
-user_pref("security.fileuri.strict_origin_policy", true);
-/* 2687: enable Subresource Integrity (SRI) (FF43+)
- * [1] https://developer.mozilla.org/docs/Web/Security/Subresource_Integrity
- * [2] https://wiki.mozilla.org/Security/Subresource_Integrity ***/
-user_pref("security.sri.enable", true); // default: true
 
 /*** 2700: PERSISTENT STORAGE
      Data SET by websites including
