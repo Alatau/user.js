@@ -475,6 +475,14 @@ user_pref("network.proxy.socks_remote_dns", true);
  * CVE-2017-5384: Information disclosure via Proxy Auto-Config (PAC)
  * [1] https://bugzilla.mozilla.org/1255474 ***/
 user_pref("network.proxy.autoconfig_url.include_path", false);
+/* 0707: disable (or setup) DNS-over-HTTPS (DoH) (FF60+)
+ * TRR = Trusted Recursive Resolver
+ * .mode: 0=off, 1=race, 2=TRR first, 3=TRR only, 4=race for stats, but always use native result
+ * [WARNING] DoH bypasses hosts and gives info to yet another party (e.g. Cloudflare)
+ * [1] https://www.ghacks.net/2018/04/02/configure-dns-over-https-in-firefox/ ***/
+   // user_pref("network.trr.mode", 0);
+   // user_pref("network.trr.bootstrapAddress", "");
+   // user_pref("network.trr.uri", "");
 
 /*** 0800: LOCATION BAR / SEARCH BAR / SUGGESTIONS / HISTORY / FORMS [SETUP]
      If you are in a private environment (no unwanted eyeballs) and your device is private
@@ -1201,87 +1209,71 @@ user_pref("dom.w3c_pointer_events.enabled", false);
 
 /*** 2600: MISCELLANEOUS ***/
 user_pref("_user.js.parrot", "2600 syntax error: the parrot's run down the curtain!");
-/* 2601: disable sending additional analytics to web servers
+/* 2601: prevent accessibility services from accessing your browser [RESTART]
+ * [SETTING] Privacy & Security>Permissions>Prevent accessibility services from accessing your browser
+ * [1] https://support.mozilla.org/kb/accessibility-services ***/
+user_pref("accessibility.force_disabled", 1);
+/* 2602: disable sending additional analytics to web servers
  * [1] https://developer.mozilla.org/docs/Web/API/Navigator/sendBeacon ***/
 user_pref("beacon.enabled", false);
-/* 2604: remove temp files opened with an external application
+/* 2603: remove temp files opened with an external application
  * [1] https://bugzilla.mozilla.org/302433 ***/
 user_pref("browser.helperApps.deleteTempFileOnExit", true);
-/* 2607: disable page thumbnail collection
+/* 2604: disable page thumbnail collection
  * look in profile/thumbnails directory - you may want to clean that out ***/
 user_pref("browser.pagethumbnails.capturing_disabled", true); // (hidden pref)
-/* 2608: disable JAR from opening Unsafe File Types ***/
-user_pref("network.jar.open-unsafe-types", false);
-/* 2609: disable exposure of system colors to CSS or canvas (FF44+)
- * [NOTE] see second listed bug: may cause black on black for elements with undefined colors
- * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=232227,1330876 ***/
-user_pref("ui.use_standins_for_native_colors", true); // (hidden pref)
-/* 2610: remove special permissions for certain mozilla domains (FF35+)
- * [1] resource://app/defaults/permissions ***/
-user_pref("permissions.manager.defaultsUrl", "");
-/* 2611: disable WebIDE to prevent remote debugging and extension downloads
+/* 2605: block web content in file processes (FF55+)
+ * [WARNING] [SETUP] You may want to disable this for corporate or developer environments
+ * [1] https://bugzilla.mozilla.org/1343184 ***/
+user_pref("browser.tabs.remote.allowLinkedWebInFileUriProcess", false);
+/* 2606: disable UITour backend so there is no chance that a remote page can use it ***/
+user_pref("browser.uitour.enabled", false);
+user_pref("browser.uitour.url", "");
+/* 2607: disable various developer tools in browser context
+ * [SETTING] Devtools>Advanced Settings>Enable browser chrome and add-on debugging toolboxes
+ * [1] https://github.com/pyllyukko/user.js/issues/179#issuecomment-246468676 ***/
+user_pref("devtools.chrome.enabled", false);
+/* 2608: disable WebIDE to prevent remote debugging and extension downloads
  * [1] https://trac.torproject.org/projects/tor/ticket/16222 ***/
 user_pref("devtools.webide.autoinstallADBHelper", false);
 user_pref("devtools.debugger.remote-enabled", false);
 user_pref("devtools.webide.enabled", false);
-/* 2617: enable Firefox's built-in PDF reader [SETUP]
- * [SETTING] General>Applications>Portable Document Format (PDF)
- * [SETTING-ESR52] Applications>Portable Document Format (PDF)
- * This setting controls if the option "Display in Firefox" in the above setting is available
- * and by effect controls whether PDFs are handled in-browser or externally ("Ask" or "Open With")
- *   [WHY USE false=default=view PDFs in Firefox]
- * pdfjs is lightweight, open source and as secure as any pdf reader out there, certainly better and more
- * vetted than most. Exploits are rare (1 serious case in 3 years), treated seriously and patched quickly.
- * It doesn't break "state separation" of browser content (by not sharing with OS, independent apps). It
- * maintains disk avoidance and application data isolation. It's convenient. You can still save to disk.
- *   [WHY USE true=open with or save to disk]
- * If you think a particular external app is more secure...
- *   [NOTE]
- * See 2644, and JS can still force a pdf to open in-browser by bundling its own code (rare) ***/
-user_pref("pdfjs.disabled", false);
-/* 2619: limit HTTP redirects (this does not control redirects with HTML meta tags or JS)
- * [WARNING] A low setting of 5 or under will probably break some sites (e.g. gmail logins)
- * To control HTML Meta tag and JS redirects, use an extension. Default is 20 ***/
-user_pref("network.http.redirection-limit", 10);
-/* 2620: disable middle mouse click opening links from clipboard
- * [1] https://trac.torproject.org/projects/tor/ticket/10089
- * [2] http://kb.mozillazine.org/Middlemouse.contentLoadURL ***/
-user_pref("middlemouse.contentLoadURL", false);
-/* 2628: disable UITour backend so there is no chance that a remote page can use it ***/
-user_pref("browser.uitour.enabled", false);
-user_pref("browser.uitour.url", "");
-/* 2629: disable remote JAR files being opened, regardless of content type (FF42+)
- * [1] https://bugzilla.mozilla.org/1173171
- * [2] https://www.fxsitecompat.com/en-CA/docs/2015/jar-protocol-support-has-been-disabled-by-default/ ***/
-user_pref("network.jar.block-remote-files", true);
-/* 2630: prevent accessibility services from accessing your browser [RESTART]
- * [SETTING] Privacy & Security>Permissions>Prevent accessibility services from accessing your browser
- * [1] https://support.mozilla.org/kb/accessibility-services ***/
-user_pref("accessibility.force_disabled", 1);
-/* 2631: block web content in file processes (FF55+)
- * [WARNING] [SETUP] You may want to disable this for corporate or developer environments
- * [1] https://bugzilla.mozilla.org/1343184 ***/
-user_pref("browser.tabs.remote.allowLinkedWebInFileUriProcess", false);
-/* 2632: disable websites overriding Firefox's keyboard shortcuts (FF58+)
- * [SETTING] to add site exceptions: Page Info>Permissions>Override Keyboard Shortcuts
- * [NOTE] At the time of writing, causes issues with delete and backspace keys ***/
-   // user_pref("permissions.default.shortcuts", 2); //  0 (default) or 1=allow, 2=block
-/* 2663: disable MathML (Mathematical Markup Language) (FF51+)
+/* 2609: disable MathML (Mathematical Markup Language) (FF51+)
  * [TEST] http://browserspy.dk/mathml.php
  * [1] https://bugzilla.mozilla.org/1173199 ***/
 user_pref("mathml.disabled", true);
-/* 2665: remove webchannel whitelist ***/
-user_pref("webchannel.allowObject.urlWhitelist", "");
-/* 2667: disable various developer tools in browser context
- * [SETTING] Devtools>Advanced Settings>Enable browser chrome and add-on debugging toolboxes
- * [1] https://github.com/pyllyukko/user.js/issues/179#issuecomment-246468676 ***/
-user_pref("devtools.chrome.enabled", false);
-/* 2671: disable in-content SVG (Scalable Vector Graphics) (FF53+)
- * [WARNING] SVG is fairly common (~15% of the top 10K sites), so will cause some breakage
- * including youtube player controls. Best left for "hardened" or specific profiles.
+/* 2610: disable in-content SVG (Scalable Vector Graphics) (FF53+)
+ * [WARNING] Expect breakage incl. youtube player controls. Best left for a "hardened" profile.
  * [1] https://bugzilla.mozilla.org/1216893 ***/
    // user_pref("svg.disabled", true);
-/* 2672: enforce Punycode for Internationalized Domain Names to eliminate possible spoofing
+/* 2611: disable middle mouse click opening links from clipboard
+ * [1] https://trac.torproject.org/projects/tor/ticket/10089
+ * [2] http://kb.mozillazine.org/Middlemouse.contentLoadURL ***/
+user_pref("middlemouse.contentLoadURL", false);
+/* 2612: disable remote JAR files being opened, regardless of content type (FF42+)
+ * [1] https://bugzilla.mozilla.org/1173171
+ * [2] https://www.fxsitecompat.com/en-CA/docs/2015/jar-protocol-support-has-been-disabled-by-default/ ***/
+user_pref("network.jar.block-remote-files", true);
+/* 2613: disable JAR from opening Unsafe File Types ***/
+user_pref("network.jar.open-unsafe-types", false);
+/* 2614: limit HTTP redirects (this does not control redirects with HTML meta tags or JS)
+ * [WARNING] A low setting of 5 or under will probably break some sites (e.g. gmail logins)
+ * To control HTML Meta tag and JS redirects, use an extension. Default is 20 ***/
+user_pref("network.http.redirection-limit", 10);
+/* 2615: disable websites overriding Firefox's keyboard shortcuts (FF58+)
+ * [SETTING] to add site exceptions: Page Info>Permissions>Override Keyboard Shortcuts
+ * [NOTE] At the time of writing, causes issues with delete and backspace keys ***/
+   // user_pref("permissions.default.shortcuts", 2); //  0 (default) or 1=allow, 2=block
+/* 2616: remove special permissions for certain mozilla domains (FF35+)
+ * [1] resource://app/defaults/permissions ***/
+user_pref("permissions.manager.defaultsUrl", "");
+/* 2617: remove webchannel whitelist ***/
+user_pref("webchannel.allowObject.urlWhitelist", "");
+/* 2618: disable exposure of system colors to CSS or canvas (FF44+)
+ * [NOTE] see second listed bug: may cause black on black for elements with undefined colors
+ * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=232227,1330876 ***/
+user_pref("ui.use_standins_for_native_colors", true); // (hidden pref)
+/* 2619: enforce Punycode for Internationalized Domain Names to eliminate possible spoofing
  * Firefox has *some* protections, but it is better to be safe than sorry. The downside: it will also
  * display legitimate IDN's punycoded, which might be undesirable for users of non-latin alphabets
  * [TEST] https://www.xn--80ak6aa92e.com/ (www.apple.com)
@@ -1290,18 +1282,30 @@ user_pref("devtools.chrome.enabled", false);
  * [3] CVE-2017-5383: https://www.mozilla.org/security/advisories/mfsa2017-02/
  * [4] https://www.xudongz.com/blog/2017/idn-phishing/ ***/
 user_pref("network.IDN_show_punycode", true);
+/* 2620: enable Firefox's built-in PDF reader [SETUP]
+ * [SETTING] General>Applications>Portable Document Format (PDF)
+ * [SETTING-ESR52] Applications>Portable Document Format (PDF)
+ * This setting controls if the option "Display in Firefox" in the above setting is available
+ *   and by effect controls whether PDFs are handled in-browser or externally ("Ask" or "Open With")
+ * PROS: pdfjs is lightweight, open source, and as secure/vetted as any pdf reader out there (more than most)
+ *   Exploits are rare (1 serious case in 4 yrs), treated seriously and patched quickly.
+ *   It doesn't break "state separation" of browser content (by not sharing with OS, independent apps).
+ *   It maintains disk avoidance and application data isolation. It's convenient. You can still save to disk.
+ * CONS: You may prefer a different pdf reader for security reasons
+ * CAVEAT: JS can still force a pdf to open in-browser by bundling its own code (rare) ***/
+user_pref("pdfjs.disabled", false);
 
 /** DOWNLOADS ***/
-/* 2640: discourage downloading to desktop (0=desktop 1=downloads 2=last used)
+/* 2650: discourage downloading to desktop (0=desktop 1=downloads 2=last used)
  * [SETTING] To set your default "downloads": General>Downloads>Save files to ***/
 user_pref("browser.download.folderList", 2);
-/* 2641: enforce user interaction for security by always asking the user where to download ***/
+/* 2651: enforce user interaction for security by always asking the user where to download ***/
 user_pref("browser.download.useDownloadDir", false);
-/* 2642: disable adding downloads to the system's "recent documents" list ***/
+/* 2652: disable adding downloads to the system's "recent documents" list ***/
 user_pref("browser.download.manager.addToRecentDocs", false);
-/* 2643: disable hiding mime types (Options>General>Applications) not associated with a plugin ***/
+/* 2653: disable hiding mime types (Options>General>Applications) not associated with a plugin ***/
 user_pref("browser.download.hide_plugins_without_extensions", false);
-/* 2644: disable "open with" in download dialog (FF50+)
+/* 2654: disable "open with" in download dialog (FF50+)
  * This is very useful to enable when the browser is sandboxed (e.g. via AppArmor)
  * in such a way that it is forbidden to run external applications.
  * [SETUP] This may interfere with some users' workflow or methods
@@ -1309,42 +1313,42 @@ user_pref("browser.download.hide_plugins_without_extensions", false);
 user_pref("browser.download.forbid_open_with", true);
 
 /** EXTENSIONS ***/
-/* 2650: lock down allowed extension directories
+/* 2660: lock down allowed extension directories
  * [WARNING] This will break extensions that do not use the default XPI directories
  * [1] https://mike.kaply.com/2012/02/21/understanding-add-on-scopes/
  * [1] archived: https://archive.is/DYjAM ***/
 user_pref("extensions.enabledScopes", 1); // (hidden pref)
 user_pref("extensions.autoDisableScopes", 15);
-/* 2651: clear localStorage and UUID when an extension is uninstalled
+/* 2661: clear localStorage and UUID when an extension is uninstalled
  * [NOTE] Both preferences must be the same
  * [1] https://developer.mozilla.org/Add-ons/WebExtensions/API/storage/local
  * [2] https://bugzilla.mozilla.org/1213990 ***/
 user_pref("extensions.webextensions.keepStorageOnUninstall", false);
 user_pref("extensions.webextensions.keepUuidOnUninstall", false);
-/* 2652: disable webextension restrictions on certain mozilla domains (also see 4503) (FF60+)
+/* 2662: disable webextension restrictions on certain mozilla domains (also see 4503) (FF60+)
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1384330,1406795,1415644,1453988 ***/
    // user_pref("extensions.webextensions.restrictedDomains", "");
-/* 2653: enable warning when websites try to install add-ons
+/* 2663: enable warning when websites try to install add-ons
  * [SETTING] Privacy & Security>Permissions>Warn you when websites try to install add-ons
  * [SETTING-ESR52] Security>General>Warn me when sites try to install add-ons ***/
 user_pref("xpinstall.whitelist.required", true); // default: true
 
 /** SECURITY ***/
-/* 2681: enable CSP (Content Security Policy)
+/* 2680: enable CSP (Content Security Policy)
  * [1] https://developer.mozilla.org/docs/Web/HTTP/CSP ***/
 user_pref("security.csp.enable", true); // default: true
-/* 2682: disable CSP violation events (FF59+)
+/* 2681: disable CSP violation events (FF59+)
  * [1] https://developer.mozilla.org/docs/Web/API/SecurityPolicyViolationEvent ***/
 user_pref("security.csp.enable_violation_events", false);
-/* 2683: enable CSP 1.1 experimental hash-source directive (FF29+)
+/* 2682: enable CSP 1.1 experimental hash-source directive (FF29+)
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=855326,883975 ***/
 user_pref("security.csp.experimentalEnabled", true);
-/* 2684: block top level window data: URIs (FF56+)
+/* 2683: block top level window data: URIs (FF56+)
  * [1] https://bugzilla.mozilla.org/1331351
  * [2] https://www.wordfence.com/blog/2017/01/gmail-phishing-data-uri/
  * [3] https://www.fxsitecompat.com/en-CA/docs/2017/data-url-navigations-on-top-level-window-will-be-blocked/ ***/
 user_pref("security.data_uri.block_toplevel_data_uri_navigations", true);
-/* 2685: enforce a security delay on some confirmation dialogs such as install, open/save
+/* 2684: enforce a security delay on some confirmation dialogs such as install, open/save
  * [1] http://kb.mozillazine.org/Disable_extension_install_delay_-_Firefox
  * [2] https://www.squarefree.com/2004/07/01/race-conditions-in-security-dialogs/ ***/
 user_pref("security.dialog_enable_delay", 700); // default: 1000 (milliseconds)
@@ -1580,7 +1584,7 @@ user_pref("privacy.resistFingerprinting", true); // (hidden pref) (not hidden FF
    // user_pref("privacy.window.maxInnerHeight", 900); // (hidden pref)
 /* 4503: disable mozAddonManager Web API (FF57+)
  * [NOTE] As a side-effect in FF57-59 this allowed extensions to work on AMO. In FF60+ you also need
- * to sanitize or clear extensions.webextensions.restrictedDomains (see 2652) to keep that side-effect
+ * to sanitize or clear extensions.webextensions.restrictedDomains (see 2662) to keep that side-effect
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1384330,1406795,1415644,1453988 ***/
 user_pref("privacy.resistFingerprinting.block_mozAddonManager", true); // (hidden pref)
 
@@ -1734,13 +1738,13 @@ user_pref("reader.parse-on-load.enabled", false); // "Reader View"
 ***/
 user_pref("_user.js.parrot", "9999 syntax error: the parrot's deprecated!");
 /* FF42 and older
-// 2607: (25+) disable page thumbnails - replaced by browser.pagethumbnails.capturing_disabled
+// 2604: (25+) disable page thumbnails - replaced by browser.pagethumbnails.capturing_disabled
    // [-] https://bugzilla.mozilla.org/897811
 user_pref("pageThumbs.enabled", false);
 // 2503: (31+) disable network API - replaced by dom.netinfo.enabled
    // [-] https://bugzilla.mozilla.org/960426
 user_pref("dom.network.enabled", false);
-// 2620: (35+) disable WebSockets
+// 2600s: (35+) disable WebSockets
    // [-] https://bugzilla.mozilla.org/1091016
 user_pref("network.websocket.enabled", false);
 // 1610: (36+) set DNT "value" to "not be tracked" (FF21+)
@@ -2031,11 +2035,11 @@ user_pref("social.enabled", false); // (hidden pref)
 // 1830: disable DRM's EME WideVineAdapter
    // [-] https://bugzilla.mozilla.org/1395468
 user_pref("media.eme.chromium-api.enabled", false); // (FF55+)
-// 2611: disable WebIDE extension downloads (Valence)
+// 2608: disable WebIDE extension downloads (Valence)
    // [1] https://trac.torproject.org/projects/tor/ticket/16222
    // [-] https://bugzilla.mozilla.org/1393497
 user_pref("devtools.webide.autoinstallFxdtAdapters", false);
-// 2612: disable SimpleServiceDiscovery - which can bypass proxy settings - e.g. Roku
+// 2600s: disable SimpleServiceDiscovery - which can bypass proxy settings - e.g. Roku
    // [1] https://trac.torproject.org/projects/tor/ticket/16222
    // [-] https://bugzilla.mozilla.org/1393582
 user_pref("browser.casting.enabled", false);
