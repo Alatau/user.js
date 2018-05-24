@@ -968,11 +968,14 @@ user_pref("plugin.defaultXpi.state", 0);
 /* 1802: enable click to play and set to 0 minutes ***/
 user_pref("plugins.click_to_play", true);
 user_pref("plugin.sessionPermissionNow.intervalInMinutes", 0);
-/* 1803: set a plugin state: 0=deactivated 1=ask 2=enabled (Flash example)
- * you can set all these plugin.state's via Add-ons>Plugins or search for plugin.state in about:config
+/* 1803: disable NPAPI plugins (Add-ons>Plugins)
+ * 0=deactivated, 1=ask, 2=enabled
+ * ESR52.x is the last branch to *fully* support NPAPI, FF52+ stable only supports Flash
+ * [NOTE] ESR52 users should check plugin.state* for other installed NPAPI plugins
  * [NOTE] You can still over-ride individual sites e.g. youtube via site permissions
  * [1] https://www.ghacks.net/2013/07/09/how-to-make-sure-that-a-firefox-plugin-never-activates-again/ ***/
-   // user_pref("plugin.state.flash", 0);
+user_pref("plugin.state.flash", 0);
+user_pref("plugin.state.java", 0);
 /* 1805: disable scanning for plugins [WINDOWS]
  * [1] http://kb.mozillazine.org/Plugin_scanning
  * plid.all = whether to scan the directories specified in the Windows registry for PLIDs.
@@ -1410,7 +1413,7 @@ user_pref("network.cookie.leave-secure-alone", true); // default: true
  * [WARNING] This *will* break other extensions including legacy, and *will* break some sites ***/
    // user_pref("dom.indexedDB.enabled", false);
 /* 2730: disable offline cache
- * [NOTE] This is required 'true' for Storage API (2750) ***/
+ * [NOTE] For FF60 and under, this is required 'true' for Storage API (2750) ***/
    // user_pref("browser.cache.offline.enable", false);
 /* 2730b: disable offline cache on insecure sites (FF60+)
  * [1] https://blog.mozilla.org/security/2018/02/12/restricting-appcache-secure-contexts/ ***/
@@ -1433,7 +1436,7 @@ user_pref("dom.caches.enabled", false);
  * The API gives sites the ability to find out how much space they can use, how much
  * they are already using, and even control whether or not they need to be alerted
  * before the user agent disposes of site data in order to make room for other things.
- * [NOTE] If Storage API is enabled, then Offline Cache (2730) must be also be enabled
+ * [NOTE] For FF60 and under, if Storage API is enabled, then Offline Cache (2730) must be also be enabled
  * [1] https://developer.mozilla.org/docs/Web/API/StorageManager
  * [2] https://developer.mozilla.org/docs/Web/API/Storage_API
  * [3] https://blog.mozilla.org/l10n/2017/03/07/firefox-l10n-report-aurora-54/ ***/
@@ -1576,6 +1579,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
       Modifier events suppressed are SHIFT and both ALT keys. Chrome is not affected.
       FF60: Fix keydown/keyup events (1438795)
  ** 1337157 - disable WebGL debug renderer info (see 4613) (FF60+)
+ ** 1459089 - disable OS locale in HTTP Accept-Language headers [ANDROID] (FF62+)
 ***/
 user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting (FF41+)
