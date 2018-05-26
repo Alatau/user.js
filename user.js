@@ -67,9 +67,6 @@ user_pref("general.warnOnAboutConfig", false);
 user_pref("_user.js.parrot", "0100 syntax error: the parrot's dead!");
 /* 0101: disable "slow startup" options
  * warnings, disk history, welcomes, intros, EULA, default browser check ***/
-user_pref("browser.slowStartup.notificationDisabled", true);
-user_pref("browser.slowStartup.maxSamples", 0);
-user_pref("browser.slowStartup.samples", 0);
 user_pref("browser.rights.3.shown", true);
 user_pref("browser.startup.homepage_override.mstone", "ignore");
 user_pref("startup.homepage_welcome_url", "");
@@ -300,11 +297,11 @@ user_pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
 /* 0421: enable more Tracking Protection choices under Options>Privacy & Security>Use Tracking Protection
  * Displays three choices: "Always", "Only in private windows", "Never" ***/
 user_pref("privacy.trackingprotection.ui.enabled", true);
-/* 0422: enable "basic" or "strict" tracking protecting list - ONLY USE ONE!
+/* 0422: set which Tracking Protection block list to use
+ * [WARNING] We don't recommend enforcing this from here, as available block lists can change
  * [SETTING] Privacy & Security>Tracking Protection>Change Block List
  * [SETTING-ESR52] Privacy>Use Tracking Protection>Change Block List ***/
    // user_pref("urlclassifier.trackingTable", "test-track-simple,base-track-digest256"); // basic
-   // user_pref("urlclassifier.trackingTable", "test-track-simple,base-track-digest256,content-track-digest256"); // strict
 /* 0423: disable Mozilla's blocklist for known Flash tracking/fingerprinting (FF48+)
  * [1] https://www.ghacks.net/2016/07/18/firefox-48-blocklist-against-plugin-fingerprinting/
  * [2] https://bugzilla.mozilla.org/1237198 ***/
@@ -352,8 +349,9 @@ user_pref("network.allow-experiments", false);
 user_pref("app.normandy.enabled", false);
 user_pref("app.normandy.api_url", "");
 user_pref("app.shield.optoutstudies.enabled", false);
-/* 0505: block URL used for System Add-on updates (FF44+)
- * [NOTE] You will not get any System Add-on updates except when you update Firefox ***/
+/* 0505: disable System Add-on updates
+ * [NOTE] In FF61 and lower, you will not get any System Add-on updates except when you update Firefox ***/
+   // user_pref("extensions.systemAddon.update.enabled", false); // (FF62+)
    // user_pref("extensions.systemAddon.update.url", "");
 /* 0506: disable PingCentre telemetry (used in several System Add-ons) (FF57+)
  * Currently blocked by 'datareporting.healthreport.uploadEnabled' (see 0333) ***/
@@ -450,7 +448,6 @@ user_pref("_user.js.parrot", "0700 syntax error: the parrot's given up the ghost
  * [NOTE] It is a myth that disabling IPv6 will speed up your internet connection
  * [1] https://www.howtogeek.com/195062/no-disabling-ipv6-probably-wont-speed-up-your-internet-connection/ ***/
    // user_pref("network.dns.disableIPv6", true);
-   // user_pref("network.http.fast-fallback-to-IPv4", true); // default: true
 /* 0702: disable HTTP2 (which was based on SPDY which is now deprecated)
  * HTTP2 raises concerns with "multiplexing" and "server push", does nothing to enhance
  * privacy, and in fact opens up a number of server-side fingerprinting opportunities
@@ -1068,9 +1065,7 @@ user_pref("dom.disable_window_open_feature.resizable", true); // default: true
 user_pref("dom.disable_window_open_feature.status", true); // status bar - default: true
 user_pref("dom.disable_window_open_feature.titlebar", true);
 user_pref("dom.disable_window_open_feature.toolbar", true);
-/* 2202: disable meddling with open windows ***/
-user_pref("dom.allow_scripts_to_close_windows", false); // default: false
-user_pref("dom.disable_window_flip", true); // window z-order - default: true
+/* 2202: prevent scripts moving and resizing open windows ***/
 user_pref("dom.disable_window_move_resize", true);
 /* 2203: open links targeting new windows in a new tab instead
  * This stops malicious window sizes and some screen resolution leaks.
@@ -1422,13 +1417,6 @@ user_pref("browser.cache.offline.insecure.enable", false);
  * [1] https://support.mozilla.org/questions/1098540
  * [2] https://bugzilla.mozilla.org/959985 ***/
 user_pref("offline-apps.allow_by_default", false);
-/* 2732: display a notification when websites ask to store data for offline use
- * [SETTING-ESR52] Advanced>Network>Tell me when a website asks to store data for offline use ***/
-user_pref("browser.offline-apps.notify", true);
-/* 2733: set size of warning quota for offline cache (default 51200)
- * Offline cache is only used in rare cases to store data locally. FF will store small amounts
- * (default <50MB) of data in the offline (application) cache without asking for permission. ***/
-   // user_pref("offline-apps.quota.warn", 51200);
 /* 2740: disable service workers cache and cache storage
  * [1] https://w3c.github.io/ServiceWorker/#privacy ***/
 user_pref("dom.caches.enabled", false);
