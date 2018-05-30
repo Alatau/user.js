@@ -65,14 +65,8 @@ user_pref("general.warnOnAboutConfig", false);
 
 /*** 0100: STARTUP ***/
 user_pref("_user.js.parrot", "0100 syntax error: the parrot's dead!");
-/* 0101: disable "slow startup" options
- * warnings, disk history, welcomes, intros, EULA, default browser check ***/
-user_pref("browser.rights.3.shown", true);
-user_pref("browser.startup.homepage_override.mstone", "ignore");
-user_pref("startup.homepage_welcome_url", "");
-user_pref("startup.homepage_welcome_url.additional", "");
-user_pref("startup.homepage_override_url", ""); // what's new page after updates
-user_pref("browser.laterrun.enabled", false);
+/* 0101: disable default browser check
+ * [SETTING] General>Startup>Always check if Firefox is your default browser ***/
 user_pref("browser.shell.checkDefaultBrowser", false);
 /* 0102: set start page (0=blank, 1=home, 2=last visited page, 3=resume previous session)
  * [SETTING] General>Startup>When Firefox starts ***/
@@ -924,15 +918,11 @@ user_pref("network.http.referer.spoofSource", false);
  * TBB (Tor Browser Bundle) which is specifically designed for the dark web
  * [1] https://bugzilla.mozilla.org/1305144 ***/
 user_pref("network.http.referer.hideOnionSource", true);
-/* 1610: ALL: disable the DNT HTTP header, which is essentially USELESS
- * It is voluntary and most ad networks do not honor it. DNT is *NOT* how you stop being data mined.
- * Don't encourage a setting that gives any legitimacy to 3rd parties being in control of your privacy.
- * Sending a DNT header *highly likely* raises entropy, especially in standard windows.
+/* 1610: ALL: enable the DNT (Do Not Track) HTTP header
  * [SETTING] Privacy & Security>Tracking Protecting>Send websites a "Do Not Track"...
  * [SETTING-ESR52] Privacy>Use Tracking Protecting>manage your Do Not Track settings
- * [NOTE] DNT is enforced with TP (see 0420) regardless of this pref (e.g. in default PB Mode)
- * [NOTE] If you use NoScript MAKE SURE to set the pref noscript.doNotTrack.enabled to match ***/
-user_pref("privacy.donottrackheader.enabled", false);
+ * [NOTE] DNT is enforced with TP (see 0420) regardless of this pref ***/
+user_pref("privacy.donottrackheader.enabled", true);
 
 /*** 1700: CONTAINERS [SETUP]
      [1] https://support.mozilla.org/kb/containers-experiment
@@ -1698,6 +1688,11 @@ user_pref("_user.js.parrot", "4700 syntax error: the parrot's taken 'is last bow
 /*** 5000: PERSONAL [SETUP]
      Non-project related but useful. If any of these interest you, add them to your overrides ***/
 user_pref("_user.js.parrot", "5000 syntax error: this is an ex-parrot!");
+/* WELCOME & WHAT's NEW NOTICES ***/
+user_pref("browser.startup.homepage_override.mstone", "ignore"); // master switch
+user_pref("startup.homepage_welcome_url", "");
+user_pref("startup.homepage_welcome_url.additional", "");
+user_pref("startup.homepage_override_url", ""); // What's New page after updates
 /* WARNINGS ***/
    // user_pref("browser.tabs.warnOnClose", false);
    // user_pref("browser.tabs.warnOnCloseOtherTabs", false);
