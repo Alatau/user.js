@@ -1,8 +1,8 @@
 /******
 * name: ghacks user.js
-* date: 15 May 2018
-* version 60-beta: Call Me Pants, Maybe
-*   "Your stare was holding, ripped JEANS, skin was showin'"
+* date: 30 May 2018
+* version 61-alpha: You Can't Hurry Pants
+*   "My mama said, "You can't hurry pants. No, you'll just have to wait""
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
 * license: MIT: https://github.com/ghacksuserjs/ghacks-user.js/blob/master/LICENSE.txt
@@ -227,7 +227,6 @@ user_pref("extensions.blocklist.url", "https://blocklists.settings.services.mozi
  * As Firefox transitions to Kinto, the blocklists have been broken down into entries for certs to be
  * revoked, extensions and plugins to be disabled, and gfx environments that cause problems or crashes ***/
 user_pref("services.blocklist.update_enabled", true);
-user_pref("services.blocklist.signing.enforced", true);
 /* 0403: disable individual unwanted/unneeded parts of the Kinto blocklists ***/
    // user_pref("services.blocklist.onecrl.collection", ""); // revoked certificates
    // user_pref("services.blocklist.addons.collection", "");
@@ -471,7 +470,8 @@ user_pref("network.proxy.autoconfig_url.include_path", false); // default: false
  * TRR = Trusted Recursive Resolver
  * .mode: 0=off, 1=race, 2=TRR first, 3=TRR only, 4=race for stats, but always use native result
  * [WARNING] DoH bypasses hosts and gives info to yet another party (e.g. Cloudflare)
- * [1] https://www.ghacks.net/2018/04/02/configure-dns-over-https-in-firefox/ ***/
+ * [1] https://www.ghacks.net/2018/04/02/configure-dns-over-https-in-firefox/
+ * [2] https://hacks.mozilla.org/2018/05/a-cartoon-intro-to-dns-over-https/ ***/
    // user_pref("network.trr.mode", 0);
    // user_pref("network.trr.bootstrapAddress", "");
    // user_pref("network.trr.uri", "");
@@ -1419,7 +1419,6 @@ user_pref("dom.caches.enabled", false);
  * [2] https://developer.mozilla.org/docs/Web/API/Storage_API
  * [3] https://blog.mozilla.org/l10n/2017/03/07/firefox-l10n-report-aurora-54/ ***/
    // user_pref("dom.storageManager.enabled", false); // (FF51+)
-   // user_pref("browser.storageManager.enabled", false); // controls "Site Data" UI visibility (FF53+)
 
 /*** 2800: SHUTDOWN [SETUP]
      You should set the values to what suits you best. Be aware that the settings below clear
