@@ -1,7 +1,7 @@
 /******
 * name: ghacks user.js
-* date: 30 May 2018
-* version 61-alpha: You Can't Hurry Pants
+* date: 06 July 2018
+* version 61-beta: You Can't Hurry Pants
 *   "My mama said, "You can't hurry pants. No, you'll just have to wait""
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
@@ -39,7 +39,7 @@
 
  ******/
 
-/* START: internal custom pref to test for syntax errors (thanks earthling)
+/* START: internal custom pref to test for syntax errors
  * [NOTE] In FF60+, not all syntax errors cause parsing to abort i.e. reaching the last debug
  * pref no longer necessarily means that all prefs have been applied. Check the console right
  * after startup for any warnings/error messages related to non-applied prefs
@@ -1138,7 +1138,7 @@ user_pref("dom.event.clipboardevents.enabled", false);
 /* 2403: disable clipboard commands (cut/copy) from "non-privileged" content (FF41+)
  * this disables document.execCommand("cut"/"copy") to protect your clipboard
  * [1] https://bugzilla.mozilla.org/1170911 ***/
-user_pref("dom.allow_cut_copy", false); // (hidden pref)
+   // user_pref("dom.allow_cut_copy", false); // (hidden pref)
 /* 2404: disable "Confirm you want to leave" dialog on page close
  * Does not prevent JS leaks of the page close event.
  * [1] https://developer.mozilla.org/docs/Web/Events/beforeunload
@@ -1484,6 +1484,7 @@ user_pref("privacy.sanitize.timeSpan", 0);
  ** 1337893 - isolate DNS cache (FF55+)
  ** 1344170 - isolate blob: URI (FF55+)
  ** 1300671 - isolate data:, about: URLs (FF55+)
+ ** 1473247 - isolate IP addresses (FF63+)
 
  NOTE: FPI has some issues depending on your Firefox release
  ** 1418931 - [fixed in FF58+] IndexedDB (Offline Website Data) with FPI Origin Attributes
@@ -2122,10 +2123,10 @@ user_pref("experiments.activeExperiment", false);
 // 2612: disable remote JAR files being opened, regardless of content type (FF42+)
    // [1] https://bugzilla.mozilla.org/1173171
    // [2] https://www.fxsitecompat.com/en-CA/docs/2015/jar-protocol-support-has-been-disabled-by-default/
-   // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1427726
+   // [-] https://bugzilla.mozilla.org/1427726
 user_pref("network.jar.block-remote-files", true);
 // 2613: disable JAR from opening Unsafe File Types
-   // [-] https://bugzilla.mozilla.org/show_bug.cgi?id=1427726
+   // [-] https://bugzilla.mozilla.org/1427726
 user_pref("network.jar.open-unsafe-types", false);
 // * * * /
 // ***/
