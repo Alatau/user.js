@@ -776,7 +776,7 @@ user_pref("security.family_safety.mode", 0);
  * [WARNING] If you rely on an AV (antivirus) to protect your web browsing
  * by inspecting ALL your web traffic, then leave at current default=1
  * [1] https://trac.torproject.org/projects/tor/ticket/16206 ***/
-user_pref("security.cert_pinning.enforcement_level", 2);
+   // user_pref("security.cert_pinning.enforcement_level", 2);
 /** MIXED CONTENT ***/
 /* 1240: disable insecure active content on https pages - mixed content
  * [1] https://trac.torproject.org/projects/tor/ticket/21323 ***/
