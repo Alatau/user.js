@@ -19,10 +19,7 @@
      * https://github.com/ghacksuserjs/ghacks-user.js/wiki/1.3-Implementation
   3. If you skipped steps 1 and 2 above (shame on you), then here is the absolute minimum
      * Auto-installing updates for Firefox and extensions are disabled (section 0302's)
-     * Some user data is erased on close (section 2800), namely history (browsing, form, download)
-     * Cookies are denied by default (2701), we use site exceptions. In Firefox 58 and lower, this breaks
-       extensions that use IndexedDB, so you need to allow exceptions for those as well: see [1] below
-       [1] https://github.com/ghacksuserjs/ghacks-user.js/wiki/4.1.1-Setting-Extension-Permission-Exceptions
+     * Some user data is erased on close (section 2800). Change this to suit your needs
      * EACH RELEASE check:
          - 4600s: reset prefs made redundant due to privacy.resistFingerprinting (RPF)
                   or enable them as an alternative to RFP or for ESR users
@@ -231,6 +228,7 @@ user_pref("services.blocklist.update_enabled", true);
    // user_pref("services.blocklist.addons.collection", "");
    // user_pref("services.blocklist.plugins.collection", "");
    // user_pref("services.blocklist.gfx.collection", "");
+
 /** SAFE BROWSING (SB)
     This sub-section has been redesigned to differentiate between "real-time"/"user initiated"
     data being sent to Google from all other settings such as using local blocklists/whitelists and
@@ -277,6 +275,7 @@ user_pref("browser.safebrowsing.provider.google4.reportPhishMistakeURL", ""); //
 /* 0417: disable data sharing (FF58+) ***/
 user_pref("browser.safebrowsing.provider.google4.dataSharing.enabled", false);
 user_pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
+
 /** TRACKING PROTECTION (TP)
     There are NO privacy concerns here, but we strongly recommend to use uBlock Origin as well,
     as it offers more comprehensive and specialized lists. It also allows per domain control. ***/
@@ -546,7 +545,6 @@ user_pref("browser.urlbar.suggest.openpage", false);
 /* 0850d: disable location bar autofill
  * [1] http://kb.mozillazine.org/Inline_autocomplete ***/
 user_pref("browser.urlbar.autoFill", false);
-user_pref("browser.urlbar.autoFill.typed", false);
 /* 0850e: disable location bar one-off searches (FF51+)
  * [1] https://www.ghacks.net/2016/08/09/firefox-one-off-searches-address-bar/ ***/
 user_pref("browser.urlbar.oneOffSearches", false);
@@ -724,6 +722,7 @@ user_pref("security.ssl.errorReporting.url", "");
  * [1] https://github.com/tlswg/tls13-spec/issues/1001
  * [2] https://blog.cloudflare.com/tls-1-3-overview-and-q-and-a/ ***/
 user_pref("security.tls.enable_0rtt_data", false); // (FF55+ default true)
+
 /** OCSP (Online Certificate Status Protocol)
     #Required reading [#] https://scotthelme.co.uk/revocation-is-broken/ ***/
 /* 1210: enable OCSP Stapling
@@ -744,6 +743,7 @@ user_pref("security.OCSP.enabled", 1);
  * [1] https://blog.mozilla.org/security/2013/07/29/ocsp-stapling-in-firefox/
  * [2] https://www.imperialviolet.org/2014/04/19/revchecking.html ***/
 user_pref("security.OCSP.require", true);
+
 /** CERTS / HSTS (HTTP Strict Transport Security) / HPKP (HTTP Public Key Pinning) ***/
 /* 1220: disable Windows 8.1's Microsoft Family Safety cert [WINDOWS] (FF50+)
  * 0=disable detecting Family Safety mode and importing the root
@@ -765,12 +765,14 @@ user_pref("security.family_safety.mode", 0);
  * by inspecting ALL your web traffic, then leave at current default=1
  * [1] https://trac.torproject.org/projects/tor/ticket/16206 ***/
    // user_pref("security.cert_pinning.enforcement_level", 2);
+
 /** MIXED CONTENT ***/
 /* 1240: disable insecure active content on https pages - mixed content
  * [1] https://trac.torproject.org/projects/tor/ticket/21323 ***/
 user_pref("security.mixed_content.block_active_content", true);
 /* 1241: disable insecure passive content (such as images) on https pages - mixed context ***/
    // user_pref("security.mixed_content.block_display_content", true);
+
 /** CIPHERS [see the section 1200 intro] ***/
 /* 1260: disable or limit SHA-1
  * 0=all SHA1 certs are allowed
@@ -799,6 +801,7 @@ user_pref("security.pki.sha1_enforcement_level", 1);
  * [NOTE] Commented out because it still breaks too many sites ***/
    // user_pref("security.ssl3.rsa_aes_128_sha", false);
    // user_pref("security.ssl3.rsa_aes_256_sha", false);
+
 /** UI (User Interface) ***/
 /* 1270: display warning (red padlock) for "broken security"
  * [1] https://wiki.mozilla.org/Security:Renegotiation ***/
@@ -1012,15 +1015,15 @@ user_pref("media.getusermedia.audiocapture.enabled", false);
  * [SETTING] to manage site exceptions: Options>Privacy & Security>Permissions>Camera/Microphone>Settings ***/
    // user_pref("permissions.default.camera", 2);
    // user_pref("permissions.default.microphone", 2);
-/* 2026: disable canvas capture stream
+/* 2026: disable canvas capture stream (FF41+)
  * [1] https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement/captureStream ***/
 user_pref("canvas.capturestream.enabled", false);
-/* 2027: disable camera image capture
+/* 2027: disable camera image capture (FF35+) 
  * [1] https://trac.torproject.org/projects/tor/ticket/16339 ***/
-user_pref("dom.imagecapture.enabled", false);
-/* 2028: disable offscreen canvas
+user_pref("dom.imagecapture.enabled", false); // default: false
+/* 2028: disable offscreen canvas (FF44+)
  * [1] https://developer.mozilla.org/docs/Web/API/OffscreenCanvas ***/
-user_pref("gfx.offscreencanvas.enabled", false);
+user_pref("gfx.offscreencanvas.enabled", false); // default: false
 /* 2030: disable auto-play of HTML5 media
  * [WARNING] This may break video playback on various sites ***/
 user_pref("media.autoplay.enabled", false);
@@ -1160,6 +1163,13 @@ user_pref("javascript.options.shared_memory", false);
 
 /*** 2500: HARDWARE FINGERPRINTING ***/
 user_pref("_user.js.parrot", "2500 syntax error: the parrot's shuffled off 'is mortal coil!");
+/* 2502: disable Battery Status API
+ * Initially a Linux issue (high precision readout) that was fixed.
+ * However, it is still another metric for fingerprinting, used to raise entropy.
+ * e.g. do you have a battery or not, current charging status, charge level, times remaining etc
+ * [NOTE] From FF52+ Battery Status API is only available in chrome/privileged code. see [1]
+ * [1] https://bugzilla.mozilla.org/1313580 ***/
+   // user_pref("dom.battery.enabled", false);
 /* 2504: disable virtual reality devices
  * [WARNING] [SETUP] Optional protection depending on your connected devices
  * [1] https://developer.mozilla.org/docs/Web/API/WebVR_API ***/
@@ -1331,7 +1341,7 @@ user_pref("security.dialog_enable_delay", 700); // default: 1000 (milliseconds)
      serviceWorkers :
  ***/
 user_pref("_user.js.parrot", "2700 syntax error: the parrot's joined the bleedin' choir invisible!");
-/* 2701: disable cookies on all sites [SETUP]
+/* 2701: disable 3rd-party cookies and site-data [SETUP]
  * You can set exceptions under site permissions or use an extension
  * 0=allow all 1=allow same host 2=disallow all 3=allow 3rd party if it already set a cookie
  * [SETTING] Privacy & Security>History>Custom Settings>Accept cookies from sites
@@ -1394,8 +1404,7 @@ user_pref("dom.caches.enabled", false);
    // user_pref("dom.storageManager.enabled", false);
 
 /*** 2800: SHUTDOWN [SETUP]
-     You should set the values to what suits you best. Be aware that the settings below clear
-     browsing, download and form history, but not cookies (use exceptions or an extension).
+     You should set the values to what suits you best.
      - "Offline Website Data" includes appCache (2730), localStorage (2710),
        Service Worker cache (2740), and QuotaManager (IndexedDB (2720), asm-cache)
      - In both 2803 + 2804, the 'download' and 'history' prefs are combined in the
@@ -1894,17 +1903,6 @@ user_pref("media.gmp-eme-adobe.autoupdate", false);
    // [1] https://wiki.mozilla.org/WebAPI/Security/WebTelephony
    // [-] https://bugzilla.mozilla.org/1309719
 user_pref("dom.telephony.enabled", false);
-// 2502: disable Battery Status API
-   // Initially a Linux issue (high precision readout) that was fixed.
-   // However, it is still another metric for fingerprinting, used to raise entropy.
-   // e.g. do you have a battery or not, current charging status, charge level, times remaining etc
-   // [1] https://techcrunch.com/2015/08/04/battery-attributes-can-be-used-to-track-web-users/
-   // [2] https://bugzilla.mozilla.org/1124127
-   // [3] https://www.w3.org/TR/battery-status/
-   // [4] https://www.theguardian.com/technology/2016/aug/02/battery-status-indicators-tracking-online
-   // [NOTE] From FF52+ Battery Status API is only available in chrome/privileged code.
-   // [-] https://bugzilla.mozilla.org/1313580
-user_pref("dom.battery.enabled", false);
 // ***/
 
 /* ESR52.x still uses all the following prefs
