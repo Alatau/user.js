@@ -422,16 +422,13 @@ user_pref("network.predictor.enable-prefetch", false);
 
 /*** 0700: HTTP* / TCP/IP / DNS / PROXY / SOCKS etc ***/
 user_pref("_user.js.parrot", "0700 syntax error: the parrot's given up the ghost!");
-/* 0701: disable IPv6 (included for knowledge ONLY [WARNING] do not do this)
- * This is all about covert channels such as MAC addresses being included/abused in the
- * IPv6 protocol for tracking. If you want to mask your IP address, this is not the way
- * to do it. It's 2016, IPv6 is here. Here are some old links
- * 2010: https://christopher-parsons.com/ipv6-and-the-future-of-privacy/
- * 2011: https://iapp.org/news/a/2011-09-09-facing-the-privacy-implications-of-ipv6/
- * 2012: http://www.zdnet.com/article/security-versus-privacy-with-ipv6-deployment/
- * [NOTE] It is a myth that disabling IPv6 will speed up your internet connection
- * [1] https://www.howtogeek.com/195062/no-disabling-ipv6-probably-wont-speed-up-your-internet-connection/ ***/
-   // user_pref("network.dns.disableIPv6", true);
+/* 0701: disable IPv6
+ * IPv6 can be abused, especially regarding MAC addresses. They also do not play nice
+ * with VPNs. That's even assuming your ISP and/or router and/or website can hande it
+ * [TEST] http://testmyipv6.com/
+ * [1] https://github.com/ghacksuserjs/ghacks-user.js/issues/437#issuecomment-403740626
+ * [2] https://www.internetsociety.org/tag/ipv6-security/ (see Myths 2,4,5,6) ***/
+user_pref("network.dns.disableIPv6", true);
 /* 0702: disable HTTP2 (which was based on SPDY which is now deprecated)
  * HTTP2 raises concerns with "multiplexing" and "server push", does nothing to enhance
  * privacy, and in fact opens up a number of server-side fingerprinting opportunities
@@ -1375,11 +1372,14 @@ user_pref("network.cookie.leave-secure-alone", true); // default: true
  * [WARNING] This will break a LOT of sites' functionality.
  * You are better off using an extension for more granular control ***/
    // user_pref("dom.storage.enabled", false);
-/* 2720: disable JS storing data permanently [SETUP]
- * [WARNING] This BREAKS uBlock Origin [1.14.0+] and other extensions that require IndexedDB
- * [1] https://github.com/gorhill/uBlock/releases/tag/1.14.0
- * [WARNING] This *will* break other extensions including legacy, and *will* break some sites ***/
-   // user_pref("dom.indexedDB.enabled", false);
+/* 2720: enforce IndexedDB (IDB) as enabled
+ * IDB is required for extensions and Firefox internals (even before FF63 in [1])
+ * To control *website* IDB data, control allowing cookies and service workers, or use
+ * Temporary Containers. To mitigate *website* IDB, FPI helps (4001), and/or sanitize
+ * on close (Offline Website Data, see 2800) or on-demand (Ctrl-Shift-Del), or automatically
+ * via an extenion. Note that IDB currently cannot be sanitized by host.
+ * [1] https://blog.mozilla.org/addons/2018/08/03/new-backend-for-storage-local-api/ ***/
+user_pref("dom.indexedDB.enabled", true); // default: true
 /* 2730: disable offline cache
  * [NOTE] For FF51-FF60 (ESR not included), this is required 'true' for Storage API (2750) ***/
 user_pref("browser.cache.offline.enable", false);
@@ -1634,36 +1634,30 @@ user_pref("webgl.enable-debug-renderer-info", false);
 // ***/
 
 /*** 4700: RFP (4500) ALTERNATIVES - NAVIGATOR / USER AGENT (UA) SPOOFING
-     Spoofing your UA to *LOWER* entropy *does* *not* *work*. It may even cause site breakage
-     depending on your values. Even if you spoof, like TBB (Tor Browser Bundle) does, as the
-     latest ESR, it still *does* *not* *work*. There are two main reasons for this.
-       1. Many of the components that make up your UA can be derived by other means. And when
-          those values differ, you provide more bits and raise entropy. Examples of leaks include
-          navigator objects, date locale/formats, iframes, headers, resource://URIs,
-          feature detection and more.
-       2. You are not in a controlled set of significant numbers, where the values are enforced
-          by default. It works for TBB because for TBB, the spoofed values ARE their default.
-     * We do not recommend UA spoofing yourself, leave it to privacy.resistFingerprinting (see 4500)
-       which is already plugging leaks (see 1 above) the prefs below do not address
-     * Values below are for example only based on the current TBB at the time of writing
+     This is FYI ONLY. These prefs are INSUFFICIENT(a) on their own, you need
+     to use RFP (4500) or an extension, in which case they become POINTLESS.
+     (a) Many of the components that make up your UA can be derived by other means.
+         And when those values differ, you provide more bits and raise entropy.
+         Examples of leaks include navigator objects, date locale/formats, iframes,
+         headers, tcp/ip attributes, feature detection, and **many** more.
+     ALL values below intentionally left blank - use RFP, or get a vetted, tested
+         extension and mimic RFP values to *lower* entropy, or randomize to *raise* it
 ***/
 user_pref("_user.js.parrot", "4700 syntax error: the parrot's taken 'is last bow");
-/* 4701: navigator.userAgent leaks in JS
- * [NOTE] Setting this will break any UA spoofing extension whitelisting ***/
-   // user_pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0"); // (hidden pref)
-/* 4702: navigator.buildID (see gecko.buildID in about:config) reveals build time
- * down to the second which defeats user agent spoofing and can compromise OS etc
+/* 4701: navigator.userAgent ***/
+   // user_pref("general.useragent.override", ""); // (hidden pref)
+/* 4702: navigator.buildID (
+ * reveals build time down to the second
  * [1] https://bugzilla.mozilla.org/583181 ***/
-   // user_pref("general.buildID.override", "20100101"); // (hidden pref)
+   // user_pref("general.buildID.override", ""); // (hidden pref)
 /* 4703: navigator.appName ***/
-   // user_pref("general.appname.override", "Netscape"); // (hidden pref)
+   // user_pref("general.appname.override", ""); // (hidden pref)
 /* 4704: navigator.appVersion ***/
-   // user_pref("general.appversion.override", "5.0 (Windows)"); // (hidden pref)
-/* 4705: navigator.platform leaks in JS ***/
-   // user_pref("general.platform.override", "Win32"); // (hidden pref)
-/* 4706: navigator.oscpu leaks in JS ***/
-   // user_pref("general.oscpu.override", "Windows NT 6.1"); // (hidden pref)
-/* 4707: general.useragent.locale (related, see 0204-deprecated FF59+) ***/
+   // user_pref("general.appversion.override", ""); // (hidden pref)
+/* 4705: navigator.platform ***/
+   // user_pref("general.platform.override", ""); // (hidden pref)
+/* 4706: navigator.oscpu ***/
+   // user_pref("general.oscpu.override", ""); // (hidden pref)
 
 /*** 5000: PERSONAL [SETUP]
      Non-project related but useful. If any of these interest you, add them to your overrides ***/
