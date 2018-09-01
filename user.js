@@ -34,7 +34,7 @@
   4. BACKUP your profile folder before implementing (and/or test in a new/cloned profile)
   5. KEEP UP TO DATE: https://github.com/ghacksuserjs/ghacks-user.js/wiki#small_orange_diamond-maintenance
 
- ******/
+******/
 
 /* START: internal custom pref to test for syntax errors
  * [NOTE] In FF60+, not all syntax errors cause parsing to abort i.e. reaching the last debug
@@ -425,7 +425,9 @@ user_pref("_user.js.parrot", "0700 syntax error: the parrot's given up the ghost
 /* 0701: disable IPv6
  * IPv6 can be abused, especially regarding MAC addresses. They also do not play nice
  * with VPNs. That's even assuming your ISP and/or router and/or website can hande it
- * [TEST] http://testmyipv6.com/
+ * [WARNING] This is just an application level fallback. Disabling IPv6 is best done
+ * at an OS/network level, and/or configured properly in VPN setups
+ * [TEST] http://ipv6leak.com/
  * [1] https://github.com/ghacksuserjs/ghacks-user.js/issues/437#issuecomment-403740626
  * [2] https://www.internetsociety.org/tag/ipv6-security/ (see Myths 2,4,5,6) ***/
 user_pref("network.dns.disableIPv6", true);
@@ -477,7 +479,7 @@ user_pref("network.file.disable_unc_paths", true); // (hidden pref)
      functionality. Likewise, you may want to check the items cleared on shutdown in section 2800.
      [NOTE] The urlbar is also commonly referred to as the location bar and address bar
      #Required reading [#] https://xkcd.com/538/
- ***/
+***/
 user_pref("_user.js.parrot", "0800 syntax error: the parrot's ceased to be!");
 /* 0801: disable location bar using search - PRIVACY
  * don't leak typos to a search engine, give an error message instead ***/
@@ -607,7 +609,17 @@ user_pref("security.insecure_field_warning.contextual.enabled", true);
  * [1] https://bugzilla.mozilla.org/1357835 ***/
 user_pref("network.auth.subresource-img-cross-origin-http-auth-allow", false);
 
-/*** 1000: CACHE [SETUP] ***/
+/*** 1000: CACHE [SETUP]
+     ETAG [1] and other [2] cache tracking/fingerprinting techniques can be averted by
+     disabling *BOTH* disk (1001) and memory (1003) cache. ETAGs can also be neutralized
+     by modifying response headers [3]. Another solution is to use a hardened configuration
+     with Temporary Containers [4]. Alternatively, you can *LIMIT* exposure by clearing
+     cache on close (2803). or on a regular basis manually or with an extension.
+     [1] https://en.wikipedia.org/wiki/HTTP_ETag#Tracking_using_ETags
+     [2] https://robertheaton.com/2014/01/20/cookieless-user-tracking-for-douchebags/
+     [3] https://github.com/ghacksuserjs/ghacks-user.js/wiki/4.2.4-Header-Editor
+     [4] https://medium.com/@stoically/enhance-your-privacy-in-firefox-with-temporary-containers-33925cd6cd21
+***/
 user_pref("_user.js.parrot", "1000 syntax error: the parrot's gone to meet 'is maker!");
 /** CACHE ***/
 /* 1001: disable disk cache ***/
@@ -633,9 +645,6 @@ user_pref("browser.cache.disk_cache_ssl", false);
  * [NOTE] This means any permission changes are session only
  * [1] https://bugzilla.mozilla.org/967812 ***/
    // user_pref("permissions.memory_only", true); // (hidden pref)
-/* 1007: disable randomized FF HTTP cache decay experiments
- * [1] https://trac.torproject.org/projects/tor/ticket/13575 ***/
-user_pref("browser.cache.frecency_experiment", -1);
 /* 1008: set DNS cache and expiration time (default 400 and 60, same as TBB) ***/
    // user_pref("network.dnsCacheEntries", 400);
    // user_pref("network.dnsCacheExpiration", 60);
@@ -685,7 +694,7 @@ user_pref("alerts.showFavicons", false); // default: false
              Optionally, disable the ciphers in 1264.
 
    [1] https://www.securityartwork.es/2017/02/02/tls-client-fingerprinting-with-bro/
- ***/
+***/
 user_pref("_user.js.parrot", "1200 syntax error: the parrot's a stiff!");
 /** SSL (Secure Sockets Layer) / TLS (Transport Layer Security) ***/
 /* 1201: disable old SSL/TLS - vulnerable to a MiTM attack
@@ -701,7 +710,6 @@ user_pref("_user.js.parrot", "1200 syntax error: the parrot's a stiff!");
  * [2] https://www.ssl.com/how-to/turn-off-ssl-3-0-and-tls-1-0-in-your-browser/
  * [2] archived: https://archive.is/hY2Mm ***/
 user_pref("security.tls.version.min", 3);
-user_pref("security.tls.version.fallback-limit", 3);
 user_pref("security.tls.version.max", 4); // 4 = allow up to and including TLS 1.3
 /* 1203: disable SSL session tracking (FF36+)
  * SSL Session IDs speed up HTTPS connections (no need to renegotiate) and last for 48hrs.
@@ -876,7 +884,7 @@ user_pref("gfx.font_rendering.graphite.enabled", false);
             scheme+host+port: https://example.com:8888
 
      #Required reading [#] https://feeding.cloud.geek.nz/posts/tweaking-referrer-for-privacy-in-firefox/
- ***/
+***/
 user_pref("_user.js.parrot", "1600 syntax error: the parrot rests in peace!");
 /* 1601: ALL: control when images/links send a referer
  * 0=never, 1=send only when links are clicked, 2=for links and images (default) ***/
@@ -1081,7 +1089,7 @@ user_pref("dom.popup_allowed_events", "click dblclick");
      [4]   SharedWorker: https://developer.mozilla.org/docs/Web/API/SharedWorker
      [5]   ChromeWorker: https://developer.mozilla.org/docs/Web/API/ChromeWorker
      [6]  Notifications: https://support.mozilla.org/questions/1165867#answer-981820
- ***/
+***/
 user_pref("_user.js.parrot", "2300 syntax error: the parrot's off the twig!");
 /* 2302: disable service workers
  * Service workers essentially act as proxy servers that sit between web apps, and the browser
@@ -1336,7 +1344,7 @@ user_pref("security.dialog_enable_delay", 700); // default: 1000 (milliseconds)
           indexedDB : profile\storage\default
            appCache : profile\OfflineCache
      serviceWorkers :
- ***/
+***/
 user_pref("_user.js.parrot", "2700 syntax error: the parrot's joined the bleedin' choir invisible!");
 /* 2701: disable 3rd-party cookies and site-data [SETUP]
  * You can set exceptions under site permissions or use an extension
@@ -1409,7 +1417,7 @@ user_pref("dom.caches.enabled", false);
        Service Worker cache (2740), and QuotaManager (IndexedDB (2720), asm-cache)
      - In both 2803 + 2804, the 'download' and 'history' prefs are combined in the
        Firefox interface as "Browsing & Download History" and their values will be synced
- ***/
+***/
 user_pref("_user.js.parrot", "2800 syntax error: the parrot's bleedin' demised!");
 /* 2802: enable Firefox to clear history items on shutdown
  * [SETTING] Privacy & Security>History>Clear history when Firefox closes ***/
@@ -2022,6 +2030,10 @@ user_pref("datareporting.healthreport.about.reportUrl", "data:text/plain,");
    // [3] https://www.ghacks.net/2016/07/26/firefox-flyweb/
    // [-] https://bugzilla.mozilla.org/1374574
 user_pref("dom.flyweb.enabled", false);
+// 1007: disable randomized FF HTTP cache decay experiments
+   // [1] https://trac.torproject.org/projects/tor/ticket/13575
+   // [-] https://bugzilla.mozilla.org/1430197
+user_pref("browser.cache.frecency_experiment", -1);
 // 1242: enable Mixed-Content-Blocker to use the HSTS cache but disable the HSTS Priming requests (FF51+)
    // Allow resources from domains with an existing HSTS cache record or in the HSTS preload list
    // to be upgraded to HTTPS internally but disable sending out HSTS Priming requests, because
