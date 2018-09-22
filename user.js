@@ -1,7 +1,7 @@
 /******
 * name: ghacks user.js
-* date: 08 August 2018
-* version 62-alpha: Total Eclipse of the Pants
+* date: 08 September 2018
+* version 62-beta: Total Eclipse of the Pants
 *   "Once upon a time there was light in my life, but now there's only pants in the dark"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
@@ -216,7 +216,7 @@ user_pref("_user.js.parrot", "0400 syntax error: the parrot's passed on!");
  * [NOTE] It includes updates for "revoked certificates"
  * [1] https://blog.mozilla.org/security/2015/03/03/revoking-intermediate-certificates-introducing-onecrl/
  * [2] https://trac.torproject.org/projects/tor/ticket/16931 ***/
-user_pref("extensions.blocklist.enabled", true);
+user_pref("extensions.blocklist.enabled", true); // default: true
 user_pref("extensions.blocklist.url", "https://blocklists.settings.services.mozilla.com/v1/blocklist/3/%APP_ID%/%APP_VERSION%/");
 /* 0402: enable Kinto blocklist updates (FF50+)
  * What is Kinto?: https://wiki.mozilla.org/Firefox/Kinto#Specifications
@@ -424,7 +424,7 @@ user_pref("network.predictor.enable-prefetch", false);
 user_pref("_user.js.parrot", "0700 syntax error: the parrot's given up the ghost!");
 /* 0701: disable IPv6
  * IPv6 can be abused, especially regarding MAC addresses. They also do not play nice
- * with VPNs. That's even assuming your ISP and/or router and/or website can hande it
+ * with VPNs. That's even assuming your ISP and/or router and/or website can handle it
  * [WARNING] This is just an application level fallback. Disabling IPv6 is best done
  * at an OS/network level, and/or configured properly in VPN setups
  * [TEST] http://ipv6leak.com/
@@ -558,6 +558,10 @@ user_pref("browser.formfill.enable", false);
  * [SETTING] Privacy & Security>History>Custom Settings>Remember my browsing and download history
  * [NOTE] You can clear history and downloads on exiting Firefox (see 2803) ***/
 user_pref("places.history.enabled", false);
+/* 0864: disable date/time picker (FF57+ default true)
+ * This can leak your locale if not en-US
+ * [1] https://trac.torproject.org/projects/tor/ticket/21787 ***/
+user_pref("dom.forms.datetime", false);
 /* 0870: disable Windows jumplist [WINDOWS] ***/
 user_pref("browser.taskbar.lists.enabled", false);
 user_pref("browser.taskbar.lists.frequent.enabled", false);
@@ -610,15 +614,16 @@ user_pref("security.insecure_field_warning.contextual.enabled", true);
 user_pref("network.auth.subresource-img-cross-origin-http-auth-allow", false);
 
 /*** 1000: CACHE [SETUP]
-     ETAG [1] and other [2] cache tracking/fingerprinting techniques can be averted by
+     ETAG [1] and other [2][3] cache tracking/fingerprinting techniques can be averted by
      disabling *BOTH* disk (1001) and memory (1003) cache. ETAGs can also be neutralized
-     by modifying response headers [3]. Another solution is to use a hardened configuration
-     with Temporary Containers [4]. Alternatively, you can *LIMIT* exposure by clearing
+     by modifying response headers [4]. Another solution is to use a hardened configuration
+     with Temporary Containers [5]. Alternatively, you can *LIMIT* exposure by clearing
      cache on close (2803). or on a regular basis manually or with an extension.
      [1] https://en.wikipedia.org/wiki/HTTP_ETag#Tracking_using_ETags
      [2] https://robertheaton.com/2014/01/20/cookieless-user-tracking-for-douchebags/
-     [3] https://github.com/ghacksuserjs/ghacks-user.js/wiki/4.2.4-Header-Editor
-     [4] https://medium.com/@stoically/enhance-your-privacy-in-firefox-with-temporary-containers-33925cd6cd21
+     [3] https://www.grepular.com/Preventing_Web_Tracking_via_the_Browser_Cache
+     [4] https://github.com/ghacksuserjs/ghacks-user.js/wiki/4.2.4-Header-Editor
+     [5] https://medium.com/@stoically/enhance-your-privacy-in-firefox-with-temporary-containers-33925cd6cd21
 ***/
 user_pref("_user.js.parrot", "1000 syntax error: the parrot's gone to meet 'is maker!");
 /** CACHE ***/
@@ -669,6 +674,9 @@ user_pref("browser.sessionstore.resume_from_crash", false);
  * This longer interval *may* affect history but we cannot replicate any history not recorded
  * [1] https://bugzilla.mozilla.org/1304389 ***/
 user_pref("browser.sessionstore.interval", 30000);
+/* 1024: disable automatic Firefox start and session restore after reboot [WINDOWS] (FF62+)
+ * [1] https://bugzilla.mozilla.org/603903 ***/
+user_pref("toolkit.winRegisterApplicationRestart", false);
 /** FAVICONS ***/
 /* 1030: disable favicons in shortcuts
  * URL shortcuts use a cached randomly named .ico file which is stored in your
@@ -774,7 +782,7 @@ user_pref("security.family_safety.mode", 0);
 /** MIXED CONTENT ***/
 /* 1240: disable insecure active content on https pages - mixed content
  * [1] https://trac.torproject.org/projects/tor/ticket/21323 ***/
-user_pref("security.mixed_content.block_active_content", true);
+user_pref("security.mixed_content.block_active_content", true); // default: true
 /* 1241: disable insecure passive content (such as images) on https pages - mixed context ***/
    // user_pref("security.mixed_content.block_display_content", true);
 
@@ -932,7 +940,7 @@ user_pref("privacy.userContext.ui.enabled", true);
  * [SETTING] Privacy & Security>Tabs>Enable Container Tabs ***/
 user_pref("privacy.userContext.enabled", true);
 /* 1703: enable a private container for thumbnail loads (FF51+) ***/
-user_pref("privacy.usercontext.about_newtab_segregation.enabled", true);
+user_pref("privacy.usercontext.about_newtab_segregation.enabled", true); // default: true in FF61+
 /* 1704: set long press behaviour on "+ Tab" button to display container menu (FF53+)
  * 0=disables long press, 1=when clicked, the menu is shown
  * 2=the menu is shown after X milliseconds
@@ -1302,12 +1310,6 @@ user_pref("browser.download.forbid_open_with", true);
  * [1] archived: https://archive.is/DYjAM ***/
 user_pref("extensions.enabledScopes", 1); // (hidden pref)
 user_pref("extensions.autoDisableScopes", 15);
-/* 2661: clear localStorage and UUID when an extension is uninstalled
- * [NOTE] Both preferences must be the same
- * [1] https://developer.mozilla.org/Add-ons/WebExtensions/API/storage/local
- * [2] https://bugzilla.mozilla.org/1213990 ***/
-user_pref("extensions.webextensions.keepStorageOnUninstall", false);
-user_pref("extensions.webextensions.keepUuidOnUninstall", false);
 /* 2662: disable webextension restrictions on certain mozilla domains (also see 4503) (FF60+)
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1384330,1406795,1415644,1453988 ***/
    // user_pref("extensions.webextensions.restrictedDomains", "");
@@ -1329,7 +1331,7 @@ user_pref("security.csp.experimentalEnabled", true);
  * [1] https://bugzilla.mozilla.org/1331351
  * [2] https://www.wordfence.com/blog/2017/01/gmail-phishing-data-uri/
  * [3] https://www.fxsitecompat.com/en-CA/docs/2017/data-url-navigations-on-top-level-window-will-be-blocked/ ***/
-user_pref("security.data_uri.block_toplevel_data_uri_navigations", true);
+user_pref("security.data_uri.block_toplevel_data_uri_navigations", true); // default: true in FF59+
 /* 2684: enforce a security delay on some confirmation dialogs such as install, open/save
  * [1] http://kb.mozillazine.org/Disable_extension_install_delay_-_Firefox
  * [2] https://www.squarefree.com/2004/07/01/race-conditions-in-security-dialogs/ ***/
@@ -1375,7 +1377,7 @@ user_pref("network.cookie.leave-secure-alone", true); // default: true
  * [3] https://www.sjoerdlangkemper.nl/2016/04/14/preventing-csrf-with-samesite-cookie-attribute/ ***/
    // user_pref("network.cookie.same-site.enabled", true); // default: true
 /* 2710: disable DOM (Document Object Model) Storage
- * [WARNING] This will break a LOT of sites' functionality.
+ * [WARNING] This will break a LOT of sites' functionality AND extensions!
  * You are better off using an extension for more granular control ***/
    // user_pref("dom.storage.enabled", false);
 /* 2720: enforce IndexedDB (IDB) as enabled
@@ -1391,7 +1393,7 @@ user_pref("dom.indexedDB.enabled", true); // default: true
 user_pref("browser.cache.offline.enable", false);
 /* 2730b: disable offline cache on insecure sites (FF60+)
  * [1] https://blog.mozilla.org/security/2018/02/12/restricting-appcache-secure-contexts/ ***/
-user_pref("browser.cache.offline.insecure.enable", false);
+user_pref("browser.cache.offline.insecure.enable", false); // default: false in FF62+
 /* 2731: enforce websites to ask to store data for offline use
  * [1] https://support.mozilla.org/questions/1098540
  * [2] https://bugzilla.mozilla.org/959985 ***/
@@ -1561,6 +1563,10 @@ user_pref("privacy.resistFingerprinting", true); // (hidden pref) (not hidden FF
  * to sanitize or clear extensions.webextensions.restrictedDomains (see 2662) to keep that side-effect
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1384330,1406795,1415644,1453988 ***/
 user_pref("privacy.resistFingerprinting.block_mozAddonManager", true); // (hidden pref)
+/* 4504: disable showing about:blank as soon as possible during startup (FF60+)
+ * When default true (FF62+) this no longer masks the RFP resizing activity
+ * [1] https://bugzilla.mozilla.org/1448423 ***/
+user_pref("browser.startup.blankWindow", false);
 
 /*** 4600: RFP (4500) ALTERNATIVES [SETUP]
    * IF you DO use RFP (see 4500) then you DO NOT need these redundant prefs. In fact,
@@ -1904,10 +1910,7 @@ user_pref("media.gmp-eme-adobe.autoupdate", false);
    // [-] https://bugzilla.mozilla.org/1309719
 user_pref("dom.telephony.enabled", false);
 // ***/
-
-/* ESR52.x still uses all the following prefs
-// [NOTE] replace the * with a slash in the line above to re-enable them
-// FF53
+/* FF53
 // 1265: block rc4 fallback
    // [-] https://bugzilla.mozilla.org/1130670
 user_pref("security.tls.unrestricted_rc4_fallback", false);
@@ -1922,8 +1925,8 @@ user_pref("media.getusermedia.screensharing.allow_on_old_platforms", false);
 // 2507: disable keyboard fingerprinting
    // [-] https://bugzilla.mozilla.org/1322736
 user_pref("dom.beforeAfterKeyboardEvent.enabled", false);
-// * * * /
-// FF54
+// ***/
+/* FF54
 // 0415: disable reporting URLs (safe browsing)
    // [-] https://bugzilla.mozilla.org/1288633
 user_pref("browser.safebrowsing.reportMalwareMistakeURL", "");
@@ -1935,8 +1938,8 @@ user_pref("media.eme.apiVisible", false);
    // i.e. reading archive contents directly in the browser, through DOM file objects
    // [-] https://bugzilla.mozilla.org/1342361
 user_pref("dom.archivereader.enabled", false);
-// * * * /
-// FF55
+// ***/
+/* FF55
 // 0209: disable geolocation on non-secure origins (FF54+)
    // [1] https://bugzilla.mozilla.org/1269531
    // [-] https://bugzilla.mozilla.org/1072859
@@ -1974,16 +1977,16 @@ user_pref("browser.tabs.animate", false);
 // 5016: disable fullscreeen animation - replaced by toolkit.cosmeticAnimations.enabled
    // [-] https://bugzilla.mozilla.org/1352069
 user_pref("browser.fullscreen.animate", false);
-// * * * /
-// FF56
+// ***/
+/* FF56
 // 0515: disable Screenshots (rollout pref only) (FF54+)
    // [-] https://bugzilla.mozilla.org/1386333
    // user_pref("extensions.screenshots.system-disabled", true);
 // 0517: disable Form Autofill (FF55+) - replaced by extensions.formautofill.available
    // [-] https://bugzilla.mozilla.org/1385201
 user_pref("extensions.formautofill.experimental", false);
-// * * * /
-// FF57
+// ***/
+/* FF57
 // 0374: disable "social" integration
    // [1] https://developer.mozilla.org/docs/Mozilla/Projects/Social_API
    // [-] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1388902,1406193 (some leftovers were removed in FF58)
@@ -2008,8 +2011,8 @@ user_pref("browser.casting.enabled", false);
 // 5022: hide recently bookmarked items (you still have the original bookmarks) (FF49+)
    // [-] https://bugzilla.mozilla.org/1401238
 user_pref("browser.bookmarks.showRecentlyBookmarked", false);
-// * * * /
-// FF59
+// ***/
+/* FF59
 // 0203: disable using OS locale, force APP locale - replaced by intl.locale.requested
    // [-] https://bugzilla.mozilla.org/1414390
 user_pref("intl.locale.matchOS", false);
@@ -2059,8 +2062,8 @@ user_pref("dom.disable_window_status_change", true);
 // 2416: disable idle observation
    // [-] (part7) https://bugzilla.mozilla.org/1416703#c21
 user_pref("dom.idle-observers-api.enabled", false);
-// * * * /
-// FF60
+// ***/
+/* FF60
 // 0360: disable new tab tile ads & preload & marketing junk
    // [-] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1370930,1433133
 user_pref("browser.newtabpage.directory.source", "data:text/plain,");
@@ -2084,7 +2087,6 @@ user_pref("dom.workers.enabled", false);
 // 5000's: open "page/selection source" in a new window
    // [-] https://bugzilla.mozilla.org/1418403
    // user_pref("view_source.tab", false);
-// * * * /
 // ***/
 
 /* ESR60.x still uses all the following prefs
