@@ -1,8 +1,8 @@
 /******
 * name: ghacks user.js
-* date: 08 September 2018
-* version 62-beta: Total Eclipse of the Pants
-*   "Once upon a time there was light in my life, but now there's only pants in the dark"
+* date: 10 October 2018
+* version 63-alpha: Pants Romance
+*   "Rah rah ah-ah-ah! Ro mah ro-mah-mah. Gaga oh-la-la! Want your pants romance"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
 * license: MIT: https://github.com/ghacksuserjs/ghacks-user.js/blob/master/LICENSE.txt
@@ -285,9 +285,6 @@ user_pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
  * [2] https://support.mozilla.org/kb/tracking-protection-firefox ***/
    // user_pref("privacy.trackingprotection.pbmode.enabled", true); // default: true
    // user_pref("privacy.trackingprotection.enabled", true);
-/* 0421: enable more Tracking Protection choices under Options>Privacy & Security>Use Tracking Protection
- * Displays three choices: "Always", "Only in private windows", "Never" ***/
-user_pref("privacy.trackingprotection.ui.enabled", true);
 /* 0422: set which Tracking Protection block list to use
  * [WARNING] We don't recommend enforcing this from here, as available block lists can change
  * [SETTING] Privacy & Security>Tracking Protection>Change Block List ***/
@@ -471,6 +468,14 @@ user_pref("network.trr.uri", "");
 /* 0709: disable using UNC (Uniform Naming Convention) paths (FF61+)
  * [1] https://trac.torproject.org/projects/tor/ticket/26424 ***/
 user_pref("network.file.disable_unc_paths", true); // (hidden pref)
+/* 0710: disable GIO as a potential proxy bypass vector
+ * Gvfs/GIO has a set of supported protocols like obex, network, archive, computer, dav, cdda,
+ * gphoto2, trash, etc. By default only smb and sftp protocols are accepted so far (as of FF64)
+ * [1] https://bugzilla.mozilla.org/1433507
+ * [2] https://trac.torproject.org/23044
+ * [3] https://en.wikipedia.org/wiki/GVfs
+ * [4] https://en.wikipedia.org/wiki/GIO_(software) ***/
+user_pref("network.gio.supported-protocols", ""); // (hidden pref)
 
 /*** 0800: LOCATION BAR / SEARCH BAR / SUGGESTIONS / HISTORY / FORMS [SETUP]
      If you are in a private environment (no unwanted eyeballs) and your device is private
@@ -684,7 +689,7 @@ user_pref("toolkit.winRegisterApplicationRestart", false);
  * If set to false then the shortcuts use a generic Firefox icon ***/
 user_pref("browser.shell.shortcutFavicons", false);
 /* 1031: disable favicons in tabs and new bookmarks
- * bookmark favicons are stored as data blobs in places.sqlite>moz_favicons ***/
+ * bookmark favicons are stored as data blobs in favicons.sqlite ***/
    // user_pref("browser.chrome.site_icons", false);
    // user_pref("browser.chrome.favicons", false);
 /* 1032: disable favicons in web notifications ***/
@@ -1546,6 +1551,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true);
       FF60: Fix keydown/keyup events (1438795)
  ** 1337157 - disable WebGL debug renderer info (see 4613) (FF60+)
  ** 1459089 - disable OS locale in HTTP Accept-Language headers [ANDROID] (FF62+)
+ ** 1363508 - spoof/suppress Pointer Events (FF64+)
 ***/
 user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting (FF41+)
