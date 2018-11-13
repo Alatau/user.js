@@ -1,7 +1,7 @@
 /******
 * name: ghacks user.js
-* date: 10 October 2018
-* version 63-alpha: Pants Romance
+* date: 13 November 2018
+* version 63-beta: Pants Romance
 *   "Rah rah ah-ah-ah! Ro mah ro-mah-mah. Gaga oh-la-la! Want your pants romance"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
@@ -295,6 +295,8 @@ user_pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1170190,1141814 ***/
    // user_pref("privacy.trackingprotection.annotate_channels", false);
    // user_pref("privacy.trackingprotection.lower_network_priority", false);
+/* 0426: enforce Content Blocking (required to block cookies) (FF63+) ***/
+user_pref("browser.contentblocking.enabled", true); // default: true
 
 /*** 0500: SYSTEM ADD-ONS / EXPERIMENTS
      System Add-ons are a method for shipping extensions, considered to be
@@ -896,7 +898,7 @@ user_pref("gfx.font_rendering.graphite.enabled", false);
      use the site and then change the values back. If you visit those sites regularly (e.g. Vimeo), use an extension.
 
                     full URI: https://example.com:8888/foo/bar.html?id=1234
-       scheme+host+path+port: https://example.com:8888/foo/bar.html
+       scheme+host+port+path: https://example.com:8888/foo/bar.html
             scheme+host+port: https://example.com:8888
 
      #Required reading [#] https://feeding.cloud.geek.nz/posts/tweaking-referrer-for-privacy-in-firefox/
@@ -906,13 +908,13 @@ user_pref("_user.js.parrot", "1600 syntax error: the parrot rests in peace!");
  * 0=never, 1=send only when links are clicked, 2=for links and images (default) ***/
    // user_pref("network.http.sendRefererHeader", 2);
 /* 1602: ALL: control the amount of information to send
- * 0=send full URI (default), 1=scheme+host+path+port, 2=scheme+host+port ***/
+ * 0=send full URI (default), 1=scheme+host+port+path, 2=scheme+host+port ***/
    // user_pref("network.http.referer.trimmingPolicy", 0);
 /* 1603: CROSS ORIGIN: control when to send a referer [SETUP]
  * 0=always (default), 1=only if base domains match, 2=only if hosts match ***/
    // user_pref("network.http.referer.XOriginPolicy", 1);
 /* 1604: CROSS ORIGIN: control the amount of information to send (FF52+)
- * 0=send full URI (default), 1=scheme+host+path+port, 2=scheme+host+port ***/
+ * 0=send full URI (default), 1=scheme+host+port+path, 2=scheme+host+port ***/
    // user_pref("network.http.referer.XOriginTrimmingPolicy", 0);
 /* 1605: ALL: disable spoofing a referer
  * [WARNING] Spoofing effectively disables the anti-CSRF (Cross-Site Request Forgery) protections that some sites may rely on ***/
@@ -1212,6 +1214,11 @@ user_pref("dom.webaudio.enabled", false);
 /* 2516: disable PointerEvents
  * [1] https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent ***/
 user_pref("dom.w3c_pointer_events.enabled", false);
+/* 2517: disable Media Capabilities API (FF63+)
+ * [WARNING] This *may* affect media performance if disabled, no one is sure
+ * [1] https://github.com/WICG/media-capabilities
+ * [2] https://wicg.github.io/media-capabilities/#security-privacy-considerations ***/
+   // user_pref("media.media-capabilities.enabled", false);
 
 /*** 2600: MISCELLANEOUS ***/
 user_pref("_user.js.parrot", "2600 syntax error: the parrot's run down the curtain!");
@@ -1398,8 +1405,7 @@ user_pref("network.cookie.leave-secure-alone", true); // default: true
  * via an extenion. Note that IDB currently cannot be sanitized by host.
  * [1] https://blog.mozilla.org/addons/2018/08/03/new-backend-for-storage-local-api/ ***/
 user_pref("dom.indexedDB.enabled", true); // default: true
-/* 2730: disable offline cache
- * [NOTE] For FF51-FF60 (ESR not included), this is required 'true' for Storage API (2750) ***/
+/* 2730: disable offline cache ***/
 user_pref("browser.cache.offline.enable", false);
 /* 2730b: disable offline cache on insecure sites (FF60+)
  * [1] https://blog.mozilla.org/security/2018/02/12/restricting-appcache-secure-contexts/ ***/
@@ -1415,7 +1421,6 @@ user_pref("dom.caches.enabled", false);
  * The API gives sites the ability to find out how much space they can use, how much
  * they are already using, and even control whether or not they need to be alerted
  * before the user agent disposes of site data in order to make room for other things.
- * [NOTE] For FF51-FF60 (ESR not included), if Storage API is enabled, then Offline Cache (2730) must be also be enabled
  * [1] https://developer.mozilla.org/docs/Web/API/StorageManager
  * [2] https://developer.mozilla.org/docs/Web/API/Storage_API
  * [3] https://blog.mozilla.org/l10n/2017/03/07/firefox-l10n-report-aurora-54/ ***/
@@ -1715,7 +1720,7 @@ user_pref("layout.spellcheckDefault", 0); // 0=none, 1-multi-line, 2=multi-line 
 user_pref("browser.backspace_action", 2); // 0=previous page, 1=scroll up, 2=do nothing
 user_pref("browser.tabs.closeWindowWithLastTab", false);
    // user_pref("browser.tabs.loadBookmarksInTabs", true); // open bookmarks in a new tab (FF57+)
-   // user_pref("browser.urlbar.decodeURLsOnCopy", true); // see  Bugzilla 1320061 (FF53+)
+   // user_pref("browser.urlbar.decodeURLsOnCopy", true); // see Bugzilla 1320061 (FF53+)
 user_pref("general.autoScroll", false); // middle-click enabling auto-scrolling [WINDOWS] [MAC]
    // user_pref("ui.key.menuAccessKey", 0); // disable alt key toggling the menu bar [RESTART]
 /* OTHER ***/
