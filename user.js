@@ -85,7 +85,7 @@ user_pref("_user.js.parrot", "0200 syntax error: the parrot's definitely decease
 /* 0201b: set a default permission for Location (FF58+)
  * [SETTING] to add site exceptions: Page Info>Permissions>Access Your Location
  * [SETTING] to manage site exceptions: Options>Privacy & Security>Permissions>Location>Settings ***/
-user_pref("permissions.default.geo", 2); // 0=always ask (default), 1=allow, 2=block
+   // user_pref("permissions.default.geo", 2); // 0=always ask (default), 1=allow, 2=block
 /* 0202: disable GeoIP-based search results
  * [NOTE] May not be hidden if Firefox has changed your settings due to your locale
  * [1] https://trac.torproject.org/projects/tor/ticket/16254
@@ -1075,11 +1075,11 @@ user_pref("dom.disable_window_move_resize", true);
  * [1] https://trac.torproject.org/projects/tor/ticket/9881 ***/
 user_pref("browser.link.open_newwindow", 3);
 user_pref("browser.link.open_newwindow.restriction", 0);
-/* 2204: disable Fullscreen API to prevent screen-resolution leaks [SETUP]
+/* 2204: disable Fullscreen API (requires user interaction) to prevent screen-resolution leaks
  * [NOTE] You can still manually toggle the browser's fullscreen state (F11),
  * but this pref will disable embedded video/game fullscreen controls, e.g. youtube
  * [TEST] https://developer.mozilla.org/samples/domref/fullscreen.html ***/
-   // user_pref("full-screen-api.enabled", false);
+    // user_pref("full-screen-api.enabled", false);
 /* 2210: block popup windows
  * [SETTING] Privacy & Security>Permissions>Block pop-up windows ***/
 user_pref("dom.disable_open_during_load", true);
