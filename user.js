@@ -65,17 +65,34 @@ user_pref("_user.js.parrot", "0100 syntax error: the parrot's dead!");
  * [SETTING] General>Startup>Always check if Firefox is your default browser ***/
 user_pref("browser.shell.checkDefaultBrowser", false);
 /* 0102: set START page (0=blank, 1=home, 2=last visited page, 3=resume previous session)
- * [SETTING] General>Startup>When Firefox starts ***/
+ * [SETTING] General>Startup>Restore previous session ***/
 user_pref("browser.startup.page", 1);
 /* 0103: set HOME+NEWWINDOW page
- * about:home=Activity Stream (default, see 0514), custom URL, about:blank
+ * about:home=Activity Stream (default, see 0105), custom URL, about:blank 
  * [SETTING] Home>New Windows and Tabs>Homepage and new windows ***/
-user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?prf=de02bd334b3292d8aa12044cff47e206");
+user_pref("browser.startup.homepage", "https://www.startpage.com/do/mypage.pl?prfe=36c84513558a2d34bf0d89ea505333ad761002405484af240adc2e9be9271a9b818f1bb4bea737977d05e7667d08042d");
 /* 0104: set NEWTAB page
- * true=Activity Stream (default, see 0514), false=blank page
+ * true=Activity Stream (default, see 0105), false=blank page
  * [SETTING] Home>New Windows and Tabs>New tabs ***/
 user_pref("browser.newtabpage.enabled", false);
 user_pref("browser.newtab.preload", false);
+/* 0105: disable Activity Stream stuff (AS)
+ * AS is the default homepage/newtab in FF57+, based on metadata and browsing behavior.
+ *    **NOT LISTING ALL OF THESE: USE THE PREFERENCES UI**
+ * [SETTING] Home>Firefox Home Content>...  to show/hide what you want ***/
+/* 0105a: disable Activity Stream telemetry ***/
+user_pref("browser.newtabpage.activity-stream.feeds.telemetry", false);
+user_pref("browser.newtabpage.activity-stream.telemetry", false);
+user_pref("browser.newtabpage.activity-stream.telemetry.ping.endpoint", "");
+/* 0105b: disable AS Snippets ***/
+user_pref("browser.newtabpage.activity-stream.disableSnippets", true);
+user_pref("browser.newtabpage.activity-stream.feeds.snippets", false); // [SETTING]
+/* 0105c: disable AS Top Stories, Pocket-based and/or sponsored content ***/
+user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
+user_pref("browser.newtabpage.activity-stream.section.highlights.includePocket", false); // [SETTING]
+user_pref("browser.newtabpage.activity-stream.showSponsored", false);
+/* 0105d: disable AS recent Highlights in the Library (FF57+) ***/
+user_pref("browser.library.activity-stream.enabled", false);
 
 /*** 0200: GEOLOCATION ***/
 user_pref("_user.js.parrot", "0200 syntax error: the parrot's definitely deceased!");
@@ -83,9 +100,10 @@ user_pref("_user.js.parrot", "0200 syntax error: the parrot's definitely decease
  * [1] https://www.mozilla.org/firefox/geolocation/ ***/
    // user_pref("geo.enabled", false);
 /* 0201b: set a default permission for Location (FF58+)
+ * [NOTE] best left at default "always ask", fingerpintable via Permissions API 
  * [SETTING] to add site exceptions: Page Info>Permissions>Access Your Location
  * [SETTING] to manage site exceptions: Options>Privacy & Security>Permissions>Location>Settings ***/
-user_pref("permissions.default.geo", 2); // 0=always ask (default), 1=allow, 2=block
+   // user_pref("permissions.default.geo", 2); // 0=always ask (default), 1=allow, 2=block
 /* 0202: disable GeoIP-based search results
  * [NOTE] May not be hidden if Firefox has changed your settings due to your locale
  * [1] https://trac.torproject.org/projects/tor/ticket/16254
@@ -141,7 +159,7 @@ user_pref("extensions.getAddons.cache.enabled", false);
 /* 0307: disable auto updating of personas (themes) ***/
 user_pref("lightweightThemes.update.enabled", false);
 /* 0308: disable search update
- * [SETTING] General>Firefox Update>Automatically update search engines ***/
+ * [SETTING] General>Firefox Updates>Automatically update search engines ***/
 user_pref("browser.search.update", false);
 /* 0309: disable sending Flash crash reports ***/
 user_pref("dom.ipc.plugins.flash.subprocess.crashreporter.enabled", false);
@@ -179,11 +197,9 @@ user_pref("datareporting.healthreport.uploadEnabled", false);
 user_pref("datareporting.policy.dataSubmissionEnabled", false);
 /* 0350: disable crash reports ***/
 user_pref("breakpad.reportURL", "");
-/* 0351: disable sending of crash reports (FF44+)
- * [SETTING] Privacy & Security>Firefox Data Collection & Use>Allow Firefox to send crash reports ***/
+/* 0351: disable sending of crash reports (FF44+) ***/
 user_pref("browser.tabs.crashReporting.sendReport", false);
 user_pref("browser.crashReports.unsubmittedCheck.enabled", false); // (FF51+)
-user_pref("browser.crashReports.unsubmittedCheck.autoSubmit", false); // (FF51-57)
 user_pref("browser.crashReports.unsubmittedCheck.autoSubmit2", false); // (FF58+)
 /* 0370: disable "Snippets" (Mozilla content shown on about:home screen)
  * [1] https://wiki.mozilla.org/Firefox/Projects/Firefox_Start/Snippet_Service ***/
@@ -279,7 +295,7 @@ user_pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
    // user_pref("privacy.trackingprotection.enabled", true);
 /* 0422: set which Tracking Protection block list to use
  * [WARNING] We don't recommend enforcing this from here, as available block lists can change
- * [SETTING] Privacy & Security>Tracking Protection>Change Block List ***/
+ * [SETTING] Privacy & Security>Content Blocking>All Detected Trackers>Change block list ***/
    // user_pref("urlclassifier.trackingTable", "test-track-simple,base-track-digest256"); // basic
 /* 0423: disable Mozilla's blocklist for known Flash tracking/fingerprinting (FF48+)
  * [1] https://www.ghacks.net/2016/07/18/firefox-48-blocklist-against-plugin-fingerprinting/
@@ -336,28 +352,6 @@ user_pref("browser.ping-centre.telemetry", false);
  * [1] https://en.wikipedia.org/wiki/Pocket_(application)
  * [2] https://www.gnu.gl/blog/Posts/multiple-vulnerabilities-in-pocket/ ***/
 user_pref("extensions.pocket.enabled", false);
-/* 0514: disable Activity Stream (FF54+)
- * Activity Stream is the default homepage/newtab in FF57+. It is based on metadata and browsing behavior,
- * and includes telemetry and web content such as snippets, top stories (pocket), top sites, etc.
- *  - ONE: make sure to set your "home" and "newtab" to about:blank (or use an extension to control them)
- *  - TWO: DELETE the XPI file in your System Add-ons directory (note this get reinstalled on app updates)
- * And/or you can try to control the ever-growing, ever-changing "browser.newtabpage.activity-stream.*" prefs
- * [FF63+] Activity Stream (AS) is now builtin and no longer an easily deletable system addon!
- *     We'll clean this up and move to a new number when ESR67 is released.
- * [1] https://wiki.mozilla.org/Firefox/Activity_Stream
- * [2] https://www.ghacks.net/2016/02/15/firefox-mockups-show-activity-stream-new-tab-page-and-share-updates/ ***/
-user_pref("browser.library.activity-stream.enabled", false); // (FF57+)
-/* 0514a: disable AS Snippets ***/
-user_pref("browser.newtabpage.activity-stream.disableSnippets", true);
-user_pref("browser.newtabpage.activity-stream.feeds.snippets", false); // [SETTING] Home>Firefox Home Content>Snippets
-/* 0514b: disable AS Top Stories and other Pocket-based and/or sponsored content ***/
-user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
-user_pref("browser.newtabpage.activity-stream.section.highlights.includePocket", false); // [SETTING] Home>Firefox Home Content>Highlights>Pages Saved to Pocket
-user_pref("browser.newtabpage.activity-stream.showSponsored", false);
-/* 0514c: disable AS telemetry ***/
-user_pref("browser.newtabpage.activity-stream.feeds.telemetry", false);
-user_pref("browser.newtabpage.activity-stream.telemetry", false);
-user_pref("browser.newtabpage.activity-stream.telemetry.ping.endpoint", "");
 /* 0515: disable Screenshots (FF55+)
  * alternatively in FF60+, disable uploading to the Screenshots server
  * [1] https://github.com/mozilla-services/screenshots
@@ -373,7 +367,7 @@ user_pref("extensions.screenshots.upload-disabled", true); // (FF60+)
  * [3] https://bugzilla.mozilla.org/863246#c154 ***/
 user_pref("browser.onboarding.enabled", false);
 /* 0517: disable Form Autofill (FF55+)
- * [SETTING] Privacy & Security>Forms & Passwords>Enable Profile Autofill
+ * [SETTING] Privacy & Security>Forms & Passwords>Autofill addresses
  * [NOTE] Stored data is NOT secure (uses a JSON file)
  * [NOTE] Heuristics controls Form Autofill on forms without @autocomplete attributes
  * [1] https://wiki.mozilla.org/Firefox/Features/Form_Autofill
@@ -563,7 +557,7 @@ user_pref("browser.urlbar.maxHistoricalSearchSuggestions", 0); // max. number of
  * [NOTE] You can clear formdata on exiting Firefox (see 2803) ***/
 user_pref("browser.formfill.enable", false);
 /* 0862: disable browsing and download history
- * [SETTING] Privacy & Security>History>Custom Settings>Remember my browsing and download history
+ * [SETTING] Privacy & Security>History>Custom Settings>Remember browsing and download history
  * [NOTE] You can clear history and downloads on exiting Firefox (see 2803) ***/
 user_pref("places.history.enabled", false);
 /* 0864: disable date/time picker (FF57+ default true)
@@ -581,7 +575,7 @@ user_pref("browser.taskbar.previews.enable", false);
 /*** 0900: PASSWORDS ***/
 user_pref("_user.js.parrot", "0900 syntax error: the parrot's expired!");
 /* 0901: disable saving passwords
- * [SETTING] Privacy & Security>Forms & Passwords>Remember logins and passwords for sites
+ * [SETTING] Privacy & Security>Forms & Passwords>Ask to save logins and passwords for sites
  * [NOTE] This does not clear any passwords already saved ***/
 user_pref("signon.rememberSignons", false);
 /* 0902: use a master password (recommended if you save passwords)
@@ -793,6 +787,13 @@ user_pref("security.family_safety.mode", 0);
 user_pref("security.mixed_content.block_active_content", true); // default: true
 /* 1241: disable insecure passive content (such as images) on https pages - mixed context ***/
    // user_pref("security.mixed_content.block_display_content", true);
+/* 1243: block unencrypted requests from Flash on encrypted pages to mitigate MitM attacks (FF59+)
+<<<<<<< HEAD
+ * [1] https://bugzilla.mozilla.org/1190623 ***/
+=======
+ * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1190623 ***/
+>>>>>>> c411ae060fe27e2ea9c44be41db2f01b1f41932b
+user_pref("security.mixed_content.block_object_subrequest", true);
 
 /** CIPHERS [see the section 1200 intro] ***/
 /* 1260: disable or limit SHA-1
@@ -847,7 +848,7 @@ user_pref("_user.js.parrot", "1400 syntax error: the parrot's bereft of life!");
 /* 1401: disable websites choosing fonts (0=block, 1=allow)
  * If you disallow fonts, this drastically limits/reduces font
  * enumeration (by JS) which is a high entropy fingerprinting vector.
- * [SETTING] General>Language and Appearance>Advanced>Allow pages to choose...
+ * [SETTING] General>Language and Appearance>Fonts & Colors>Advanced>Allow pages to choose...
  * [SETUP] Disabling fonts can uglify the web a fair bit. ***/
 user_pref("browser.display.use_document_fonts", 0);
 /* 1402: set more legible default fonts [SETUP]
@@ -933,7 +934,7 @@ user_pref("network.http.referer.spoofSource", false);
  * [1] https://bugzilla.mozilla.org/1305144 ***/
 user_pref("network.http.referer.hideOnionSource", true);
 /* 1610: ALL: enable the DNT (Do Not Track) HTTP header
- * [SETTING] Privacy & Security>Tracking Protecting>Send websites a "Do Not Track"...
+ * [SETTING] Privacy & Security>Content Blocking>Send websites a "Do Not Track"...
  * [NOTE] DNT is enforced with TP (see 0420) regardless of this pref ***/
 user_pref("privacy.donottrackheader.enabled", true);
 
@@ -947,7 +948,7 @@ user_pref("_user.js.parrot", "1700 syntax error: the parrot's bit the dust!");
  * [1] https://bugzilla.mozilla.org/1279029 ***/
 user_pref("privacy.userContext.ui.enabled", true);
 /* 1702: enable Container Tabs (FF50+)
- * [SETTING] Privacy & Security>Tabs>Enable Container Tabs ***/
+ * [SETTING] General>Tabs>Enable Container Tabs ***/
 user_pref("privacy.userContext.enabled", true);
 /* 1703: enable a private container for thumbnail loads (FF51+) ***/
 user_pref("privacy.usercontext.about_newtab_segregation.enabled", true); // default: true in FF61+
@@ -990,9 +991,9 @@ user_pref("media.gmp-widevinecdm.visible", false);
 user_pref("media.gmp-widevinecdm.enabled", false);
 user_pref("media.gmp-widevinecdm.autoupdate", false);
 /* 1830: disable all DRM content (EME: Encryption Media Extension) [SETUP]
+ * [SETTING] General>DRM Content>Play DRM-controlled content
  * [1] https://www.eff.org/deeplinks/2017/10/drms-dead-canary-how-we-just-lost-web-what-we-learned-it-and-what-we-need-do-next ***/
-user_pref("media.eme.enabled", false); // [SETTING] General>DRM Content>Play DRM-controlled content
-user_pref("browser.eme.ui.enabled", false); // hides "Play DRM-controlled content" checkbox [RESTART]
+user_pref("media.eme.enabled", false);
 /* 1840: disable the OpenH264 Video Codec by Cisco to "Never Activate"
  * This is the bundled codec used for video chat in WebRTC ***/
 user_pref("media.gmp-gmpopenh264.enabled", false); // (hidden pref)
@@ -1075,7 +1076,7 @@ user_pref("dom.disable_window_move_resize", true);
  * [1] https://trac.torproject.org/projects/tor/ticket/9881 ***/
 user_pref("browser.link.open_newwindow", 3);
 user_pref("browser.link.open_newwindow.restriction", 0);
-/* 2204: disable Fullscreen API to prevent screen-resolution leaks [SETUP]
+/* 2204: disable Fullscreen API (requires user interaction) to prevent screen-resolution leaks
  * [NOTE] You can still manually toggle the browser's fullscreen state (F11),
  * but this pref will disable embedded video/game fullscreen controls, e.g. youtube
  * [TEST] https://developer.mozilla.org/samples/domref/fullscreen.html ***/
@@ -1120,6 +1121,7 @@ user_pref("_user.js.parrot", "2300 syntax error: the parrot's off the twig!");
 user_pref("dom.webnotifications.enabled", false); // (FF22+)
 user_pref("dom.webnotifications.serviceworker.enabled", false); // (FF44+)
 /* 2305: set a default permission for Notifications (see 2304) (FF58+)
+ * [NOTE] best left at default "always ask", fingerpintable via Permissions API
  * [SETTING] to add site exceptions: Page Info>Permissions>Receive Notifications
  * [SETTING] to manage site exceptions: Options>Privacy & Security>Permissions>Notifications>Settings ***/
    // user_pref("permissions.default.desktop-notification", 2); // 0=always ask (default), 1=allow, 2=block
@@ -1367,7 +1369,7 @@ user_pref("_user.js.parrot", "2700 syntax error: the parrot's joined the bleedin
  * 0=Accept cookies and site data, 1=Block third-party cookies, 2=Block all cookies,
  * 3=Block cookies from unvisited sites, 4=Block third-party trackers (FF63+)
  * [NOTE] value 4 is tied to the Tracking Protection lists so make sure you have 0424 + 0425 on default values!
- * [SETTING] Privacy & Security>History>Custom Settings>Accept cookies from sites
+ * [SETTING] Privacy & Security>Cookies and Site Data>Type blocked
  * [NOTE] Blocking 3rd party controls 3rd party access to localStorage, IndexedDB, Cache API and Service Worker Cache.
  * Blocking 1st party controls access to localStorage and IndexedDB (note: Service Workers can still use IndexedDB).
  * [1] https://www.fxsitecompat.com/en-CA/docs/2015/web-storage-indexeddb-cache-api-now-obey-third-party-cookies-preference/ ***/
@@ -1383,7 +1385,7 @@ user_pref("network.cookie.thirdparty.nonsecureSessionOnly", true); // (FF58+)
 /* 2703: set cookie lifetime policy
  * 0=until they expire (default), 2=until you close Firefox
  * [NOTE] 3=for n days : no longer supported in FF63+ (see 2704-deprecated)
- * [SETTING] Privacy & Security>History>Custom Settings>Accept cookies from sites>Keep until ***/
+ * [SETTING] Privacy & Security>Cookies and Site Data>Keep until... ***/
 user_pref("network.cookie.lifetimePolicy", 2);
 /* 2705: disable HTTP sites setting cookies with the "secure" directive (FF52+)
  * [1] https://developer.mozilla.org/Firefox/Releases/52#HTTP ***/
@@ -1435,10 +1437,10 @@ user_pref("dom.caches.enabled", false);
 ***/
 user_pref("_user.js.parrot", "2800 syntax error: the parrot's bleedin' demised!");
 /* 2802: enable Firefox to clear history items on shutdown
- * [SETTING] Privacy & Security>History>Clear history when Firefox closes ***/
+ * [SETTING] Privacy & Security>History>Custom Settings>Clear history when Firefox closes ***/
 user_pref("privacy.sanitize.sanitizeOnShutdown", true);
 /* 2803: set what history items to clear on shutdown
- * [SETTING] Privacy & Security>History>Clear history when Firefox closes>Settings
+ * [SETTING] Privacy & Security>History>Custom Settings>Clear history when Firefox closes>Settings
  * [NOTE] If 'history' is true, downloads will also be cleared regardless of the value
  * but if 'history' is false, downloads can still be cleared independently
  * However, this may not always be the case. The interface combines and syncs these
@@ -2034,6 +2036,11 @@ user_pref("browser.casting.enabled", false);
 // 5022: hide recently bookmarked items (you still have the original bookmarks) (FF49+)
    // [-] https://bugzilla.mozilla.org/1401238
 user_pref("browser.bookmarks.showRecentlyBookmarked", false);
+// ***/
+/* FF58
+// 0351: disable sending of crash reports - replaced by *.autoSubmit2
+   // [-] https://bugzilla.mozilla.org/1424373
+user_pref("browser.crashReports.unsubmittedCheck.autoSubmit", false); // (FF51-57)
 // ***/
 /* FF59
 // 0203: disable using OS locale, force APP locale - replaced by intl.locale.requested
