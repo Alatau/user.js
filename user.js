@@ -788,15 +788,7 @@ user_pref("security.mixed_content.block_active_content", true); // default: true
 /* 1241: disable insecure passive content (such as images) on https pages - mixed context ***/
    // user_pref("security.mixed_content.block_display_content", true);
 /* 1243: block unencrypted requests from Flash on encrypted pages to mitigate MitM attacks (FF59+)
-<<<<<<< HEAD
-<<<<<<< HEAD
  * [1] https://bugzilla.mozilla.org/1190623 ***/
-=======
- * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1190623 ***/
->>>>>>> c411ae060fe27e2ea9c44be41db2f01b1f41932b
-=======
- * [1] https://bugzilla.mozilla.org/show_bug.cgi?id=1190623 ***/
->>>>>>> c411ae060fe27e2ea9c44be41db2f01b1f41932b
 user_pref("security.mixed_content.block_object_subrequest", true);
 
 /** CIPHERS [see the section 1200 intro] ***/
