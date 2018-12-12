@@ -1,8 +1,8 @@
 /******
 * name: ghacks user.js
-* date: 13 November 2018
-* version 63-beta: Pants Romance
-*   "Rah rah ah-ah-ah! Ro mah ro-mah-mah. Gaga oh-la-la! Want your pants romance"
+* date: 11 December 2018
+* version 64-alpha: Crocodile Pants
+*   "I remember when Pants was young, me and Suzie had so much fun"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
 * license: MIT: https://github.com/ghacksuserjs/ghacks-user.js/blob/master/LICENSE.txt
@@ -86,6 +86,7 @@ user_pref("_user.js.parrot", "0100 syntax error: the parrot's dead!");
  * [SETTING] General>Startup>Always check if Firefox is your default browser ***/
 user_pref("browser.shell.checkDefaultBrowser", false);
 /* 0102: set START page (0=blank, 1=home, 2=last visited page, 3=resume previous session)
+ * [NOTE] Session Restore is not used in PB mode (0110) and is cleared with history (2803, 2804)
  * [SETTING] General>Startup>Restore previous session ***/
 user_pref("browser.startup.page", 1);
 /* 0103: set HOME+NEWWINDOW page
@@ -105,13 +106,16 @@ user_pref("browser.newtab.preload", false);
 user_pref("browser.newtabpage.activity-stream.feeds.telemetry", false);
 user_pref("browser.newtabpage.activity-stream.telemetry", false);
 user_pref("browser.newtabpage.activity-stream.telemetry.ping.endpoint", "");
-/* 0105b: disable AS Snippets ***/
+/* 0105b: disable AS Snippets
+ * Runs code received from a server (aka Remote Code Execution) and sends information back to a metrics server
+ * [1] https://abouthome-snippets-service.readthedocs.io/ ***/
 user_pref("browser.newtabpage.activity-stream.disableSnippets", true);
 user_pref("browser.newtabpage.activity-stream.feeds.snippets", false); // has setting (see 0105)
+user_pref("browser.aboutHomeSnippets.updateUrl", "");
 /* 0105c: disable AS Top Stories, Pocket-based and/or sponsored content ***/
-user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
+user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false); // has setting (see 0105)
 user_pref("browser.newtabpage.activity-stream.section.highlights.includePocket", false); // has setting (see 0105)
-user_pref("browser.newtabpage.activity-stream.showSponsored", false);
+user_pref("browser.newtabpage.activity-stream.showSponsored", false); // has setting (see 0105)
 /* 0105d: disable AS recent Highlights in the Library [FF57+] ***/
 user_pref("browser.library.activity-stream.enabled", false);
 /* 0110: start Firefox in PB (Private Browsing) mode
@@ -234,9 +238,11 @@ user_pref("breakpad.reportURL", "");
 user_pref("browser.tabs.crashReporting.sendReport", false); // [FF44+]
 user_pref("browser.crashReports.unsubmittedCheck.enabled", false); // [FF51+]
 user_pref("browser.crashReports.unsubmittedCheck.autoSubmit2", false); // [FF58+]
-/* 0370: disable "Snippets" (Mozilla content shown on about:home screen)
- * [1] https://wiki.mozilla.org/Firefox/Projects/Firefox_Start/Snippet_Service ***/
-user_pref("browser.aboutHomeSnippets.updateUrl", "data:,");
+/* 0370: disable Pocket [FF46+]
+ * Pocket is a third party (now owned by Mozilla) "save for later" cloud service
+ * [1] https://en.wikipedia.org/wiki/Pocket_(application)
+ * [2] https://www.gnu.gl/blog/Posts/multiple-vulnerabilities-in-pocket/ ***/
+user_pref("extensions.pocket.enabled", false);
 /* 0380: disable Browser Error Reporter [FF60+]
  * [1] https://support.mozilla.org/en-US/kb/firefox-nightly-error-collection
  * [2] https://firefox-source-docs.mozilla.org/browser/browser/BrowserErrorReporter.html ***/
@@ -383,25 +389,12 @@ user_pref("app.shield.optoutstudies.enabled", false);
 /* 0506: disable PingCentre telemetry (used in several System Add-ons) [FF57+]
  * Currently blocked by 'datareporting.healthreport.uploadEnabled' (see 0333) ***/
 user_pref("browser.ping-centre.telemetry", false);
-/* 0510: disable Pocket [FF46+]
- * Pocket is a third party (now owned by Mozilla) "save for later" cloud service
- * [1] https://en.wikipedia.org/wiki/Pocket_(application)
- * [2] https://www.gnu.gl/blog/Posts/multiple-vulnerabilities-in-pocket/ ***/
-user_pref("extensions.pocket.enabled", false);
 /* 0515: disable Screenshots
  * alternatively in FF60+, disable uploading to the Screenshots server
  * [1] https://github.com/mozilla-services/screenshots
  * [2] https://www.ghacks.net/2017/05/28/firefox-screenshots-integrated-in-firefox-nightly/ ***/
    // user_pref("extensions.screenshots.disabled", true); // [FF55+]
 user_pref("extensions.screenshots.upload-disabled", true); // [FF60+]
-/* 0516: disable Onboarding [FF55+]
- * Onboarding is an interactive tour/setup for new installs/profiles and features. Every time
- * about:home or about:newtab is opened, the onboarding overlay is injected into that page
- * [NOTE] Onboarding uses Google Analytics [2], and leaks resource://URIs [3]
- * [1] https://wiki.mozilla.org/Firefox/Onboarding
- * [2] https://github.com/mozilla/onboard/commit/db4d6c8726c89a5d6a241c1b1065827b525c5baf
- * [3] https://bugzilla.mozilla.org/863246#c154 ***/
-user_pref("browser.onboarding.enabled", false);
 /* 0517: disable Form Autofill
  * [NOTE] Stored data is NOT secure (uses a JSON file)
  * [NOTE] Heuristics controls Form Autofill on forms without @autocomplete attributes
@@ -647,9 +640,6 @@ user_pref("signon.formlessCapture.enabled", false);
  * [2] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1217152,1319119 ***/
 user_pref("signon.autofillForms.http", false);
 user_pref("security.insecure_field_warning.contextual.enabled", true);
-/* 0911: prevent cross-origin images from triggering an HTTP-Authentication prompt [FF55+]
- * [1] https://bugzilla.mozilla.org/1357835 ***/
-user_pref("network.auth.subresource-img-cross-origin-http-auth-allow", false);
 
 /*** [SECTION 1000]: CACHE / SESSION (RE)STORE / FAVICONS [SETUP-CHROME]
      ETAG [1] and other [2][3] cache tracking/fingerprinting techniques can be averted by
@@ -693,11 +683,8 @@ user_pref("browser.cache.disk_cache_ssl", false);
    // user_pref("network.dnsCacheExpiration", 60);
 
 /** SESSIONS & SESSION RESTORE ***/
-/* 1020: limit Session Restore to last active tab and window
- * [SETUP-CHROME] This also disables the "Recently Closed Tabs" feature
- * It does not affect "Recently Closed Windows" or any history. ***/
+/* 1020: exclude "Undo Closed Tabs" in Session Restore ***/
    // user_pref("browser.sessionstore.max_tabs_undo", 0);
-   // user_pref("browser.sessionstore.max_windows_undo", 0);
 /* 1021: disable storing extra session data [SETUP-CHROME]
  * extra session data contains contents of forms, scrollbar positions, cookies and POST data
  * define on which sites to save extra session data:
@@ -1283,9 +1270,10 @@ user_pref("browser.uitour.url", "");
 user_pref("devtools.chrome.enabled", false);
 /* 2608: disable WebIDE to prevent remote debugging and extension downloads
  * [1] https://trac.torproject.org/projects/tor/ticket/16222 ***/
-user_pref("devtools.webide.autoinstallADBHelper", false);
 user_pref("devtools.debugger.remote-enabled", false);
 user_pref("devtools.webide.enabled", false);
+user_pref("devtools.webide.autoinstallADBExtension", false); // [FF64+]
+user_pref("devtools.remote.adb.extensionURL", ""); // [FF64+]
 /* 2609: disable MathML (Mathematical Markup Language) [FF51+]
  * [TEST] http://browserspy.dk/mathml.php
  * [1] https://bugzilla.mozilla.org/1173199 ***/
@@ -1373,9 +1361,6 @@ user_pref("xpinstall.whitelist.required", true); // [DEFAULT: true]
 /* 2680: enable CSP (Content Security Policy)
  * [1] https://developer.mozilla.org/docs/Web/HTTP/CSP ***/
 user_pref("security.csp.enable", true); // [DEFAULT: true]
-/* 2681: disable CSP violation events [FF59+]
- * [1] https://developer.mozilla.org/docs/Web/API/SecurityPolicyViolationEvent ***/
-user_pref("security.csp.enable_violation_events", false);
 /* 2682: enable CSP 1.1 experimental hash-source directive [FF29+]
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=855326,883975 ***/
 user_pref("security.csp.experimentalEnabled", true);
@@ -2206,6 +2191,26 @@ user_pref("media.autoplay.enabled", false);
 // 5000's: enable "Ctrl+Tab cycles through tabs in recently used order" - replaced by browser.ctrlTab.recentlyUsedOrder
    // [-] https://bugzilla.mozilla.org/1473595
    // user_pref("browser.ctrlTab.previews", true);
+// * * * /
+// FF64
+// 0516: disable Onboarding [FF55+]
+   // Onboarding is an interactive tour/setup for new installs/profiles and features. Every time
+   // about:home or about:newtab is opened, the onboarding overlay is injected into that page
+   // [NOTE] Onboarding uses Google Analytics [2], and leaks resource://URIs [3]
+   // [1] https://wiki.mozilla.org/Firefox/Onboarding
+   // [2] https://github.com/mozilla/onboard/commit/db4d6c8726c89a5d6a241c1b1065827b525c5baf
+   // [3] https://bugzilla.mozilla.org/863246#c154
+   // [-] https://bugzilla.mozilla.org/1462415
+user_pref("browser.onboarding.enabled", false);
+// 2608: disable WebIDE ADB extension downloads - both renamed
+   // [1] https://trac.torproject.org/projects/tor/ticket/16222
+   // [-] https://bugzilla.mozilla.org/1491315
+user_pref("devtools.webide.autoinstallADBHelper", false);
+user_pref("devtools.webide.adbAddonURL", "");
+// 2681: disable CSP violation events [FF59+]
+   // [1] https://developer.mozilla.org/docs/Web/API/SecurityPolicyViolationEvent
+   // [-] https://bugzilla.mozilla.org/1488165
+user_pref("security.csp.enable_violation_events", false);
 // * * * /
 // ***/
 
