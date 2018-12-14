@@ -159,7 +159,7 @@ user_pref("intl.accept_languages", "en-US, en");
 /* 0208: enforce US English locale regardless of the system locale
  * [1] https://bugzilla.mozilla.org/867501 ***/
 user_pref("javascript.use_us_english_locale", true); // [HIDDEN PREF]
-/* 0209: use APP locale over OS locale in regional preferences [FF56+] 
+/* 0209: use APP locale over OS locale in regional preferences [FF56+]
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1379420,1364789 ***/
 user_pref("intl.regional_prefs.use_os_locales", false);
 /* 0210: use Mozilla geolocation service instead of Google when geolocation is enabled
@@ -202,7 +202,7 @@ user_pref("browser.search.update", false);
 user_pref("dom.ipc.plugins.flash.subprocess.crashreporter.enabled", false);
 /* 0310: disable sending the URL of the website where a plugin crashed ***/
 user_pref("dom.ipc.plugins.reportCrashURL", false);
-/* 0320: disable about:addons' Get Add-ons panel (uses Google-Analytics) ***/
+/* 0320: disable about:addons' Get Add-ons panel (uses Google Analytics) ***/
 user_pref("extensions.getAddons.showPane", false); // [HIDDEN PREF]
 user_pref("extensions.webservice.discoverURL", "");
 /* 0330: disable telemetry
@@ -234,6 +234,7 @@ user_pref("datareporting.healthreport.uploadEnabled", false);
 user_pref("datareporting.policy.dataSubmissionEnabled", false);
 /* 0335: disable Telemetry Coverage [FF64+]
  * [1] https://blog.mozilla.org/data/2018/08/20/effectively-measuring-search-in-firefox/ ***/
+user_pref("toolkit.coverage.endpoint.base", "");
 user_pref("toolkit.coverage.opt-out", true); // [HIDDEN PREF]
 /* 0350: disable crash reports ***/
 user_pref("breakpad.reportURL", "");
@@ -385,10 +386,9 @@ user_pref("network.allow-experiments", false);
 user_pref("app.normandy.enabled", false);
 user_pref("app.normandy.api_url", "");
 user_pref("app.shield.optoutstudies.enabled", false);
-/* 0505: disable System Add-on updates
- * [NOTE] In FF61 and lower, you will not get any System Add-on updates except when you update Firefox ***/
-   // user_pref("extensions.systemAddon.update.enabled", false); // [FF62+]
-   // user_pref("extensions.systemAddon.update.url", "");
+/* 0505: disable System Add-on updates ***/
+user_pref("extensions.systemAddon.update.enabled", false); // [FF62+]
+user_pref("extensions.systemAddon.update.url", ""); // [FF44+]
 /* 0506: disable PingCentre telemetry (used in several System Add-ons) [FF57+]
  * Currently blocked by 'datareporting.healthreport.uploadEnabled' (see 0333) ***/
 user_pref("browser.ping-centre.telemetry", false);
@@ -697,7 +697,7 @@ user_pref("browser.sessionstore.privacy_level", 2);
 user_pref("browser.sessionstore.resume_from_crash", false);
 /* 1023: set the minimum interval between session save operations
  * Increasing this can help on older machines and some websites, as well as reducing writes, see [1]
- * Default is 15000 (15 secs). Try 30000 (30sec), 60000 (1min) etc
+ * Default is 15000 (15 secs). Try 30000 (30 secs), 60000 (1 min) etc
  * [SETUP-CHROME] This can also affect entries in the "Recently Closed Tabs" feature:
  * i.e. the longer the interval the more chance a quick tab open/close won't be captured.
  * This longer interval *may* affect history but we cannot replicate any history not recorded
@@ -913,7 +913,7 @@ user_pref("gfx.font_rendering.graphite.enabled", false);
      Our default settings provide the best balance between protection and amount of breakage.
      To harden it a bit more you can set XOriginPolicy (1603) to 2 (+ optionally 1604 to 1 or 2).
      To fix broken sites (including your modem/router), temporarily set XOriginPolicy=0 and XOriginTrimmingPolicy=2 in about:config,
-     use the site and then change the values back. If you visit those sites regularly (e.g. Vimeo), use an extension.
+     use the site and then change the values back. If you visit those sites regularly (e.g. vimeo), use an extension.
 
                     full URI: https://example.com:8888/foo/bar.html?id=1234
        scheme+host+port+path: https://example.com:8888/foo/bar.html
@@ -957,9 +957,12 @@ user_pref("network.http.referer.hideOnionSource", true);
 user_pref("privacy.donottrackheader.enabled", true);
 
 /*** [SECTION 1700]: CONTAINERS
-     [1] https://support.mozilla.org/kb/containers-experiment
-     [2] https://wiki.mozilla.org/Security/Contextual_Identity_Project/Containers
-     [3] https://github.com/mozilla/testpilot-containers
+     If you want to *really* leverage containers, we highly recommend Temporary Containers [2].
+     Read the article by the extension author [3], and check out the github wiki/repo [4].
+     [1] https://wiki.mozilla.org/Security/Contextual_Identity_Project/Containers
+     [2] https://addons.mozilla.org/firefox/addon/temporary-containers/
+     [3] https://medium.com/@stoically/enhance-your-privacy-in-firefox-with-temporary-containers-33925cd6cd21
+     [4] https://github.com/stoically/temporary-containers/wiki
 ***/
 user_pref("_user.js.parrot", "1700 syntax error: the parrot's bit the dust!");
 /* 1701: enable Container Tabs setting in preferences (see 1702) [FF50+]
@@ -1417,7 +1420,7 @@ user_pref("network.cookie.leave-secure-alone", true); // [DEFAULT: true]
  * To control *website* IDB data, control allowing cookies and service workers, or use
  * Temporary Containers. To mitigate *website* IDB, FPI helps (4001), and/or sanitize
  * on close (Offline Website Data, see 2800) or on-demand (Ctrl-Shift-Del), or automatically
- * via an extenion. Note that IDB currently cannot be sanitized by host.
+ * via an extension. Note that IDB currently cannot be sanitized by host.
  * [1] https://blog.mozilla.org/addons/2018/08/03/new-backend-for-storage-local-api/ ***/
 user_pref("dom.indexedDB.enabled", true); // [DEFAULT: true]
 /* 2730: disable offline cache ***/
@@ -1733,7 +1736,7 @@ user_pref("layout.spellcheckDefault", 0); // 0=none, 1-multi-line, 2=multi-line 
 user_pref("browser.backspace_action", 2); // 0=previous page, 1=scroll up, 2=do nothing
 user_pref("browser.tabs.closeWindowWithLastTab", false);
    // user_pref("browser.tabs.loadBookmarksInTabs", true); // open bookmarks in a new tab [FF57+]
-   // user_pref("browser.urlbar.decodeURLsOnCopy", true); // see Bugzilla 1320061 [FF53+]
+   // user_pref("browser.urlbar.decodeURLsOnCopy", true); // see bugzilla 1320061 [FF53+]
 user_pref("general.autoScroll", false); // middle-click enabling auto-scrolling [WINDOWS] [MAC]
    // user_pref("ui.key.menuAccessKey", 0); // disable alt key toggling the menu bar [RESTART]
 /* OTHER ***/
@@ -1742,7 +1745,7 @@ user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr", false); /
       // [SETTING] General>Browsing>Recommend extensions as you browse
       // [1] https://support.mozilla.org/en-US/kb/extension-recommendations
 user_pref("identity.fxaccounts.enabled", false); // disable and hide Firefox Accounts and Sync [FF60+] [RESTART]
-   // user_pref("network.manage-offline-status", false); // see Bugzilla 620472
+   // user_pref("network.manage-offline-status", false); // see bugzilla 620472
 user_pref("reader.parse-on-load.enabled", false); // "Reader View"
    // user_pref("xpinstall.signatures.required", false); // enforced extension signing (Nightly/ESR)
 
