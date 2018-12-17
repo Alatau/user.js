@@ -106,17 +106,18 @@ user_pref("browser.newtab.preload", false);
 user_pref("browser.newtabpage.activity-stream.feeds.telemetry", false);
 user_pref("browser.newtabpage.activity-stream.telemetry", false);
 user_pref("browser.newtabpage.activity-stream.telemetry.ping.endpoint", "");
-/* 0105b: disable AS Snippets
+/* 0105b: disable Activity Stream Snippets
  * Runs code received from a server (aka Remote Code Execution) and sends information back to a metrics server
  * [1] https://abouthome-snippets-service.readthedocs.io/ ***/
+user_pref("browser.aboutHomeSnippets.updateUrl", "");
+user_pref("browser.newtabpage.activity-stream.asrouter.providers.snippets", "");
 user_pref("browser.newtabpage.activity-stream.disableSnippets", true);
 user_pref("browser.newtabpage.activity-stream.feeds.snippets", false);
-user_pref("browser.aboutHomeSnippets.updateUrl", "");
-/* 0105c: disable AS Top Stories, Pocket-based and/or sponsored content ***/
+/* 0105c: disable Activity Stream Top Stories, Pocket-based and/or sponsored content ***/
 user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
 user_pref("browser.newtabpage.activity-stream.section.highlights.includePocket", false);
 user_pref("browser.newtabpage.activity-stream.showSponsored", false);
-/* 0105d: disable AS recent Highlights in the Library [FF57+] ***/
+/* 0105d: disable Activity Stream recent Highlights in the Library [FF57+] ***/
 user_pref("browser.library.activity-stream.enabled", false);
 /* 0110: start Firefox in PB (Private Browsing) mode
  * [NOTE] In this mode *all* windows are "private windows" and the PB mode icon is not displayed
@@ -232,10 +233,11 @@ user_pref("datareporting.healthreport.uploadEnabled", false);
  * If disabled, no policy is shown or upload takes place, ever
  * [1] https://bugzilla.mozilla.org/1195552 ***/
 user_pref("datareporting.policy.dataSubmissionEnabled", false);
-/* 0335: disable Telemetry Coverage [FF64+]
+/* 0335: disable Telemetry Coverage
  * [1] https://blog.mozilla.org/data/2018/08/20/effectively-measuring-search-in-firefox/ ***/
+user_pref("toolkit.telemetry.coverage.opt-out", true); // [HIDDEN PREF]
+user_pref("toolkit.coverage.opt-out", true); // [FF64+] [HIDDEN PREF]
 user_pref("toolkit.coverage.endpoint.base", "");
-user_pref("toolkit.coverage.opt-out", true); // [HIDDEN PREF]
 /* 0350: disable crash reports ***/
 user_pref("breakpad.reportURL", "");
 /* 0351: disable sending of crash reports ***/
@@ -643,6 +645,13 @@ user_pref("signon.formlessCapture.enabled", false);
  * [2] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1217152,1319119 ***/
 user_pref("signon.autofillForms.http", false);
 user_pref("security.insecure_field_warning.contextual.enabled", true);
+/* 0912: limit (or disable) HTTP authentication credentials dialogs triggered by sub-resources [FF41+]
+ * hardens against potential credentials phishing
+ * 0=don't allow sub-resources to open HTTP authentication credentials dialogs
+ * 1=don't allow cross-origin sub-resources to open HTTP authentication credentials dialogs
+ * 2=allow sub-resources to open HTTP authentication credentials dialogs (default)
+ * [1] https://www.fxsitecompat.com/en-CA/docs/2015/http-auth-dialog-can-no-longer-be-triggered-by-cross-origin-resources/ ***/
+user_pref("network.auth.subresource-http-auth-allow", 1);
 
 /*** [SECTION 1000]: CACHE / SESSION (RE)STORE / FAVICONS [SETUP-CHROME]
      ETAG [1] and other [2][3] cache tracking/fingerprinting techniques can be averted by
@@ -1171,7 +1180,7 @@ user_pref("dom.event.clipboardevents.enabled", false);
 user_pref("dom.disable_beforeunload", true);
 /* 2414: disable shaking the screen ***/
 user_pref("dom.vibrator.enabled", false);
-/* 2420: disable asm.js [FF22+]
+/* 2420: disable asm.js [FF22+] [SETUP-PERF]
  * [1] http://asmjs.org/
  * [2] https://www.mozilla.org/security/advisories/mfsa2015-29/
  * [3] https://www.mozilla.org/security/advisories/mfsa2015-50/
@@ -1184,7 +1193,7 @@ user_pref("javascript.options.asmjs", false);
  * [1] https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-0817 ***/
    // user_pref("javascript.options.ion", false);
    // user_pref("javascript.options.baselinejit", false);
-/* 2422: disable WebAssembly [FF52+]
+/* 2422: disable WebAssembly [FF52+] [SETUP-PERF]
  * [1] https://developer.mozilla.org/docs/WebAssembly ***/
 user_pref("javascript.options.wasm", false);
 /* 2426: disable Intersection Observer API [FF53+]
