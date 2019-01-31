@@ -1,8 +1,8 @@
 /******
 * name: ghacks user.js
-* date: 12 December 2018
-* version 64-beta: Crocodile Pants
-*   "I remember when Pants was young, me and Suzie had so much fun"
+* date: 17 January 2019
+* version 65-alpha: Dancing with My Pants
+*   "If I had the chance, I'd ask the world to dance, and I'll be dancing with my pants"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
 * license: MIT: https://github.com/ghacksuserjs/ghacks-user.js/blob/master/LICENSE.txt
@@ -128,7 +128,8 @@ user_pref("browser.library.activity-stream.enabled", false);
  * new instance. Closing all Private Windows clears all traces. Repeat as required. PB also does
  * not allow indexedDB which breaks many Extensions that use it including uBlock Origin and uMatrix
  * [SETTING] Privacy & Security>History>Custom Settings>Always use private browsing mode
- * [1] https://wiki.mozilla.org/Private_Browsing ***/
+ * [1] https://wiki.mozilla.org/Private_Browsing
+ * [2] https://spreadprivacy.com/is-private-browsing-really-private/ ***/
    // user_pref("browser.privatebrowsing.autostart", true);
 
 /*** [SECTION 0200]: GEOLOCATION ***/
@@ -177,7 +178,8 @@ user_pref("_user.js.parrot", "0300 syntax error: the parrot's not pinin' for the
 /* 0301b: disable auto-update checks for extensions
  * [SETTING] about:addons>Extensions>[cog-wheel-icon]>Update Add-ons Automatically (toggle) ***/
    // user_pref("extensions.update.enabled", false);
-/* 0302a: disable auto update installing for Firefox
+/* 0302a: disable auto update installing for Firefox [NON-WINDOWS FF65+]
+ * [NOTE] In FF65+ on Windows this SETTING (below) is now stored in a file and the pref was removed
  * [SETTING] General>Firefox Updates>Check for updates but let you choose... ***/
 user_pref("app.update.auto", false);
 /* 0302b: disable auto update installing for extensions (after the check in 0301b)
@@ -192,7 +194,8 @@ user_pref("app.update.staging.enabled", false);
  * This is the update available, downloaded, error and success information ***/
 user_pref("app.update.silent", false);
 /* 0306: disable extension metadata updating
- * sends daily pings to Mozilla about extensions and recent startups ***/
+ * sends daily pings to Mozilla about extensions and recent startups
+ * [NOTE] blocks any expanded text description, if it exists, when you "show more details about an addon" ***/
 user_pref("extensions.getAddons.cache.enabled", false);
 /* 0307: disable auto updating of personas (themes) ***/
 user_pref("lightweightThemes.update.enabled", false);
@@ -359,8 +362,6 @@ user_pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1170190,1141814 ***/
    // user_pref("privacy.trackingprotection.annotate_channels", false);
    // user_pref("privacy.trackingprotection.lower_network_priority", false);
-/* 0426: enforce Content Blocking (required to block cookies) [FF63+] ***/
-user_pref("browser.contentblocking.enabled", true); // [DEFAULT: true]
 
 /*** [SECTION 0500]: SYSTEM ADD-ONS / EXPERIMENTS
      System Add-ons are a method for shipping extensions, considered to be
@@ -472,6 +473,7 @@ user_pref("network.dns.disableIPv6", true);
 user_pref("network.http.spdy.enabled", false);
 user_pref("network.http.spdy.enabled.deps", false);
 user_pref("network.http.spdy.enabled.http2", false);
+user_pref("network.http.spdy.websockets", false); // [FF65+]
 /* 0703: disable HTTP Alternative Services [FF37+]
  * [SETUP-PERF] Relax this if you have FPI enabled (see 4000) *AND* you understand the
  * consequences. FPI isolates these, but it was designed with the Tor protocol in mind,
@@ -515,10 +517,10 @@ user_pref("network.file.disable_unc_paths", true); // [HIDDEN PREF]
 user_pref("network.gio.supported-protocols", ""); // [HIDDEN PREF]
 
 /*** [SECTION 0800]: LOCATION BAR / SEARCH BAR / SUGGESTIONS / HISTORY / FORMS [SETUP-CHROME]
-     If you are in a private environment (no unwanted eyeballs) and your device is private
-     (restricted access), and the device is secure when unattended (locked, encrypted, forensic
-     hardened), then items 0850 and above can be relaxed in return for more convenience and
-     functionality. Likewise, you may want to check the items cleared on shutdown in section 2800.
+     Change items 0850 and above to suit for privacy vs convenience and functionality. Consider
+     your environment (no unwanted eyeballs), your device (restricted access), your device's
+     unattended state (locked, encrypted, forensic hardened). Likewise, you may want to check
+     the items cleared on shutdown in section 2800.
      [NOTE] The urlbar is also commonly referred to as the location bar and address bar
      #Required reading [#] https://xkcd.com/538/
 ***/
@@ -565,13 +567,9 @@ user_pref("browser.urlbar.usepreloadedtopurls.enabled", false);
 /* 0810: disable location bar making speculative connections [FF56+]
  * [1] https://bugzilla.mozilla.org/1348275 ***/
 user_pref("browser.urlbar.speculativeConnect.enabled", false);
-/* 0850a: disable location bar autocomplete and suggestion types
- * If you enforce any of the suggestion types, you MUST enforce 'autocomplete'
- *   - If *ALL* of the suggestion types are false, 'autocomplete' must also be false
- *   - If *ANY* of the suggestion types are true, 'autocomplete' must also be true
+/* 0850a: disable location bar suggestion types
  * [SETUP-CHROME] If all three suggestion types are false, search engine keywords are disabled
  * [SETTING] Privacy & Security>Address Bar>When using the address bar, suggest ***/
-user_pref("browser.urlbar.autocomplete.enabled", false);
 user_pref("browser.urlbar.suggest.history", false);
 user_pref("browser.urlbar.suggest.bookmark", false);
 user_pref("browser.urlbar.suggest.openpage", false);
@@ -589,9 +587,6 @@ user_pref("browser.urlbar.autoFill", false);
 /* 0850e: disable location bar one-off searches [FF51+]
  * [1] https://www.ghacks.net/2016/08/09/firefox-one-off-searches-address-bar/ ***/
 user_pref("browser.urlbar.oneOffSearches", false);
-/* 0850f: disable location bar suggesting local search history [FF57+]
- * [1] https://bugzilla.mozilla.org/1181644 ***/
-user_pref("browser.urlbar.maxHistoricalSearchSuggestions", 0);
 /* 0860: disable search and form history
  * [NOTE] You can clear formdata on exiting Firefox (see 2803)
  * [SETTING] Privacy & Security>History>Custom Settings>Remember search and form history ***/
@@ -641,9 +636,6 @@ user_pref("signon.storeWhenAutocompleteOff", true); // [DEFAULT: true]
 /* 0907: display warnings for logins on non-secure (non HTTPS) pages
  * [1] https://bugzilla.mozilla.org/1217156 ***/
 user_pref("security.insecure_password.ui.enabled", true);
-/* 0908: remove user & password info when attempting to fix an entered URL (i.e. 0802 is true)
- * e.g. //user:password@foo -> //user@(prefix)foo(suffix) NOT //user:password@(prefix)foo(suffix) ***/
-user_pref("browser.fixup.hide_user_pass", true);
 /* 0909: disable formless login capture for Password Manager [FF51+] ***/
 user_pref("signon.formlessCapture.enabled", false);
 /* 0910: disable autofilling saved passwords on HTTP pages and show warning [FF52+]
@@ -1306,7 +1298,7 @@ user_pref("middlemouse.contentLoadURL", false);
 user_pref("network.http.redirection-limit", 10);
 /* 2615: disable websites overriding Firefox's keyboard shortcuts [FF58+]
  * 0 (default) or 1=allow, 2=block
- * [NOTE] At the time of writing, causes issues with delete and backspace keys
+ * [NOTE] In FF65 and under, causes issues with delete and backspace keys (see 1445942)
  * [SETTING] to add site exceptions: Page Info>Permissions>Override Keyboard Shortcuts ***/
    // user_pref("permissions.default.shortcuts", 2);
 /* 2616: remove special permissions for certain mozilla domains [FF35+]
@@ -1395,6 +1387,12 @@ user_pref("security.dialog_enable_delay", 700);
           indexedDB : profile\storage\default
            appCache : profile\OfflineCache
      serviceWorkers :
+
+     [NOTE] indexedDB and serviceWorkers are not available in Private Browsing Mode
+     [NOTE] Blocking cookies also blocks websites access to: localStorage (incl. sessionStorage),
+     indexedDB, sharedWorker, and serviceWorker (and therefore service worker cache and notifications)
+     If you set a site exception for cookies (either "Allow" or "Allow for Session") then they become
+     accessible to websites except shared/service workers where the cookie setting *must* be "Allow"
 ***/
 user_pref("_user.js.parrot", "2700 syntax error: the parrot's joined the bleedin' choir invisible!");
 /* 2701: disable 3rd-party cookies and site-data
@@ -1402,8 +1400,6 @@ user_pref("_user.js.parrot", "2700 syntax error: the parrot's joined the bleedin
  * 0=Accept cookies and site data, 1=Block third-party cookies, 2=Block all cookies,
  * 3=Block cookies from unvisited sites, 4=Block third-party trackers (FF63+)
  * [NOTE] value 4 is tied to the Tracking Protection lists so make sure you have 0424 + 0425 on default values!
- * [NOTE] Blocking 3rd party controls 3rd party access to localStorage, IndexedDB, Cache API and Service Worker Cache.
- * Blocking 1st party controls access to localStorage and IndexedDB (note: Service Workers can still use IndexedDB).
  * [SETTING] Privacy & Security>Cookies and Site Data>Type blocked
  * [1] https://www.fxsitecompat.com/en-CA/docs/2015/web-storage-indexeddb-cache-api-now-obey-third-party-cookies-preference/ ***/
 user_pref("network.cookie.cookieBehavior", 1);
@@ -1575,6 +1571,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true); // [DEFAUL
       FF56: The version number will be rounded down to the nearest multiple of 10
       FF57: The version number will match current ESR (1393283, 1418672, 1418162)
       FF59: The OS will be reported as Windows, OSX, Android, or Linux (to reduce breakage) (1404608)
+      FF66: The OS in HTTP Headers will be reduced to Windows or Android (1509829)
  ** 1369319 - disable device sensor API (see 4604) (FF56+)
  ** 1369357 - disable site specific zoom (see 4605) (FF56+)
  ** 1337161 - hide gamepads from content (see 4606) (FF56+)
@@ -2228,6 +2225,18 @@ user_pref("devtools.webide.adbAddonURL", "");
    // [1] https://developer.mozilla.org/docs/Web/API/SecurityPolicyViolationEvent
    // [-] https://bugzilla.mozilla.org/1488165
 user_pref("security.csp.enable_violation_events", false);
+// * * * /
+// FF65
+// 0850a: disable location bar autocomplete and suggestion types
+   // If you enforce any of the suggestion types (see the other 0850a), you MUST enforce 'autocomplete'
+   //   - If *ALL* of the suggestion types are false, 'autocomplete' must also be false
+   //   - If *ANY* of the suggestion types are true, 'autocomplete' must also be true
+   // [-] https://bugzilla.mozilla.org/1502392
+user_pref("browser.urlbar.autocomplete.enabled", false);
+// 0908: remove user & password info when attempting to fix an entered URL (i.e. 0802 is true)
+   // e.g. //user:password@foo -> //user@(prefix)foo(suffix) NOT //user:password@(prefix)foo(suffix)
+   // [-] https://bugzilla.mozilla.org/1510580
+user_pref("browser.fixup.hide_user_pass", true); // [DEFAULT: true]
 // * * * /
 // ***/
 
