@@ -1,7 +1,7 @@
 /******
 * name: ghacks user.js
-* date: 17 January 2019
-* version 65-alpha: Dancing with My Pants
+* date: 26 February 2019
+* version 65: Dancing with My Pants
 *   "If I had the chance, I'd ask the world to dance, and I'll be dancing with my pants"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
@@ -179,14 +179,13 @@ user_pref("geo.provider.use_gpsd", false); // [LINUX]
      monetized extensions, time constraints, legacy issues, and fear of breakage/bugs.
      It is still important to do updates for security reasons, please do so manually. ***/
 user_pref("_user.js.parrot", "0300 syntax error: the parrot's not pinin' for the fjords!");
-/* 0301b: disable auto-update checks for extensions
- * [SETTING] about:addons>Extensions>[cog-wheel-icon]>Update Add-ons Automatically (toggle) ***/
+/* 0301b: disable auto-CHECKING for extension and theme updates ***/
    // user_pref("extensions.update.enabled", false);
-/* 0302a: disable auto update installing for Firefox [NON-WINDOWS FF65+]
+/* 0302a: disable auto-INSTALLING Firefox updates [NON-WINDOWS FF65+]
  * [NOTE] In FF65+ on Windows this SETTING (below) is now stored in a file and the pref was removed
  * [SETTING] General>Firefox Updates>Check for updates but let you choose... ***/
 user_pref("app.update.auto", false);
-/* 0302b: disable auto update installing for extensions (after the check in 0301b)
+/* 0302b: disable auto-INSTALLING extension and theme updates (after the check in 0301b)
  * [SETTING] about:addons>Extensions>[cog-wheel-icon]>Update Add-ons Automatically (toggle) ***/
 user_pref("extensions.update.autoUpdateDefault", false);
 /* 0303: disable background update service [WINDOWS]
@@ -201,7 +200,10 @@ user_pref("app.update.silent", false);
  * used when installing/updating an extension, and in daily background update checks: if false, it
  * hides the expanded text description (if it exists) when you "show more details about an addon" ***/
    // user_pref("extensions.getAddons.cache.enabled", false);
-/* 0307: disable auto updating of personas (themes) ***/
+/* 0307: disable auto updating of lightweight themes (LWT)
+ * Not to be confused with themes in 0301* + 0302*, which use the FF55+ Theme API
+ * Mozilla plan to convert existing LWTs and remove LWT support in the future, see [1]
+ * [1] https://blog.mozilla.org/addons/2018/09/20/future-themes-here/ ***/
 user_pref("lightweightThemes.update.enabled", false);
 /* 0308: disable search update
  * [SETTING] General>Firefox Updates>Automatically update search engines ***/
@@ -249,7 +251,7 @@ user_pref("datareporting.policy.dataSubmissionEnabled", false);
  * [NOTE] This pref has no effect when Health Reports (0340) are disabled
  * [SETTING] Privacy & Security>Firefox Data Collection & Use>...>Allow Firefox to install and run studies ***/
 user_pref("app.shield.optoutstudies.enabled", false);
-/* 0343: disable Extension Recommendations in about:addons [FF65+]
+/* 0343: disable Extension Recommendations in about:addons and AMO [FF65+]
  * [NOTE] This pref has no effect when Health Reports (0340) are disabled
  * [SETTING] Privacy & Security>Firefox Data Collection & Use>...>Allow Firefox to make personalized extension rec.
  * [1] https://support.mozilla.org/kb/personalized-extension-recommendations ***/
@@ -518,6 +520,7 @@ user_pref("network.trr.uri", "");
  * [1] https://www.ghacks.net/2018/02/20/firefox-60-with-new-preference-to-disable-ftp/ ***/
    // user_pref("network.ftp.enabled", false);
 /* 0709: disable using UNC (Uniform Naming Convention) paths [FF61+]
+ * [SETUP-CHROME] Can break extensions for profiles on network shares
  * [1] https://trac.torproject.org/projects/tor/ticket/26424 ***/
 user_pref("network.file.disable_unc_paths", true); // [HIDDEN PREF]
 /* 0710: disable GIO as a potential proxy bypass vector
