@@ -543,7 +543,7 @@ user_pref("network.gio.supported-protocols", ""); // [HIDDEN PREF]
 user_pref("_user.js.parrot", "0800 syntax error: the parrot's ceased to be!");
 /* 0801: disable location bar using search
  * don't leak typos to a search engine, give an error message instead ***/
-user_pref("keyword.enabled", false);
+   // user_pref("keyword.enabled", false);
 /* 0802: disable location bar domain guessing
  * domain guessing intercepts DNS "hostname not found errors" and resends a
  * request (e.g. by adding www or .com). This is inconsistent use (e.g. FQDNs), does not work
@@ -602,7 +602,7 @@ user_pref("browser.urlbar.suggest.openpage", false);
 user_pref("browser.urlbar.autoFill", false);
 /* 0850e: disable location bar one-off searches [FF51+]
  * [1] https://www.ghacks.net/2016/08/09/firefox-one-off-searches-address-bar/ ***/
-user_pref("browser.urlbar.oneOffSearches", false);
+   // user_pref("browser.urlbar.oneOffSearches", false);
 /* 0860: disable search and form history
  * [NOTE] You can clear formdata on exiting Firefox (see 2803)
  * [SETTING] Privacy & Security>History>Custom Settings>Remember search and form history ***/
@@ -2274,5 +2274,5 @@ user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!"
 user_pref("ui.osk.enabled", false);
 user_pref("accessibility.blockautorefresh", true);
    // user_pref("security.ssl.enable_ocsp_must_staple", true);
-user_pref("browser.search.widget.inNavBar", true);
+   // user_pref("browser.search.widget.inNavBar", true);
 user_pref("dom.ipc.processCount", 7);
