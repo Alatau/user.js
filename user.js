@@ -1,7 +1,7 @@
 /******
 * name: ghacks user.js
-* date: 26 February 2019
-* version 66-alpha: The Power of Pants
+* date: 27 March 2019
+* version 66-beta: The Power of Pants
 *   "The power of pants is a curious thing. Make a one man weep, make another man sing"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
@@ -117,6 +117,7 @@ user_pref("browser.newtabpage.activity-stream.feeds.snippets", false);
 user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
 user_pref("browser.newtabpage.activity-stream.section.highlights.includePocket", false);
 user_pref("browser.newtabpage.activity-stream.showSponsored", false);
+user_pref("browser.newtabpage.activity-stream.feeds.discoverystreamfeed", false); // [FF66+]
 /* 0105d: disable Activity Stream recent Highlights in the Library [FF57+] ***/
 user_pref("browser.library.activity-stream.enabled", false);
 /* 0110: start Firefox in PB (Private Browsing) mode
@@ -251,7 +252,7 @@ user_pref("datareporting.policy.dataSubmissionEnabled", false);
  * [NOTE] This pref has no effect when Health Reports (0340) are disabled
  * [SETTING] Privacy & Security>Firefox Data Collection & Use>...>Allow Firefox to install and run studies ***/
 user_pref("app.shield.optoutstudies.enabled", false);
-/* 0343: disable Extension Recommendations in about:addons and AMO [FF65+]
+/* 0343: disable personalized Extension Recommendations in about:addons and AMO [FF65+]
  * [NOTE] This pref has no effect when Health Reports (0340) are disabled
  * [SETTING] Privacy & Security>Firefox Data Collection & Use>...>Allow Firefox to make personalized extension rec.
  * [1] https://support.mozilla.org/kb/personalized-extension-recommendations ***/
@@ -268,11 +269,6 @@ user_pref("browser.crashReports.unsubmittedCheck.autoSubmit2", false); // [FF58+
  * [1] https://en.wikipedia.org/wiki/Pocket_(application)
  * [2] https://www.gnu.gl/blog/Posts/multiple-vulnerabilities-in-pocket/ ***/
 user_pref("extensions.pocket.enabled", false);
-/* 0380: disable Browser Error Reporter [FF60+]
- * [1] https://support.mozilla.org/en-US/kb/firefox-nightly-error-collection
- * [2] https://firefox-source-docs.mozilla.org/browser/browser/BrowserErrorReporter.html ***/
-user_pref("browser.chrome.errorReporter.enabled", false);
-user_pref("browser.chrome.errorReporter.submitUrl", "");
 /* 0390: disable Captive Portal detection
  * [1] https://en.wikipedia.org/wiki/Captive_portal
  * [2] https://wiki.mozilla.org/Necko/CaptivePortal
@@ -405,8 +401,6 @@ user_pref("browser.safebrowsing.provider.google4.dataSharingURL", "");
      [2] https://dxr.mozilla.org/mozilla-central/source/browser/extensions
 ***/
 user_pref("_user.js.parrot", "0500 syntax error: the parrot's cashed in 'is chips!");
-/* 0502: disable Mozilla permission to silently opt you into tests ***/
-user_pref("network.allow-experiments", false);
 /* 0503: disable Normandy/Shield [FF60+]
  * Shield is an telemetry system (including Heartbeat) that can also push and test "recipes"
  * [1] https://wiki.mozilla.org/Firefox/Shield
@@ -1085,11 +1079,14 @@ user_pref("dom.imagecapture.enabled", false); // [DEFAULT: false]
 /* 2028: disable offscreen canvas [FF44+]
  * [1] https://developer.mozilla.org/docs/Web/API/OffscreenCanvas ***/
 user_pref("gfx.offscreencanvas.enabled", false); // [DEFAULT: false]
-/* 2030: disable auto-play of HTML5 media [FF63+]
- * 0=Allowed (default), 1=Blocked, 2=Prompt
- * [SETUP-WEB] This may break video playback on various sites ***/
+/* 2030: disable autoplay of HTML5 media [FF63+]
+ * 0=Allowed, 1=Blocked, 2=Prompt
+ * [NOTE] You can set exceptions under site permissions
+ * [SETTING] Privacy & Security>Permissions>Block websites from automatically playing sound ***/
 user_pref("media.autoplay.default", 1);
-/* 2031: disable audio auto-play in non-active tabs [FF51+]
+/* 2031: disable autoplay of HTML5 media if you interacted with the site [FF66+] ***/
+user_pref("media.autoplay.enabled.user-gestures-needed", false);
+/* 2032: disable audio autoplay in non-active tabs [FF51+]
  * [1] https://www.ghacks.net/2016/11/14/firefox-51-blocks-automatic-audio-playback-in-non-active-tabs/ ***/
 user_pref("media.block-autoplay-until-in-foreground", true);
 
@@ -1596,7 +1593,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true); // [DEFAUL
  ** 1369319 - disable device sensor API (see 4604) (FF56+)
  ** 1369357 - disable site specific zoom (see 4605) (FF56+)
  ** 1337161 - hide gamepads from content (see 4606) (FF56+)
- ** 1372072 - spoof network information API as "unknown" (see 4607) (FF56+)
+ ** 1372072 - spoof network information API as "unknown" when dom.netinfo.enabled = true (see 4607) (FF56+)
  ** 1333641 - reduce fingerprinting in WebSpeech API (see 4608) (FF56+)
  ** 1372069 & 1403813 & 1441295 - block geolocation requests (same as denying a site permission) (see 0201, 0201b) (FF56-62)
  ** 1369309 - spoof media statistics (see 4610) (FF57+)
@@ -1608,7 +1605,10 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true); // [DEFAUL
       This blocks exposure of local IP Addresses via mDNS (Multicast DNS)
  **  967895 - enable site permission prompt before allowing canvas data extraction (FF58+)
       FF59: Added to site permissions panel (1413780) Only prompt when triggered by user input (1376865)
- ** 1372073 - spoof/block fingerprinting in MediaDevices API (see 4612) (FF59+)
+ ** 1372073 - spoof/block fingerprinting in MediaDevices API (FF59+)
+      Spoof: enumerate devices reports one "Internal Camera" and one "Internal Microphone" if
+             media.navigator.enabled is true (see 2505 which we chose to keep disabled)
+      Block: suppresses the ondevicechange event (see 4612)
  ** 1039069 - warn when language prefs are set to non en-US (see 0207, 0208) (FF59+)
  ** 1222285 & 1433592 - spoof keyboard events and suppress keyboard modifier events (FF59+)
       Spoofing mimics the content language of the document. Currently it only supports en-US.
@@ -1619,9 +1619,11 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true); // [DEFAUL
  ** 1363508 - spoof/suppress Pointer Events (see 4614) (FF64+)
       FF65: pointerEvent.pointerid (1492766)
  ** 1485266 - disable exposure of system colors to CSS or canvas (see 2618) (FF67+)
+ ** 1407366 - enable inner window letterboxing (see 4504) (FF67+)
 ***/
 user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting [FF41+]
+ * This pref is the master switch for all other privacy.resist* prefs unless stated
  * [SETUP-WEB] RFP is not ready for the masses, so expect some website breakage
  * [1] https://bugzilla.mozilla.org/418986 ***/
 user_pref("privacy.resistFingerprinting", true);
@@ -1637,8 +1639,17 @@ user_pref("privacy.resistFingerprinting", true);
  * to sanitize or clear extensions.webextensions.restrictedDomains (see 2662) to keep that side-effect
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1384330,1406795,1415644,1453988 ***/
 user_pref("privacy.resistFingerprinting.block_mozAddonManager", true); // [HIDDEN PREF]
-/* 4504: disable showing about:blank as soon as possible during startup [FF60+]
- * When default true (FF62+) this no longer masks the RFP resizing activity
+/* 4504: enable RFP letterboxing [FF67+]
+ * Dynamically resizes the inner window in 200w x100h steps by applying letterboxing, using dimensions
+ * which waste the least content area, If you use the dimension pref, then it will only apply those
+ * resolutions. The format is "width1xheight1, width2xheight2, ..." (e.g. "800x600, 1000x1000, 1600x900")
+ * [NOTE] This does NOT require RFP (see 4501) **for now**
+ * [WARNING] The dimension pref is only meant for testing, and we recommend you DO NOT USE it
+ * [1] https://bugzilla.mozilla.org/1407366 ***/
+user_pref("privacy.resistFingerprinting.letterboxing", true); // [HIDDEN PREF]
+   // user_pref("privacy.resistFingerprinting.letterboxing.dimensions", ""); // [HIDDEN PREF]
+/* 4510: disable showing about:blank as soon as possible during startup [FF60+]
+ * When default true (FF62+) this no longer masks the RFP chrome resizing activity
  * [1] https://bugzilla.mozilla.org/1448423 ***/
 user_pref("browser.startup.blankWindow", false);
 
@@ -1685,7 +1696,7 @@ user_pref("browser.zoom.siteSpecific", false);
    // [1] https://developer.mozilla.org/docs/Web/API/Network_Information_API
    // [2] https://wicg.github.io/netinfo/
    // [3] https://bugzilla.mozilla.org/960426
-user_pref("dom.netinfo.enabled", false);
+user_pref("dom.netinfo.enabled", false); // [DEFAULT: true on Android]
 // 4608: [2021] disable the SpeechSynthesis (Text-to-Speech) part of the Web Speech API
    // [1] https://developer.mozilla.org/docs/Web/API/Web_Speech_API
    // [2] https://developer.mozilla.org/docs/Web/API/SpeechSynthesis
@@ -2222,7 +2233,7 @@ user_pref("shield.savant.enabled", false);
 // 1031: disable favicons in tabs and new bookmarks - merged into browser.chrome.site_icons
    // [-] https://bugzilla.mozilla.org/1453751
    // user_pref("browser.chrome.favicons", false);
-// 2030: disable auto-play of HTML5 media - replaced by media.autoplay.default
+// 2030: disable autoplay of HTML5 media - replaced by media.autoplay.default
    // [SETUP-WEB] This may break video playback on various sites
    // [-] https://bugzilla.mozilla.org/1470082
 user_pref("media.autoplay.enabled", false);
@@ -2264,6 +2275,17 @@ user_pref("browser.urlbar.autocomplete.enabled", false);
    // e.g. //user:password@foo -> //user@(prefix)foo(suffix) NOT //user:password@(prefix)foo(suffix)
    // [-] https://bugzilla.mozilla.org/1510580
 user_pref("browser.fixup.hide_user_pass", true); // [DEFAULT: true]
+// * * * /
+// FF66
+// 0380: disable Browser Error Reporter [FF60+]
+   // [1] https://support.mozilla.org/en-US/kb/firefox-nightly-error-collection
+   // [2] https://firefox-source-docs.mozilla.org/browser/browser/BrowserErrorReporter.html
+   // [-] https://bugzilla.mozilla.org/1509888
+user_pref("browser.chrome.errorReporter.enabled", false);
+user_pref("browser.chrome.errorReporter.submitUrl", "");
+// 0502: disable Mozilla permission to silently opt you into tests
+   // [-] https://bugzilla.mozilla.org/1415625
+user_pref("network.allow-experiments", false);
 // * * * /
 // ***/
 
