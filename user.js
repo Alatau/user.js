@@ -1,8 +1,8 @@
 /******
 * name: ghacks user.js
-* date: 27 March 2019
-* version 66-beta: The Power of Pants
-*   "The power of pants is a curious thing. Make a one man weep, make another man sing"
+* date: 15 April 2019
+* version 67-alpha: Barbie Pants
+*   "I'm a Barbie pants in a Barbie world. Life in plastic, it's fantastic"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
 * license: MIT: https://github.com/ghacksuserjs/ghacks-user.js/blob/master/LICENSE.txt
@@ -453,7 +453,7 @@ user_pref("network.http.speculative-parallel-limit", 0);
 /* 0606: disable pings (but enforce same host in case)
  * [1] http://kb.mozillazine.org/Browser.send_pings
  * [2] http://kb.mozillazine.org/Browser.send_pings.require_same_host ***/
-user_pref("browser.send_pings", false);
+user_pref("browser.send_pings", false); // [DEFAULT: false]
 user_pref("browser.send_pings.require_same_host", true);
 /* 0608: disable predictor / prefetching [FF48+] ***/
 user_pref("network.predictor.enable-prefetch", false);
@@ -1035,7 +1035,7 @@ user_pref("media.gmp-widevinecdm.autoupdate", false);
 user_pref("media.eme.enabled", false);
 /* 1840: disable the OpenH264 Video Codec by Cisco to "Never Activate" [SETUP-WEB]
  * This is the bundled codec used for video chat in WebRTC ***/
-user_pref("media.gmp-gmpopenh264.enabled", false); // [HIDDEN PREF]
+user_pref("media.gmp-gmpopenh264.enabled", false);
 user_pref("media.gmp-gmpopenh264.autoupdate", false);
 
 /*** [SECTION 2000]: MEDIA / CAMERA / MIC ***/
@@ -1080,7 +1080,7 @@ user_pref("dom.imagecapture.enabled", false); // [DEFAULT: false]
  * [1] https://developer.mozilla.org/docs/Web/API/OffscreenCanvas ***/
 user_pref("gfx.offscreencanvas.enabled", false); // [DEFAULT: false]
 /* 2030: disable autoplay of HTML5 media [FF63+]
- * 0=Allowed, 1=Blocked, 2=Prompt
+ * 0=Allowed, 1=Blocked (2=Prompt - removed in FF66)
  * [NOTE] You can set exceptions under site permissions
  * [SETTING] Privacy & Security>Permissions>Block websites from automatically playing sound ***/
 user_pref("media.autoplay.default", 1);
@@ -1123,7 +1123,7 @@ user_pref("dom.disable_open_during_load", true);
 /* 2211: set max popups from a single non-click event - default is 20! ***/
 user_pref("dom.popup_maximum", 3);
 /* 2212: limit events that can cause a popup
- * default is "change click dblclick mouseup pointerup notificationclick reset submit touchend"
+ * default is "change click dblclick mouseup pointerup notificationclick reset submit touchend contextmenu"
  * [1] http://kb.mozillazine.org/Dom.popup_allowed_events ***/
 user_pref("dom.popup_allowed_events", "click dblclick");
 
@@ -1226,7 +1226,7 @@ user_pref("javascript.options.shared_memory", false);
 user_pref("dom.event.highrestimestamp.enabled", true); // [DEFAULT: true]
 /* 2429: enable (limited but sufficient) window.opener protection [FF65+]
  * Makes rel=noopener implicit for target=_blank in anchor and area elements when no rel attribute is set ***/
-user_pref("dom.targetBlankNoOpener.enabled", true);
+user_pref("dom.targetBlankNoOpener.enabled", true); // [DEFAULT: true]
 
 /*** [SECTION 2500]: HARDWARE FINGERPRINTING ***/
 user_pref("_user.js.parrot", "2500 syntax error: the parrot's shuffled off 'is mortal coil!");
@@ -1321,8 +1321,9 @@ user_pref("permissions.manager.defaultsUrl", "");
 user_pref("webchannel.allowObject.urlWhitelist", "");
 /* 2618: disable exposure of system colors to CSS or canvas [FF44+]
  * [NOTE] See second listed bug: may cause black on black for elements with undefined colors
+ * [SETUP-CHROME] Might affect CSS in themes and extensions
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=232227,1330876 ***/
-user_pref("ui.use_standins_for_native_colors", true); // [HIDDEN PREF]
+user_pref("ui.use_standins_for_native_colors", true);
 /* 2619: enforce Punycode for Internationalized Domain Names to eliminate possible spoofing
  * Firefox has *some* protections, but it is better to be safe than sorry. The downside: it will also
  * display legitimate IDN's punycoded, which might be undesirable for users of non-latin alphabets
@@ -1367,7 +1368,8 @@ user_pref("browser.download.forbid_open_with", true);
 
 /** EXTENSIONS ***/
 /* 2660: lock down allowed extension directories
- * [SETUP-CHROME] This will break extensions that do not use the default XPI directories
+ * [SETUP-CHROME] This will break extensions, language packs, themes and any other XPI files which are
+ * installed outside of profile directories (see GitHub issue #674 for an issue with language packs in Linux)
  * [1] https://mike.kaply.com/2012/02/21/understanding-add-on-scopes/
  * [1] archived: https://archive.is/DYjAM ***/
 user_pref("extensions.enabledScopes", 1); // [HIDDEN PREF]
@@ -1620,6 +1622,8 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true); // [DEFAUL
       FF65: pointerEvent.pointerid (1492766)
  ** 1485266 - disable exposure of system colors to CSS or canvas (see 2618) (FF67+)
  ** 1407366 - enable inner window letterboxing (see 4504) (FF67+)
+ ** 1540726 - enforce "light" with prefers-color-scheme (FF67+)
+        [1] https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
 ***/
 user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting [FF41+]
@@ -1777,6 +1781,7 @@ user_pref("startup.homepage_override_url", ""); // What's New page after updates
    // user_pref("full-screen-api.warning.delay", 0);
    // user_pref("full-screen-api.warning.timeout", 0);
 user_pref("general.warnOnAboutConfig", false);
+user_pref("browser.aboutConfig.showWarning", false); // [FF67+]
 /* APPEARANCE ***/
 user_pref("browser.download.autohideButton", false); // [FF57+]
    // user_pref("toolkit.cosmeticAnimations.enabled", false); // [FF55+]
@@ -1796,6 +1801,10 @@ user_pref("browser.bookmarks.max_backups", 0);
 user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr", false); // disable CFR [FF64+]
       // [SETTING] General>Browsing>Recommend extensions as you browse
       // [1] https://support.mozilla.org/en-US/kb/extension-recommendations
+user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false); // disable CFR [FF67+]
+      // [SETTING] General>Browsing>Recommend extensions as you browse
+user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false); // disable CFR [FF67+]
+      // [SETTING] General>Browsing>Recommend features as you browse
 user_pref("identity.fxaccounts.enabled", false); // disable and hide Firefox Accounts and Sync [FF60+] [RESTART]
    // user_pref("network.manage-offline-status", false); // see bugzilla 620472
 user_pref("reader.parse-on-load.enabled", false); // "Reader View"
