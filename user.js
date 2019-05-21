@@ -983,14 +983,14 @@ user_pref("dom.disable_window_move_resize", true);
 /* 2203: open links targeting new windows in a new tab instead
  * This stops malicious window sizes and some screen resolution leaks.
  * You can still right-click a link and open in a new window.
- * [TEST] https://people.torproject.org/~gk/misc/entire_desktop.html
+ * [TEST] https://ghacksuserjs.github.io/TorZillaPrint/TorZillaPrint.html#screen
  * [1] https://trac.torproject.org/projects/tor/ticket/9881 ***/
 user_pref("browser.link.open_newwindow", 3);
 user_pref("browser.link.open_newwindow.restriction", 0);
 /* 2204: disable Fullscreen API (requires user interaction) to prevent screen-resolution leaks
  * [NOTE] You can still manually toggle the browser's fullscreen state (F11),
  * but this pref will disable embedded video/game fullscreen controls, e.g. youtube
- * [TEST] https://developer.mozilla.org/samples/domref/fullscreen.html ***/
+ * [TEST] https://ghacksuserjs.github.io/TorZillaPrint/TorZillaPrint.html#screen ***/
    // user_pref("full-screen-api.enabled", false);
 /* 2210: block popup windows
  * [SETTING] Privacy & Security>Permissions>Block pop-up windows ***/
@@ -1099,7 +1099,7 @@ user_pref("dom.IntersectionObserver.enabled", false);
 user_pref("dom.event.highrestimestamp.enabled", true); // [DEFAULT: true]
 /* 2429: enable (limited but sufficient) window.opener protection [FF65+]
  * Makes rel=noopener implicit for target=_blank in anchor and area elements when no rel attribute is set ***/
-user_pref("dom.targetBlankNoOpener.enabled", true); // [DEFAULT: true]
+user_pref("dom.targetBlankNoOpener.enabled", true);
 
 /*** [SECTION 2500]: HARDWARE FINGERPRINTING ***/
 user_pref("_user.js.parrot", "2500 syntax error: the parrot's shuffled off 'is mortal coil!");
@@ -1400,6 +1400,8 @@ user_pref("privacy.sanitize.timeSpan", 0);
  ** 1473247 - isolate IP addresses (FF63+)
  ** 1492607 - isolate postMessage with targetOrigin "*" (requires 4002) (FF65+)
  ** 1542309 - isolate top-level domain URLs (FF68+)
+ ** 1330467 - isolate site permissions (FF68+)
+ ** 1506693 - isolate pdfjs range-based requests (FF68+)
 ***/
 user_pref("_user.js.parrot", "4000 syntax error: the parrot's pegged out");
 /* 4001: enable First Party Isolation [FF51+]
@@ -1471,11 +1473,12 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true); // [DEFAUL
       FF60: Fix keydown/keyup events (1438795)
  ** 1337157 - disable WebGL debug renderer info (see 4613) (FF60+)
  ** 1459089 - disable OS locale in HTTP Accept-Language headers (ANDROID) (FF62+)
+ ** 1479239 - return "no-preference" with prefers-reduced-motion (FF63+)
  ** 1363508 - spoof/suppress Pointer Events (see 4614) (FF64+)
       FF65: pointerEvent.pointerid (1492766)
  ** 1485266 - disable exposure of system colors to CSS or canvas (see 2618) (FF67+)
  ** 1407366 - enable inner window letterboxing (see 4504) (FF67+)
- ** 1540726 - enforce "light" with prefers-color-scheme (FF67+)
+ ** 1540726 - return "light" with prefers-color-scheme (FF67+)
         [1] https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
 ***/
 user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
@@ -1497,9 +1500,9 @@ user_pref("privacy.resistFingerprinting", true);
  * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1384330,1406795,1415644,1453988 ***/
 user_pref("privacy.resistFingerprinting.block_mozAddonManager", true); // [HIDDEN PREF]
 /* 4504: enable RFP letterboxing [FF67+]
- * Dynamically resizes the inner window in 200w x100h steps by applying letterboxing, using dimensions
- * which waste the least content area, If you use the dimension pref, then it will only apply those
- * resolutions. The format is "width1xheight1, width2xheight2, ..." (e.g. "800x600, 1000x1000, 1600x900")
+ * Dynamically resizes the inner window (FF67; 200w x100h: FF68+; stepped ranges) by applying letterboxing,
+ * using dimensions which waste the least content area, If you use the dimension pref, then it will only apply
+ * those resolutions. The format is "width1xheight1, width2xheight2, ..." (e.g. "800x600, 1000x1000, 1600x900")
  * [NOTE] This does NOT require RFP (see 4501) **for now**
  * [WARNING] The dimension pref is only meant for testing, and we recommend you DO NOT USE it
  * [1] https://bugzilla.mozilla.org/1407366 ***/
