@@ -915,13 +915,13 @@ user_pref("plugin.state.flash", 0);
 user_pref("media.gmp-provider.enabled", false);
 /* 1825: disable widevine CDM (Content Decryption Module)
  * [SETUP-WEB] if you *need* CDM, e.g. Netflix, Amazon Prime, Hulu, whatever ***/
-user_pref("media.gmp-widevinecdm.visible", false);
-user_pref("media.gmp-widevinecdm.enabled", false);
+   // user_pref("media.gmp-widevinecdm.visible", false);
+   // user_pref("media.gmp-widevinecdm.enabled", false);
 /* 1830: disable all DRM content (EME: Encryption Media Extension)
  * [SETUP-WEB] if you *need* EME, e.g. Netflix, Amazon Prime, Hulu, whatever
  * [SETTING] General>DRM Content>Play DRM-controlled content
  * [1] https://www.eff.org/deeplinks/2017/10/drms-dead-canary-how-we-just-lost-web-what-we-learned-it-and-what-we-need-do-next ***/
-user_pref("media.eme.enabled", false);
+   // user_pref("media.eme.enabled", false);
 
 /*** [SECTION 2000]: MEDIA / CAMERA / MIC ***/
 user_pref("_user.js.parrot", "2000 syntax error: the parrot's snuffed it!");
@@ -1770,13 +1770,13 @@ user_pref("network.allow-experiments", false);
 /* END: internal custom pref to test for syntax errors ***/
 user_pref("_user.js.parrot", "SUCCESS: No no he's not dead, he's, he's restin'!");
 
-/*** 0000: MY SETTINGS ***/
-user_pref("ui.osk.enabled", false);
+/*** [SECTION 0000]: MY SETTINGS ***/
 user_pref("accessibility.blockautorefresh", true);
-   // user_pref("security.ssl.enable_ocsp_must_staple", true);
-   // user_pref("browser.search.widget.inNavBar", true);
-user_pref("dom.ipc.processCount", 7);
 user_pref("browser.newtabpage.activity-stream.feeds.section.highlights", false);
 user_pref("browser.newtabpage.activity-stream.feeds.topsites", false);
 user_pref("browser.newtabpage.activity-stream.showSearch", false);
+   // user_pref("browser.search.widget.inNavBar", true);
+user_pref("dom.ipc.processCount", 7);
 user_pref("gfx.webrender.all", true);
+   // user_pref("security.ssl.enable_ocsp_must_staple", true);
+user_pref("ui.osk.enabled", false);
