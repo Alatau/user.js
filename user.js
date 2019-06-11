@@ -787,15 +787,6 @@ user_pref("_user.js.parrot", "1400 syntax error: the parrot's bereft of life!");
  * [SETUP-WEB] Disabling fonts can uglify the web a fair bit.
  * [SETTING] General>Language and Appearance>Fonts & Colors>Advanced>Allow pages to choose... ***/
 user_pref("browser.display.use_document_fonts", 0);
-/* 1402: set more legible default fonts
- * [NOTE] Example below for Windows/Western only
- * [SETTING] General>Language and Appearance>Fonts & Colors>Advanced>Serif|Sans-serif|Monospace ***/
-   // user_pref("font.name.serif.x-unicode", "Georgia");
-   // user_pref("font.name.serif.x-western", "Georgia"); // default: Times New Roman
-   // user_pref("font.name.sans-serif.x-unicode", "Arial");
-   // user_pref("font.name.sans-serif.x-western", "Arial"); // default: Arial
-   // user_pref("font.name.monospace.x-unicode", "Lucida Console");
-   // user_pref("font.name.monospace.x-western", "Lucida Console"); // default: Courier New
 /* 1403: disable icon fonts (glyphs) and local fallback rendering
  * [1] https://bugzilla.mozilla.org/789788
  * [2] https://trac.torproject.org/projects/tor/ticket/8455 ***/
@@ -808,10 +799,6 @@ user_pref("gfx.font_rendering.opentype_svg.enabled", false);
    // user_pref("gfx.downloadable_fonts.woff2.enabled", false);
 /* 1406: disable CSS Font Loading API ***/
    // user_pref("layout.css.font-loading-api.enabled", false);
-/* 1407: disable special underline handling for a few fonts which you will probably never use [RESTART]
- * Any of these fonts on your system can be enumerated for fingerprinting.
- * [1] http://kb.mozillazine.org/Font.blacklist.underline_offset ***/
-user_pref("font.blacklist.underline_offset", "");
 /* 1408: disable graphite which FF49 turned back on by default
  * In the past it had security issues. Update: This continues to be the case, see [1]
  * [1] https://www.mozilla.org/security/advisories/mfsa2017-15/#CVE-2017-7778 ***/
