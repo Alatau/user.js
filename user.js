@@ -1,7 +1,7 @@
 /******
 * name: ghacks user.js
-* date: 15 April 2019
-* version 67-alpha: Barbie Pants
+* date: 28 May 2019
+* version 67-beta: Barbie Pants
 *   "I'm a Barbie pants in a Barbie world. Life in plastic, it's fantastic"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
@@ -44,35 +44,35 @@
 
 * INDEX:
 
-     0100: STARTUP
-     0200: GEOLOCATION
-     0300: QUIET FOX
-     0400: BLOCKLISTS / SAFE BROWSING
-     0500: SYSTEM ADD-ONS / EXPERIMENTS
-     0600: BLOCK IMPLICIT OUTBOUND
-     0700: HTTP* / TCP/IP / DNS / PROXY / SOCKS etc
-     0800: LOCATION BAR / SEARCH BAR / SUGGESTIONS / HISTORY / FORMS
-     0900: PASSWORDS
-     1000: CACHE / SESSION (RE)STORE / FAVICONS
-     1200: HTTPS (SSL/TLS / OCSP / CERTS / HPKP / CIPHERS)
-     1400: FONTS
-     1600: HEADERS / REFERERS
-     1700: CONTAINERS
-     1800: PLUGINS
-     2000: MEDIA / CAMERA / MIC
-     2200: WINDOW MEDDLING & LEAKS / POPUPS
-     2300: WEB WORKERS
-     2400: DOM (DOCUMENT OBJECT MODEL) & JAVASCRIPT
-     2500: HARDWARE FINGERPRINTING
-     2600: MISCELLANEOUS
-     2700: PERSISTENT STORAGE
-     2800: SHUTDOWN
-     4000: FPI (FIRST PARTY ISOLATION)
-     4500: RFP (RESIST FINGERPRINTING)
-     4600: RFP ALTERNATIVES
-     4700: RFP ALTERNATIVES (NAVIGATOR / USER AGENT (UA) SPOOFING)
-     5000: PERSONAL
-     9999: DEPRECATED / REMOVED / LEGACY / RENAMED
+  0100: STARTUP
+  0200: GEOLOCATION
+  0300: QUIET FOX
+  0400: BLOCKLISTS / SAFE BROWSING
+  0500: SYSTEM ADD-ONS / EXPERIMENTS
+  0600: BLOCK IMPLICIT OUTBOUND
+  0700: HTTP* / TCP/IP / DNS / PROXY / SOCKS etc
+  0800: LOCATION BAR / SEARCH BAR / SUGGESTIONS / HISTORY / FORMS
+  0900: PASSWORDS
+  1000: CACHE / SESSION (RE)STORE / FAVICONS
+  1200: HTTPS (SSL/TLS / OCSP / CERTS / HPKP / CIPHERS)
+  1400: FONTS
+  1600: HEADERS / REFERERS
+  1700: CONTAINERS
+  1800: PLUGINS
+  2000: MEDIA / CAMERA / MIC
+  2200: WINDOW MEDDLING & LEAKS / POPUPS
+  2300: WEB WORKERS
+  2400: DOM (DOCUMENT OBJECT MODEL) & JAVASCRIPT
+  2500: HARDWARE FINGERPRINTING
+  2600: MISCELLANEOUS
+  2700: PERSISTENT STORAGE
+  2800: SHUTDOWN
+  4000: FPI (FIRST PARTY ISOLATION)
+  4500: RFP (RESIST FINGERPRINTING)
+  4600: RFP ALTERNATIVES
+  4700: RFP ALTERNATIVES (NAVIGATOR / USER AGENT (UA) SPOOFING)
+  5000: PERSONAL
+  9999: DEPRECATED / REMOVED / LEGACY / RENAMED
 
 ******/
 
@@ -125,12 +125,11 @@ user_pref("browser.newtabpage.activity-stream.feeds.discoverystreamfeed", false)
 user_pref("browser.library.activity-stream.enabled", false);
 /* 0110: start Firefox in PB (Private Browsing) mode
  * [NOTE] In this mode *all* windows are "private windows" and the PB mode icon is not displayed
- * [WARNING] The P in PB mode is misleading: it means no "persistent" local storage of history,
- * caches, searches or cookies (which you can achieve in normal mode). In fact, it limits or
- * removes the ability to control these, and you need to quit Firefox to clear them. PB is best
- * used as a one off window (File>New Private Window) to provide a temporary self-contained
- * new instance. Closing all Private Windows clears all traces. Repeat as required. PB also does
- * not allow indexedDB which breaks many Extensions that use it including uBlock Origin and uMatrix
+ * [WARNING] The P in PB mode is misleading: it means no "persistent" disk storage such as history,
+ * caches, searches, cookies, localStorage, IndexedDB etc (which you can achieve in normal mode).
+ * In fact, PB mode limits or removes the ability to control some of these, and you need to quit
+ * Firefox to clear them. PB is best used as a one off window (File>New Private Window) to provide
+ * a temporary self-contained new session. Close all Private Windows to clear the PB mode session.
  * [SETTING] Privacy & Security>History>Custom Settings>Always use private browsing mode
  * [1] https://wiki.mozilla.org/Private_Browsing
  * [2] https://spreadprivacy.com/is-private-browsing-really-private/ ***/
@@ -231,7 +230,6 @@ user_pref("toolkit.telemetry.unified", false);
 user_pref("toolkit.telemetry.enabled", false); // see [NOTE] above FF58+
 user_pref("toolkit.telemetry.server", "data:,");
 user_pref("toolkit.telemetry.archive.enabled", false);
-user_pref("toolkit.telemetry.cachedClientID", "");
 user_pref("toolkit.telemetry.newProfilePing.enabled", false); // [FF55+]
 user_pref("toolkit.telemetry.shutdownPingSender.enabled", false); // [FF55+]
 user_pref("toolkit.telemetry.updatePing.enabled", false); // [FF56+]
@@ -785,8 +783,8 @@ user_pref("security.insecure_connection_text.enabled", true); // [FF60+]
 /*** [SECTION 1400]: FONTS ***/
 user_pref("_user.js.parrot", "1400 syntax error: the parrot's bereft of life!");
 /* 1401: disable websites choosing fonts (0=block, 1=allow)
- * [WARNING] Blocking fonts can *sometimes* reduce JS font enumeration, but not entropy.
- * There are also other methods to fingerprint fonts. Wait for RFP (4500) to cover this.
+ * This can limit most (but not all) JS font enumeration which is a high entropy fingerprinting vector
+ * [SETUP-WEB] Disabling fonts can uglify the web a fair bit.
  * [SETTING] General>Language and Appearance>Fonts & Colors>Advanced>Allow pages to choose... ***/
 user_pref("browser.display.use_document_fonts", 0);
 /* 1402: set more legible default fonts
@@ -807,10 +805,9 @@ user_pref("browser.display.use_document_fonts", 0);
  * [1] https://wiki.mozilla.org/SVGOpenTypeFonts - iSECPartnersReport recommends to disable this ***/
 user_pref("gfx.font_rendering.opentype_svg.enabled", false);
 /* 1405: disable WOFF2 (Web Open Font Format) [FF35+] ***/
-user_pref("gfx.downloadable_fonts.woff2.enabled", false);
-/* 1406: disable CSS Font Loading API
- * [NOTE] Disabling fonts can uglify the web a fair bit. ***/
-user_pref("layout.css.font-loading-api.enabled", false);
+   // user_pref("gfx.downloadable_fonts.woff2.enabled", false);
+/* 1406: disable CSS Font Loading API ***/
+   // user_pref("layout.css.font-loading-api.enabled", false);
 /* 1407: disable special underline handling for a few fonts which you will probably never use [RESTART]
  * Any of these fonts on your system can be enumerated for fingerprinting.
  * [1] http://kb.mozillazine.org/Font.blacklist.underline_offset ***/
@@ -827,33 +824,35 @@ user_pref("gfx.font_rendering.graphite.enabled", false);
    // user_pref("font.system.whitelist", ""); // [HIDDEN PREF]
 
 /*** [SECTION 1600]: HEADERS / REFERERS
-     Only *cross domain* referers need controlling and XOriginPolicy (1603) is perfect for that. Thus we enforce
-     the default values for 1601, 1602, 1605 and 1606 to minimize breakage, and only tweak 1603 and 1604.
-
-     Our default settings provide the best balance between protection and amount of breakage.
-     To harden it a bit more you can set XOriginPolicy (1603) to 2 (+ optionally 1604 to 1 or 2).
-     To fix broken sites (including your modem/router), temporarily set XOriginPolicy=0 and XOriginTrimmingPolicy=2 in about:config,
-     use the site and then change the values back. If you visit those sites regularly (e.g. vimeo), use an extension.
-
+     Only *cross domain* referers need controlling: leave 1601, 1602, 1605 and 1606 alone
+     ---
+            harden it a bit: set XOriginPolicy (1603) to 1 (as per the settings below)
+       harden it a bit more: set XOriginPolicy (1603) to 2 (and optionally 1604 to 1 or 2), expect breakage
+     ---
+     If you want any REAL control over referers and breakage, then use an extension. Either:
+              uMatrix: limited by scope, all requests are spoofed or not-spoofed
+       Smart Referrer: granular with source<->destination, whitelists
+     ---
                     full URI: https://example.com:8888/foo/bar.html?id=1234
        scheme+host+port+path: https://example.com:8888/foo/bar.html
             scheme+host+port: https://example.com:8888
-
+     ---
      #Required reading [#] https://feeding.cloud.geek.nz/posts/tweaking-referrer-for-privacy-in-firefox/
 ***/
 user_pref("_user.js.parrot", "1600 syntax error: the parrot rests in peace!");
 /* 1601: ALL: control when images/links send a referer
  * 0=never, 1=send only when links are clicked, 2=for links and images (default) ***/
-   // user_pref("network.http.sendRefererHeader", 2);
+   // user_pref("network.http.sendRefererHeader", 2); // [DEFAULT: 2]
 /* 1602: ALL: control the amount of information to send
  * 0=send full URI (default), 1=scheme+host+port+path, 2=scheme+host+port ***/
-   // user_pref("network.http.referer.trimmingPolicy", 0);
-/* 1603: CROSS ORIGIN: control when to send a referer [SETUP-WEB]
- * 0=always (default), 1=only if base domains match, 2=only if hosts match ***/
+   // user_pref("network.http.referer.trimmingPolicy", 0); // [DEFAULT: 0]
+/* 1603: CROSS ORIGIN: control when to send a referer
+ * 0=always (default), 1=only if base domains match, 2=only if hosts match
+ * [SETUP-WEB] Known to cause issues with older modems/routers and some sites e.g vimeo ***/
    // user_pref("network.http.referer.XOriginPolicy", 1);
 /* 1604: CROSS ORIGIN: control the amount of information to send [FF52+]
  * 0=send full URI (default), 1=scheme+host+port+path, 2=scheme+host+port ***/
-   // user_pref("network.http.referer.XOriginTrimmingPolicy", 0);
+   // user_pref("network.http.referer.XOriginTrimmingPolicy", 0); // [DEFAULT: 0]
 /* 1605: ALL: disable spoofing a referer
  * [WARNING] Do not set this to true, as spoofing effectively disables the anti-CSRF
  * (Cross-Site Request Forgery) protections that some sites may rely on ***/
@@ -912,7 +911,7 @@ user_pref("plugin.sessionPermissionNow.intervalInMinutes", 0);
 user_pref("plugin.state.flash", 0);
 /* 1820: disable GMP (Gecko Media Plugins)
  * [1] https://wiki.mozilla.org/GeckoMediaPlugins ***/
-user_pref("media.gmp-provider.enabled", false);
+   // user_pref("media.gmp-provider.enabled", false);
 /* 1825: disable widevine CDM (Content Decryption Module)
  * [SETUP-WEB] if you *need* CDM, e.g. Netflix, Amazon Prime, Hulu, whatever ***/
    // user_pref("media.gmp-widevinecdm.visible", false);
@@ -958,7 +957,7 @@ user_pref("media.getusermedia.audiocapture.enabled", false);
  * 0=Allowed, 1=Blocked (2=Prompt - removed in FF66)
  * [NOTE] You can set exceptions under site permissions
  * [SETTING] Privacy & Security>Permissions>Block websites from automatically playing sound ***/
-user_pref("media.autoplay.default", 1);
+user_pref("media.autoplay.default", 1); // [DEFAULT: 1 in FF67+]
 /* 2031: disable autoplay of HTML5 media if you interacted with the site [FF66+] ***/
 user_pref("media.autoplay.enabled.user-gestures-needed", false);
 /* 2032: disable audio autoplay in non-active tabs [FF51+]
@@ -1030,17 +1029,17 @@ user_pref("dom.serviceWorkers.enabled", false);
 /* 2304: disable Web Notifications
  * [NOTE] Web Notifications require service workers (2302) and are behind a prompt (2306)
  * [1] https://developer.mozilla.org/docs/Web/API/Notifications_API ***/
-user_pref("dom.webnotifications.enabled", false); // [FF22+]
-user_pref("dom.webnotifications.serviceworker.enabled", false); // [FF44+]
+   // user_pref("dom.webnotifications.enabled", false); // [FF22+]
+   // user_pref("dom.webnotifications.serviceworker.enabled", false); // [FF44+]
 /* 2305: disable Push Notifications [FF44+]
  * web apps can receive messages pushed to them from a server, whether or
  * not the web app is in the foreground, or even currently loaded
  * [NOTE] Push Notifications require service workers (2302) and are behind a prompt (2306)
  * [1] https://developer.mozilla.org/docs/Web/API/Push_API ***/
-user_pref("dom.push.enabled", false);
-user_pref("dom.push.connection.enabled", false);
-user_pref("dom.push.serverURL", "");
-user_pref("dom.push.userAgentID", "");
+   // user_pref("dom.push.enabled", false);
+   // user_pref("dom.push.connection.enabled", false);
+   // user_pref("dom.push.serverURL", "");
+   // user_pref("dom.push.userAgentID", "");
 /* 2306: set a default permission for Notifications (both 2305 and 2306) [FF58+]
  * 0=always ask (default), 1=allow, 2=block
  * [NOTE] Best left at default "always ask", fingerprintable via Permissions API
@@ -1086,17 +1085,11 @@ user_pref("javascript.options.asmjs", false);
 /* 2422: disable WebAssembly [FF52+] [SETUP-PERF]
  * [1] https://developer.mozilla.org/docs/WebAssembly ***/
 user_pref("javascript.options.wasm", false);
-/* 2426: disable Intersection Observer API [FF53+]
- * Almost a year to complete, three versions late to stable (as default false),
- * number #1 cause of crashes in nightly numerous times, and is (primarily) an
- * ad network API for "ad viewability checks" down to a pixel level
+/* 2426: disable Intersection Observer API [FF55+]
  * [1] https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API
  * [2] https://w3c.github.io/IntersectionObserver/
  * [3] https://bugzilla.mozilla.org/1243846 ***/
-user_pref("dom.IntersectionObserver.enabled", false);
-/* 2428: enforce DOMHighResTimeStamp API
- * [WARNING] Required for normalization of timestamps and any timer resolution mitigations ***/
-user_pref("dom.event.highrestimestamp.enabled", true); // [DEFAULT: true]
+   // user_pref("dom.IntersectionObserver.enabled", false);
 /* 2429: enable (limited but sufficient) window.opener protection [FF65+]
  * Makes rel=noopener implicit for target=_blank in anchor and area elements when no rel attribute is set ***/
 user_pref("dom.targetBlankNoOpener.enabled", true);
@@ -1125,7 +1118,7 @@ user_pref("media.navigator.enabled", false);
  * [SETTING] General>Performance>Custom>Use hardware acceleration when available
  * [1] https://wiki.mozilla.org/Platform/GFX/HardwareAcceleration ***/
    // user_pref("gfx.direct2d.disabled", true); // [WINDOWS]
-user_pref("layers.acceleration.disabled", true);
+   // user_pref("layers.acceleration.disabled", true);
 /* 2510: disable Web Audio API [FF51+]
  * [1] https://bugzilla.mozilla.org/1288359 ***/
 user_pref("dom.webaudio.enabled", false);
@@ -1169,7 +1162,7 @@ user_pref("devtools.webide.autoinstallADBExtension", false); // [FF64+]
 /* 2609: disable MathML (Mathematical Markup Language) [FF51+] [SETUP-HARDEN]
  * [TEST] https://ghacksuserjs.github.io/TorZillaPrint/TorZillaPrint.html#misc
  * [1] https://bugzilla.mozilla.org/1173199 ***/
-user_pref("mathml.disabled", true);
+   // user_pref("mathml.disabled", true);
 /* 2610: disable in-content SVG (Scalable Vector Graphics) [FF53+]
  * [WARNING] Expect breakage incl. youtube player controls. Best left for a "hardened" profile.
  * [1] https://bugzilla.mozilla.org/1216893 ***/
@@ -1191,11 +1184,6 @@ user_pref("network.http.redirection-limit", 10);
 user_pref("permissions.manager.defaultsUrl", "");
 /* 2617: remove webchannel whitelist ***/
 user_pref("webchannel.allowObject.urlWhitelist", "");
-/* 2618: disable exposure of system colors to CSS or canvas [FF44+]
- * [NOTE] See second listed bug: may cause black on black for elements with undefined colors
- * [SETUP-CHROME] Might affect CSS in themes and extensions
- * [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=232227,1330876 ***/
-user_pref("ui.use_standins_for_native_colors", true);
 /* 2619: enforce Punycode for Internationalized Domain Names to eliminate possible spoofing
  * Firefox has *some* protections, but it is better to be safe than sorry. The downside: it will also
  * display legitimate IDN's punycoded, which might be undesirable for users of non-latin alphabets
@@ -1219,6 +1207,9 @@ user_pref("pdfjs.disabled", false); // [DEFAULT: false]
 /* 2621: disable links launching Windows Store on Windows 8/8.1/10 [WINDOWS]
  * [1] https://www.ghacks.net/2016/03/25/block-firefox-chrome-windows-store/ ***/
 user_pref("network.protocol-handler.external.ms-windows-store", false);
+/* 2622: disable middlemouse paste leaking on Linux
+ * [1] https://bugzilla.mozilla.org/1528289 */
+user_pref("middlemouse.paste", false); // [DEFAULT: false on Windows]
 
 /** DOWNLOADS ***/
 /* 2650: discourage downloading to desktop
@@ -1476,7 +1467,7 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true); // [DEFAUL
  ** 1479239 - return "no-preference" with prefers-reduced-motion (FF63+)
  ** 1363508 - spoof/suppress Pointer Events (see 4614) (FF64+)
       FF65: pointerEvent.pointerid (1492766)
- ** 1485266 - disable exposure of system colors to CSS or canvas (see 2618) (FF67+)
+ ** 1485266 - disable exposure of system colors to CSS or canvas (see 4615) (FF67+)
  ** 1407366 - enable inner window letterboxing (see 4504) (FF67+)
  ** 1540726 - return "light" with prefers-color-scheme (FF67+)
         [1] https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
@@ -1593,6 +1584,13 @@ user_pref("webgl.enable-debug-renderer-info", false);
    // [1] https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent
 user_pref("dom.w3c_pointer_events.enabled", false);
 // * * * /
+// FF67+
+// 4615: [2618] disable exposure of system colors to CSS or canvas [FF44+]
+  // [NOTE] See second listed bug: may cause black on black for elements with undefined colors
+  // [SETUP-CHROME] Might affect CSS in themes and extensions
+  // [1] https://bugzilla.mozilla.org/buglist.cgi?bug_id=232227,1330876
+user_pref("ui.use_standins_for_native_colors", true);
+// * * * /
 // ***/
 
 /*** [SECTION 4700]: RFP ALTERNATIVES (NAVIGATOR / USER AGENT (UA) SPOOFING)
@@ -1654,9 +1652,6 @@ user_pref("general.autoScroll", false); // middle-click enabling auto-scrolling 
    // user_pref("ui.key.menuAccessKey", 0); // disable alt key toggling the menu bar [RESTART]
 /* OTHER ***/
 user_pref("browser.bookmarks.max_backups", 0);
-user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr", false); // disable CFR [FF64+]
-      // [SETTING] General>Browsing>Recommend extensions as you browse
-      // [1] https://support.mozilla.org/en-US/kb/extension-recommendations
 user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false); // disable CFR [FF67+]
       // [SETTING] General>Browsing>Recommend extensions as you browse
 user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false); // disable CFR [FF67+]
@@ -1764,6 +1759,17 @@ user_pref("browser.chrome.errorReporter.submitUrl", "");
 // 0502: disable Mozilla permission to silently opt you into tests
    // [-] https://bugzilla.mozilla.org/1415625
 user_pref("network.allow-experiments", false);
+// * * * /
+// FF67
+// 2428: enforce DOMHighResTimeStamp API
+   // [WARNING] Required for normalization of timestamps and any timer resolution mitigations
+   // [-] https://bugzilla.mozilla.org/1485264
+user_pref("dom.event.highrestimestamp.enabled", true); // [DEFAULT: true]
+// 5000's: disable CFR [FF64+] - split into two new prefs: *cfr.addons, *cfr.features
+   // [SETTING] General>Browsing>Recommend extensions as you browse
+   // [1] https://support.mozilla.org/en-US/kb/extension-recommendations
+   // [-] https://bugzilla.mozilla.org/1528953
+   // user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr", false);
 // * * * /
 // ***/
 
