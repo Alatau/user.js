@@ -1,8 +1,8 @@
 /******
 * name: ghacks user.js
-* date: 28 May 2019
-* version 67-beta: Barbie Pants
-*   "I'm a Barbie pants in a Barbie world. Life in plastic, it's fantastic"
+* date: 26 June 2019
+* version 68-alpha: Knock on Pants
+*   "It's like thunder, lightning... the way you wear me is frightening"
 * authors: v52+ github | v51- www.ghacks.net
 * url: https://github.com/ghacksuserjs/ghacks-user.js
 * license: MIT: https://github.com/ghacksuserjs/ghacks-user.js/blob/master/LICENSE.txt
@@ -214,9 +214,12 @@ user_pref("browser.search.update", false);
 user_pref("dom.ipc.plugins.flash.subprocess.crashreporter.enabled", false);
 /* 0310: disable sending the URL of the website where a plugin crashed ***/
 user_pref("dom.ipc.plugins.reportCrashURL", false);
-/* 0320: disable about:addons' Get Add-ons panel (uses Google Analytics) ***/
+/* 0320: disable about:addons' Recommendations pane (uses Google Analytics) ***/
 user_pref("extensions.getAddons.showPane", false); // [HIDDEN PREF]
 user_pref("extensions.webservice.discoverURL", "");
+/* 0321: disable recommendations in about:addons' Extensions and Themes panes [FF68+] ***/
+user_pref("extensions.getAddons.discovery.api_url", "");
+user_pref("extensions.htmlaboutaddons.discover.enabled", false);
 /* 0330: disable telemetry
  * the pref (.unified) affects the behaviour of the pref (.enabled)
  * IF unified=false then .enabled controls the telemetry module
@@ -480,7 +483,7 @@ user_pref("browser.sessionhistory.max_entries", 10);
 /* 0805: disable CSS querying page history - CSS history leak
  * [NOTE] This has NEVER been fully "resolved": in Mozilla/docs it is stated it's
  * only in 'certain circumstances', also see latest comments in [2]
- * [TEST] http://lcamtuf.coredump.cx/yahh/ (see github wiki APPENDIX C on how to use)
+ * [TEST] http://lcamtuf.coredump.cx/yahh/ (see github wiki APPENDIX A on how to use)
  * [1] https://dbaron.org/mozilla/visited-privacy
  * [2] https://bugzilla.mozilla.org/147777
  * [3] https://developer.mozilla.org/docs/Web/CSS/Privacy_and_the_:visited_selector ***/
@@ -657,10 +660,7 @@ user_pref("security.ssl.require_safe_negotiation", true);
 /* 1202: control TLS versions with min and max
  * 1=TLS 1.0, 2=TLS 1.1, 3=TLS 1.2, 4=TLS 1.3
  * [WARNING] Leave these at default, otherwise you alter your TLS fingerprint.
- * Firefox telemetry (April 2019) shows only 0.5% of TLS web traffic uses 1.0 or 1.1
- * [1] http://kb.mozillazine.org/Security.tls.version.*
- * [2] https://www.ssl.com/how-to/turn-off-ssl-3-0-and-tls-1-0-in-your-browser/
- * [2] archived: https://archive.is/hY2Mm ***/
+ * Firefox telemetry (April 2019) shows only 0.5% of TLS web traffic uses 1.0 or 1.1 ***/
    // user_pref("security.tls.version.min", 3);
    // user_pref("security.tls.version.max", 4);
 /* 1203: disable SSL session tracking [FF36+]
@@ -797,8 +797,6 @@ user_pref("browser.display.use_document_fonts", 0);
 user_pref("gfx.font_rendering.opentype_svg.enabled", false);
 /* 1405: disable WOFF2 (Web Open Font Format) [FF35+] ***/
    // user_pref("gfx.downloadable_fonts.woff2.enabled", false);
-/* 1406: disable CSS Font Loading API ***/
-   // user_pref("layout.css.font-loading-api.enabled", false);
 /* 1408: disable graphite which FF49 turned back on by default
  * In the past it had security issues. Update: This continues to be the case, see [1]
  * [1] https://www.mozilla.org/security/advisories/mfsa2017-15/#CVE-2017-7778 ***/
@@ -843,7 +841,7 @@ user_pref("_user.js.parrot", "1600 syntax error: the parrot rests in peace!");
 /* 1605: ALL: disable spoofing a referer
  * [WARNING] Do not set this to true, as spoofing effectively disables the anti-CSRF
  * (Cross-Site Request Forgery) protections that some sites may rely on ***/
-user_pref("network.http.referer.spoofSource", false); // [DEFAULT: false]
+   // user_pref("network.http.referer.spoofSource", false); // [DEFAULT: false]
 /* 1606: ALL: set the default Referrer Policy [FF59+]
  * 0=no-referer, 1=same-origin, 2=strict-origin-when-cross-origin, 3=no-referrer-when-downgrade
  * [NOTE] This is only a default, it can be overridden by a site-controlled Referrer Policy
@@ -912,6 +910,8 @@ user_pref("plugin.state.flash", 0);
 /*** [SECTION 2000]: MEDIA / CAMERA / MIC ***/
 user_pref("_user.js.parrot", "2000 syntax error: the parrot's snuffed it!");
 /* 2001: disable WebRTC (Web Real-Time Communication)
+ * [SETUP-WEB] WebRTC can leak your IP address from behind your VPN, but if this is not
+ * in your threat model, and you want Real-Time Communication, this is the pref for you
  * [1] https://www.privacytools.io/#webrtc ***/
 user_pref("media.peerconnection.enabled", false);
 /* 2002: limit WebRTC IP leaks if using WebRTC
@@ -921,6 +921,8 @@ user_pref("media.peerconnection.enabled", false);
 user_pref("media.peerconnection.ice.default_address_only", true);
 user_pref("media.peerconnection.ice.no_host", true); // [FF51+]
 /* 2010: disable WebGL (Web Graphics Library)
+ * [SETUP-WEB] When disabled, may break some websites. When enabled, provides high entropy,
+ * especially with readPixels(). Some of the other entropy is lessened with RFP (see 4501)
  * [1] https://www.contextis.com/resources/blog/webgl-new-dimension-browser-exploitation/
  * [2] https://security.stackexchange.com/questions/13799/is-webgl-a-security-concern ***/
 user_pref("webgl.disabled", true);
@@ -982,7 +984,7 @@ user_pref("browser.link.open_newwindow.restriction", 0);
  * [SETTING] Privacy & Security>Permissions>Block pop-up windows ***/
 user_pref("dom.disable_open_during_load", true);
 /* 2212: limit events that can cause a popup [SETUP-WEB]
- * default is "change click dblclick mouseup pointerup notificationclick reset submit touchend contextmenu"
+ * default is "change click dblclick auxclick mouseup pointerup notificationclick reset submit touchend contextmenu"
  * [1] http://kb.mozillazine.org/Dom.popup_allowed_events ***/
 user_pref("dom.popup_allowed_events", "click dblclick");
 
@@ -1048,7 +1050,7 @@ user_pref("dom.event.clipboardevents.enabled", false);
 /* 2403: disable clipboard commands (cut/copy) from "non-privileged" content [FF41+]
  * this disables document.execCommand("cut"/"copy") to protect your clipboard
  * [1] https://bugzilla.mozilla.org/1170911 ***/
-   // user_pref("dom.allow_cut_copy", false); // [HIDDEN PREF]
+   // user_pref("dom.allow_cut_copy", false);
 /* 2404: disable "Confirm you want to leave" dialog on page close
  * Does not prevent JS leaks of the page close event.
  * [1] https://developer.mozilla.org/docs/Web/Events/beforeunload
@@ -1457,12 +1459,13 @@ user_pref("privacy.firstparty.isolate.restrict_opener_access", true); // [DEFAUL
  ** 1485266 - disable exposure of system colors to CSS or canvas (see 4615) (FF67+)
  ** 1407366 - enable inner window letterboxing (see 4504) (FF67+)
  ** 1540726 - return "light" with prefers-color-scheme (FF67+)
-        [1] https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
+      [1] https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
 ***/
 user_pref("_user.js.parrot", "4500 syntax error: the parrot's popped 'is clogs");
 /* 4501: enable privacy.resistFingerprinting [FF41+]
  * This pref is the master switch for all other privacy.resist* prefs unless stated
- * [SETUP-WEB] RFP is not ready for the masses, so expect some website breakage
+ * [SETUP-WEB] RFP can cause the odd website to break in strange ways, and has a few side affects,
+ * but is largely robust nowadays. Give it a try. Your choice. Also see 4504 (letterboxing).
  * [1] https://bugzilla.mozilla.org/418986 ***/
 user_pref("privacy.resistFingerprinting", true);
 /* 4502: set new window sizes to round to hundreds [FF55+] [SETUP-CHROME]
@@ -1470,8 +1473,8 @@ user_pref("privacy.resistFingerprinting", true);
  * The override values are a starting point to round from if you want some control
  * [1] https://bugzilla.mozilla.org/1330882
  * [2] https://hardware.metrics.mozilla.com/ ***/
-   // user_pref("privacy.window.maxInnerWidth", 1600); // [HIDDEN PREF]
-   // user_pref("privacy.window.maxInnerHeight", 900); // [HIDDEN PREF]
+   // user_pref("privacy.window.maxInnerWidth", 1000);
+   // user_pref("privacy.window.maxInnerHeight", 1000);
 /* 4503: disable mozAddonManager Web API [FF57+]
  * [NOTE] As a side-effect in FF57-59 this allowed extensions to work on AMO. In FF60+ you also need
  * to sanitize or clear extensions.webextensions.restrictedDomains (see 2662) to keep that side-effect
@@ -1481,7 +1484,8 @@ user_pref("privacy.resistFingerprinting.block_mozAddonManager", true); // [HIDDE
  * Dynamically resizes the inner window (FF67; 200w x100h: FF68+; stepped ranges) by applying letterboxing,
  * using dimensions which waste the least content area, If you use the dimension pref, then it will only apply
  * those resolutions. The format is "width1xheight1, width2xheight2, ..." (e.g. "800x600, 1000x1000, 1600x900")
- * [NOTE] This does NOT require RFP (see 4501) **for now**
+ * [SETUP-WEB] This does NOT require RFP (see 4501) **for now**, so if you're not using 4501, or you are but you're
+ * not taking anti-fingerprinting seriously and a little visual change upsets you, then feel free to flip this pref
  * [WARNING] The dimension pref is only meant for testing, and we recommend you DO NOT USE it
  * [1] https://bugzilla.mozilla.org/1407366 ***/
    // user_pref("privacy.resistFingerprinting.letterboxing", true); // [HIDDEN PREF]
@@ -1626,6 +1630,7 @@ user_pref("browser.aboutConfig.showWarning", false); // [FF67+]
 /* APPEARANCE ***/
 user_pref("browser.download.autohideButton", false); // [FF57+]
    // user_pref("toolkit.cosmeticAnimations.enabled", false); // [FF55+]
+   // user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true); // [FF68+] allow userChrome/userContent
 /* CONTENT BEHAVIOR ***/
 user_pref("accessibility.typeaheadfind", true); // enable "Find As You Type"
 user_pref("clipboard.autocopy", false); // disable autocopy default [LINUX]
@@ -1637,6 +1642,7 @@ user_pref("browser.tabs.closeWindowWithLastTab", false);
    // user_pref("browser.urlbar.decodeURLsOnCopy", true); // see bugzilla 1320061 [FF53+]
 user_pref("general.autoScroll", false); // middle-click enabling auto-scrolling [WINDOWS] [MAC]
    // user_pref("ui.key.menuAccessKey", 0); // disable alt key toggling the menu bar [RESTART]
+   // user_pref("view_source.tab", false); // view "page/selection source" in a new window [FF68+, FF59 and under]
 /* OTHER ***/
 user_pref("browser.bookmarks.max_backups", 0);
 user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", false); // disable CFR [FF67+]
