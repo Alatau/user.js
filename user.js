@@ -1,6 +1,6 @@
 /******
 * name: ghacks user.js
-* date: 1 September 2019
+* date: 4 September 2019
 * version 69-beta: Pants One More Time
 *   "When I'm not with pants I lose my mind. Give me a sign. Hit me, pants, one more time."
 * authors: v52+ github | v51- www.ghacks.net
@@ -112,8 +112,8 @@ user_pref("browser.newtabpage.activity-stream.telemetry.ping.endpoint", "");
 /* 0105b: disable Activity Stream Snippets
  * Runs code received from a server (aka Remote Code Execution) and sends information back to a metrics server
  * [1] https://abouthome-snippets-service.readthedocs.io/ ***/
-user_pref("browser.newtabpage.activity-stream.asrouter.providers.snippets", "");
 user_pref("browser.newtabpage.activity-stream.feeds.snippets", false);
+user_pref("browser.newtabpage.activity-stream.asrouter.providers.snippets", "");
 /* 0105c: disable Activity Stream Top Stories, Pocket-based and/or sponsored content ***/
 user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
 user_pref("browser.newtabpage.activity-stream.section.highlights.includePocket", false);
@@ -209,10 +209,7 @@ user_pref("dom.ipc.plugins.flash.subprocess.crashreporter.enabled", false);
 user_pref("dom.ipc.plugins.reportCrashURL", false);
 /* 0320: disable about:addons' Recommendations pane (uses Google Analytics) ***/
 user_pref("extensions.getAddons.showPane", false); // [HIDDEN PREF]
-user_pref("extensions.webservice.discoverURL", "");
 /* 0321: disable recommendations in about:addons' Extensions and Themes panes [FF68+] ***/
-user_pref("extensions.getAddons.discovery.api_url", "");
-user_pref("extensions.htmlaboutaddons.discover.enabled", false);
 user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
 /* 0330: disable telemetry
  * the pref (.unified) affects the behaviour of the pref (.enabled)
@@ -261,11 +258,6 @@ user_pref("browser.crashReports.unsubmittedCheck.enabled", false); // [FF51+]
 /* 0351: disable backlogged Crash Reports
  * [SETTING] Privacy & Security>Firefox Data Collection & Use>Allow Firefox to send backlogged crash reports  ***/
 user_pref("browser.crashReports.unsubmittedCheck.autoSubmit2", false); // [FF58+]
-/* 0370: disable Pocket [FF46+]
- * Pocket is a third party (now owned by Mozilla) "save for later" cloud service
- * [1] https://en.wikipedia.org/wiki/Pocket_(application)
- * [2] https://www.gnu.gl/blog/Posts/multiple-vulnerabilities-in-pocket/ ***/
-user_pref("extensions.pocket.enabled", false);
 /* 0390: disable Captive Portal detection
  * [1] https://www.eff.org/deeplinks/2017/08/how-captive-portals-interfere-wireless-security-and-privacy
  * [2] https://wiki.mozilla.org/Necko/CaptivePortal ***/
@@ -417,7 +409,8 @@ user_pref("network.http.altsvc.oe", false);
 user_pref("network.proxy.socks_remote_dns", true);
 /* 0707: disable (or setup) DNS-over-HTTPS (DoH) [FF60+]
  * TRR = Trusted Recursive Resolver
- * .mode: 0=off, 1=race, 2=TRR first, 3=TRR only, 4=race for stats but always use native result
+ * 0=off by default, 1=race (removed in FF69), 2=TRR first, 3=TRR only,
+ * 4=race for stats but always use native result (removed in FF69), 5=explicitly off
  * [WARNING] DoH bypasses hosts and gives info to yet another party (e.g. Cloudflare)
  * [1] https://www.ghacks.net/2018/04/02/configure-dns-over-https-in-firefox/
  * [2] https://hacks.mozilla.org/2018/05/a-cartoon-intro-to-dns-over-https/ ***/
@@ -581,9 +574,6 @@ user_pref("_user.js.parrot", "1000 syntax error: the parrot's gone to meet 'is m
  * or you use a hardened Temporary Containers, then feel free to override this
  * [NOTE] We also clear cache on exiting Firefox (see 2803) ***/
 user_pref("browser.cache.disk.enable", false);
-/* 1002: disable disk cache for SSL pages
- * [1] http://kb.mozillazine.org/Browser.cache.disk_cache_ssl ***/
-user_pref("browser.cache.disk_cache_ssl", false);
 /* 1003: disable memory cache
 /* capacity: -1=determine dynamically (default), 0=none, n=memory capacity in kilobytes
  * [NOTE] Not recommended due to performance issues ***/
@@ -927,10 +917,10 @@ user_pref("media.getusermedia.audiocapture.enabled", false);
    // user_pref("permissions.default.camera", 2);
    // user_pref("permissions.default.microphone", 2);
 /* 2030: disable autoplay of HTML5 media [FF63+]
- * 0=Allow all, 1=Block non-muted media, 2=Prompt (removed in FF66), 5=Block all (added in FF69+)
+ * 0=Allow all, 1=Block non-muted media (default in FF67+), 2=Prompt (removed in FF66), 5=Block all (FF69+)
  * [NOTE] You can set exceptions under site permissions
- * [SETTING] Privacy & Security>Permissions>Autoplay>Settings>Default... ***/
-   // user_pref("media.autoplay.default", 5); // [DEFAULT: 1 in FF67+]
+ * [SETTING] Privacy & Security>Permissions>Autoplay>Settings>Default for all websites ***/
+   // user_pref("media.autoplay.default", 5);
 /* 2031: disable autoplay of HTML5 media if you interacted with the site [FF66+] ***/
 user_pref("media.autoplay.enabled.user-gestures-needed", false);
 /* 2032: disable autoplay of HTML5 media in non-active tabs [FF51+]
@@ -1013,7 +1003,7 @@ user_pref("dom.serviceWorkers.enabled", false);
    // user_pref("dom.push.connection.enabled", false);
    // user_pref("dom.push.serverURL", "");
    // user_pref("dom.push.userAgentID", "");
-/* 2306: set a default permission for Notifications (both 2305 and 2306) [FF58+]
+/* 2306: set a default permission for Notifications (both 2304 and 2305) [FF58+]
  * 0=always ask (default), 1=allow, 2=block
  * [NOTE] Best left at default "always ask", fingerprintable via Permissions API
  * [SETTING] to add site exceptions: Page Info>Permissions>Receive Notifications
@@ -1187,10 +1177,11 @@ user_pref("network.protocol-handler.external.ms-windows-store", false);
 
 /** DOWNLOADS ***/
 /* 2650: discourage downloading to desktop
- * 0=desktop 1=downloads 2=last used
+ * 0=desktop, 1=downloads (default), 2=last used
  * [SETTING] To set your default "downloads": General>Downloads>Save files to ***/
 user_pref("browser.download.folderList", 2);
-/* 2651: enforce user interaction for security by always asking where to download [SETUP-CHROME]
+/* 2651: enforce user interaction for security by always asking where to download
+ * [SETUP-CHROME] On Android this blocks longtapping and saving images
  * [SETTING] General>Downloads>Always ask you where to save files ***/
 user_pref("browser.download.useDownloadDir", false);
 /* 2652: disable adding downloads to the system's "recent documents" list ***/
@@ -1242,11 +1233,10 @@ user_pref("security.dialog_enable_delay", 700);
 user_pref("_user.js.parrot", "2700 syntax error: the parrot's joined the bleedin' choir invisible!");
 /* 2701: disable 3rd-party cookies and site-data [SETUP-WEB]
  * 0=Accept cookies and site data, 1=(Block) All third-party cookies, 2=(Block) All cookies,
- * 3=(Block) Cookies from unvisited sites, 4=(Block) Third-party trackers (FF63+)
- * [NOTE] Value 4 is tied to the Tracking Protection lists
+ * 3=(Block) Cookies from unvisited sites, 4=(Block) Third-party trackers (FF63+) (default FF69+)
  * [NOTE] You can set exceptions under site permissions or use an extension
  * [SETTING] Privacy & Security>Content Blocking>Custom>Choose what to block>Cookies ***/
-user_pref("network.cookie.cookieBehavior", 1); // [DEFAULT: 4 in FF69+]
+user_pref("network.cookie.cookieBehavior", 1);
 /* 2702: set third-party cookies (i.e ALL) (if enabled, see 2701) to session-only
    and (FF58+) set third-party non-secure (i.e HTTP) cookies to session-only
    [NOTE] .sessionOnly overrides .nonsecureSessionOnly except when .sessionOnly=false and
@@ -1361,7 +1351,7 @@ user_pref("privacy.sanitize.timeSpan", 0);
  ** 1300671 - isolate data:, about: URLs (FF55+)
  ** 1473247 - isolate IP addresses (FF63+)
  ** 1492607 - isolate postMessage with targetOrigin "*" (requires 4002) (FF65+)
- ** 1542309 - isolate top-level domain URLs (FF68+)
+ ** 1542309 - isolate top-level domain URLs when host is in the public suffix list (FF68+)
  ** 1506693 - isolate pdfjs range-based requests (FF68+)
  ** 1330467 - isolate site permissions (FF69+)
 ***/
@@ -1632,6 +1622,7 @@ user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons", fa
       // [SETTING] General>Browsing>Recommend extensions as you browse
 user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features", false); // disable CFR [FF67+]
       // [SETTING] General>Browsing>Recommend features as you browse
+user_pref("extensions.pocket.enabled", false); // disable and hide Pocket [FF46+]
 user_pref("identity.fxaccounts.enabled", false); // disable and hide Firefox Accounts and Sync [FF60+] [RESTART]
 user_pref("network.manage-offline-status", false); // see bugzilla 620472
 user_pref("reader.parse-on-load.enabled", false); // "Reader View"
@@ -1748,10 +1739,10 @@ user_pref("dom.event.highrestimestamp.enabled", true); // [DEFAULT: true]
    // user_pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr", false);
 // * * * /
 // FF68
-// 0105b: disable Activity Stream Snippets
-   // [-] https://bugzilla.mozilla.org/1540939
-user_pref("browser.aboutHomeSnippets.updateUrl", "");
+// 0105b: disable Activity Stream Legacy Snippets
+   // [-] https://bugzilla.mozilla.org/buglist.cgi?bug_id=1546190,1540939
 user_pref("browser.newtabpage.activity-stream.disableSnippets", true);
+user_pref("browser.aboutHomeSnippets.updateUrl", "");
 // 0307: disable auto updating of lightweight themes (LWT)
    // Not to be confused with themes in 0301* + 0302*, which use the FF55+ Theme API
    // Mozilla plan to convert existing LWTs and remove LWT support in the future, see [1]
@@ -1769,11 +1760,11 @@ user_pref("security.csp.experimentalEnabled", true);
 // [NOTE] replace the * with a slash in the line above to re-enable them
 // FF69
 // 1405: disable WOFF2 (Web Open Font Format) [FF35+]
-   // user_pref("gfx.downloadable_fonts.woff2.enabled", false);
    // [-] https://bugzilla.mozilla.org/1556991
-// 1802: enable click to play
+   // user_pref("gfx.downloadable_fonts.woff2.enabled", false);
+// 1802: enforce click-to-play for plugins
    // [-] https://bugzilla.mozilla.org/1519434
-user_pref("plugins.click_to_play", true);
+user_pref("plugins.click_to_play", true); // [DEFAULT: true in FF25+]
 // 2033: disable autoplay for muted videos [FF63+] - replaced by `media.autoplay.default` options (2030)
    // [-] https://bugzilla.mozilla.org/1562331
    // user_pref("media.autoplay.allow-muted", false);
